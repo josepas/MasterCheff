@@ -3,7 +3,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-class Usuario(model.Model):
+class Usuario(models.Model):
 	perfil = models.OneToOneField(User) # aqui esta nombre, apellido correo y contrase;a 
 	cedula = models.PositiveIntegerField() # aqui no diferenciamos entre extranjeros y venezolanos
 	fecha_nac = models.DateField(auto_now=False, auto_now_add=False)
@@ -24,17 +24,17 @@ class Restaurante(models.Model):
 	def __str__(self):              
         return self.nombre
 
-class Pedido(model.Model):
+class Pedido(models.Model):
 	usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
 	productos = models.ManyToManyField(Producto)
 	restaurante = models.ForeignKey(Restaurante, on_delete=models.CASCADE)
 	total = models.DecimalField(max_digits=11, decimal_places=2) 
 
 	def __str__(self):              
-        return "{0} total: {1}".format(self.usuario, self.total) # aqui creo que esta mal
+        return "{0} total: {1}".format(self.usuario.perfil.name, self.total) # aqui creo que esta mal
 
 
-class Producto(model.Model):
+class Producto(models.Model):
 	nombre = models.CharField(max_length=30)
 	descripcion = models.CharField(max_length=100)
 	precio = models.DecimalField(max_digits=11, decimal_places=2) 
@@ -43,7 +43,7 @@ class Producto(model.Model):
         return self.nombre
 
 
-class Menu(model.Model):
+class Menu(models.Model):
 	nombre = models.CharField(max_length=30)
 	restaurante = models.ForeignKey(Restaurante, on_delete=models.CASCADE)
 	productos = models.ManyToManyField(Producto)
