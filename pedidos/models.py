@@ -1,5 +1,7 @@
 from django.db import models
 
+from django.forms import ModelForm
+
 from django.contrib.auth.models import User
 
 
@@ -9,8 +11,6 @@ class Usuario(models.Model):
 	fecha_nac = models.DateField(auto_now=False, auto_now_add=False)
 	servicios = models.CharField(max_length=150) # No se como vamos a modelar esto todavia
 
-	def __str__(self):              
-        return self.perfil.name
 
 class Restaurante(models.Model):
 	rif = models.CharField(max_length=15)
@@ -22,7 +22,9 @@ class Restaurante(models.Model):
 	capacidad_max =  models.PositiveIntegerField()
 
 	def __str__(self):              
-        return self.nombre
+	   return self.nombre
+
+
 
 class Mesa(models.Model):
 	restaurante = models.ForeignKey(Restaurante, on_delete=models.CASCADE)
@@ -37,16 +39,6 @@ class Reserva(models.Model):
 	hora_fin = models.TimeField(auto_now=False, auto_now_add=False)
 
 
-class Pedido(models.Model):
-	usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-	productos = models.ManyToManyField(Producto)
-	restaurante = models.ForeignKey(Restaurante, on_delete=models.CASCADE)
-	total = models.DecimalField(max_digits=11, decimal_places=2) 
-
-	def __str__(self):              
-        return "{0} total: {1}".format(self.usuario.perfil.name, self.total) # aqui creo que esta mal
-
-
 class Producto(models.Model):
 	nombre = models.CharField(max_length=30)
 	descripcion = models.CharField(max_length=100)
@@ -54,7 +46,17 @@ class Producto(models.Model):
 	precio = models.DecimalField(max_digits=11, decimal_places=2) 
 
 	def __str__(self):              
-        return self.nombre
+		return self.nombre
+
+
+class Pedido(models.Model):
+	usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+	productos = models.ManyToManyField(Producto)
+	restaurante = models.ForeignKey(Restaurante, on_delete=models.CASCADE)
+	total = models.DecimalField(max_digits=11, decimal_places=2) 
+
+	def __str__(self):              
+		return "{0} total: {1}".format(self.usuario.perfil.name, self.total) # aqui creo que esta mal
 
 
 class Menu(models.Model):
@@ -63,7 +65,7 @@ class Menu(models.Model):
 	productos = models.ManyToManyField(Producto)
 
 	def __str__(self):              
-        return self.nombre
+		return self.nombre
 
 
 
