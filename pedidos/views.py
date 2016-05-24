@@ -6,6 +6,9 @@ from django.shortcuts import render
 
 # Aqui van las views/vistas
 
+def base(request):
+    return render(request, 'base.html')
+
 def indice(request):
     return render(request, 'indice.html')
 
