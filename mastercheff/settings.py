@@ -121,10 +121,5 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS=(
-    os.path.join(BASE_DIR, "static_in_pro","our_static"),
-)
-
-
 # Formato de lectura de fechas
 DATE_INPUT_FORMATS = ('%d-%m-%Y')
