@@ -9,6 +9,9 @@ from django.shortcuts import render
 
 
 
+def login(request):
+    return render(request, 'login.html')
+    
 def indice(request):
     return render(request, 'base.html')
 
@@ -32,6 +35,7 @@ def login(request):
         pass
 
     return render(request, 'login.html')
+
 
 
 def registro(request):
