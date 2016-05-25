@@ -7,7 +7,7 @@ from django.shortcuts import render
 # Aqui van las views/vistas
 
 def indice(request):
-    return render(request, 'indice.html')
+    return render(request, 'base.html')
 
 
 def registro(request):
