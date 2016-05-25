@@ -1,4 +1,6 @@
 from django import forms
+from .models import Usuario
+
 
 class FormaRegistro(forms.Form):
     username = forms.CharField(label='Usuario', max_length=100)
@@ -7,3 +9,13 @@ class FormaRegistro(forms.Form):
     passwd = forms.CharField(label='Contrase;a', widget=forms.PasswordInput())
     cedula = forms.IntegerField(min_value=1, max_value=120000000) # aqui no diferenciamos entre extranjeros y venezolanos
     fecha_nac = forms.DateField(input_formats=('%d-%m-%Y','%Y-%m-%d'))
+
+
+class FormaRestaurante(forms.Form):
+    rif = forms.CharField(label='Rif', max_length=15)
+    nombre = forms.CharField(label='Nombre', max_length=30)
+    admin = forms.ModelChoiceField(queryset=Usuario.objects.all())
+    direccion = forms.CharField(max_length=30)
+    hora_apertura = forms.TimeField()
+    hora_cierre = forms.TimeField()
+    capacidad_max = forms.IntegerField(min_value=1, max_value=10000) 
