@@ -1,13 +1,37 @@
 from .forms import FormaRegistro, FormaRestaurante
 from .models import Usuario
+
+
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render
 
 
-# Aqui van las views/vistas
 
 def indice(request):
     return render(request, 'base.html')
+
+
+def login(request):
+    
+
+
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+            else:
+                pass
+        mensaje = 'Hubo problemas con el login'
+
+    else:
+        pass
+
+    return render(request, 'login.html')
 
 
 def registro(request):
@@ -44,3 +68,8 @@ def registroRestaurante(request):
         form = FormaRestaurante() 
 
     return render(request, 'registroRestaurante.html', {'form': form})
+
+
+
+
+
