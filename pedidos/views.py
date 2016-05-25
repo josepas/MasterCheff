@@ -8,14 +8,15 @@ from django.shortcuts import render
 
 def login(request):
     return render(request, 'login.html')
-    
+
 def indice(request):
     return render(request, 'base.html')
 
 
-
-
 def registro(request):
+    return render(request, 'registro.html')
+
+'''def registro(request):
     if request.method == 'POST':
         form = FormaRegistro(request.POST)
         if form.is_valid():
@@ -36,3 +37,4 @@ def registro(request):
         form = FormaRegistro()
 
     return render(request, 'registro.html', {'form': form})
+'''

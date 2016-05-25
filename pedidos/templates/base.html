@@ -18,8 +18,9 @@
     <link rel="stylesheet" href="{% static 'css/half-slider.css' %}">
     <link rel="stylesheet" href="{% static 'css/signin.css' %}">
 </head>
-
+{% block body %}
 <body>
+{% endblock %}
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
@@ -44,11 +45,11 @@
                         <a href="#">Contact</a>
                     </li>
                     <li>
-                        <a href="login">Login</a>
+                        <a href="login/">Login</a>
                     </li>
 
                     <li>
-                        <a href="#">Register</a>
+                        <a href="registro/">Register</a>
                     </li>
                     {% endblock %}
                 </ul>
