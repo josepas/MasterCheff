@@ -11,14 +11,12 @@ from django.shortcuts import render
 
 def login(request):
     return render(request, 'login.html')
-    
+
 def indice(request):
     return render(request, 'base.html')
 
 
 def login(request):
-    
-
 
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -37,8 +35,8 @@ def login(request):
     return render(request, 'login.html')
 
 
-
 def registro(request):
+    mensaje = None
 
     if request.method == 'POST':
         form = FormaRegistro(request.POST)
@@ -55,11 +53,13 @@ def registro(request):
                             fecha_nac=request.POST["fecha_nac"]
             )
             nuevoU.save()
+            mensaje = ""
+
 
     else:
         form = FormaRegistro()
 
-    return render(request, 'registro.html', {'form': form})
+    return render(request, 'registro.html', {'form': form, 'mensaje':mensaje})
 
 
 def registroRestaurante(request):

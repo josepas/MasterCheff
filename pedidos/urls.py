@@ -1,13 +1,9 @@
-from django.conf.urls import url
-
+from django.conf.urls import patterns, url
 from . import views
 
 urlpatterns = [
 
-    url(r'^$', views.indice, name='indice'),
-    url(r'^$', views.login, name='registro'),
-  
-    url(r'^registro/$', views.registro, name='registro' ),
-    url(r'^registro/restaurante/$', views.registroRestaurante, name='regRestaurante')
-
+    url(r'^$', views.indice),
+    url(r'^login/', views.login, name='login'),
+    url(r'^registro/', views.registro, name='registro' )
 ]

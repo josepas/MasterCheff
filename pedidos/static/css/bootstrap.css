@@ -21,7 +21,7 @@ footer,
 header,
 hgroup,
 main,
-menu,
+menu,av
 nav,
 section,
 summary {
@@ -1588,6 +1588,7 @@ pre code {
   margin-right: auto;
   margin-left: auto;
 }
+
 @media (min-width: 768px) {
   .container {
     width: 750px;

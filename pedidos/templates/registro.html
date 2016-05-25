@@ -1,5 +1,44 @@
-<form action="/matatan/registro/" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Submit" />
-</form>
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% load staticfiles %}
+
+{% block body %}
+<body class="registro" style="background-image:url('{% static "img/icon1.png" %}');">
+{% endblock %}
+
+{% block navbar %}
+    <li>
+        <a href="/">Home</a>
+    </li>
+
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="container">
+        {% if mensaje %}
+            <h1>{{mensaje}}</h1>
+        {% endif %}
+ 
+     </div> 
+    <div class="container">
+        <form action="/registro/" class="form-signin" method="post">
+            {% csrf_token %}
+
+            {% for field in form %}
+                <div class="form-group">
+                    {% render_field field class="form-control" placeholder=field.label %}
+                </div>
+            {% endfor %}
+
+            <input type="submit" class="btn btn-default" value="Submit" />
+        </form>
+
+    </div>
+
+{% endblock %}
+
+
+
+
