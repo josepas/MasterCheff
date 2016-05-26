@@ -52,18 +52,25 @@
                         <a href="#">Menu</a>
                     </li>
                     <li>
-                        <a href="#">Contact</a>
+                        <a href="#">Contacto</a>
                     </li>
 
+                </ul>
+
+                
+                {% if not user.is_authenticated %}
+                <ul class="nav navbar-nav navbar-right">
                     <li>
                         <a href="login/">Login</a>
                     </li>
 
                     <li>
-                        <a href="registro/">Register</a>
+                        <a href="registro/">Registro</a>
                     </li>
-                    {% endblock %}
+
                 </ul>
+                {% endif %}
+                {% endblock %}
 
                 {% if user.is_authenticated %}
                 <ul class="nav navbar-nav navbar-right">
