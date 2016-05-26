@@ -17,6 +17,13 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'css/half-slider.css' %}">
     <link rel="stylesheet" href="{% static 'css/signin.css' %}">
+    <style>    
+    footer {
+      background-color: #555;
+      color: white;
+      padding: 15px;
+    }
+  </style>
 </head>
 {% block body %}
 <body>
@@ -44,15 +51,31 @@
                     <li>
                         <a href="#">Contact</a>
                     </li>
+
+                    {% if user.is_authenticated %}
                     <li>
                         <a href="login/">Login</a>
                     </li>
+                    {% endif %}
 
                     <li>
                         <a href="registro/">Register</a>
                     </li>
                     {% endblock %}
                 </ul>
+
+                {% if user.is_authenticated %}
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span> {{ user.username }} </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Perfil</a></li>
+                            <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>                 
+                {% endif %}
+
             </div>
             <!-- /.navbar-collapse -->
         </div>
@@ -116,6 +139,14 @@
     </div>
     <!-- /.container -->
 
+
+
+
+
+
+
+
+
     <!-- jQuery -->
     <script src="{% static 'jquery/jquery.min.js' %} "></script>
     <script src="{% static 'jquery/jquery.js' %}"></script>
@@ -131,6 +162,8 @@
     })
     </script>
     {% endblock %}
+
+
 </body>
 
 </html>

@@ -2,35 +2,37 @@ from .forms import FormaRegistro, FormaRestaurante
 from .models import Usuario
 
 
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate
+from django.contrib.auth import login as mch_login
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
-from django.shortcuts import render
 
+from django.contrib.auth.models import User
+from django.shortcuts import render, redirect
+
+from django.core.urlresolvers import reverse
 
 
 def login(request):
     return render(request, 'login.html')
 
 def indice(request):
+    
     return render(request, 'base.html')
 
 
 def login(request):
 
     if request.method == 'POST':
+        print(request.POST)
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(username=username, password=password)
         if user is not None:
             if user.is_active:
-                login(request, user)
-            else:
-                pass
-        mensaje = 'Hubo problemas con el login'
+                mch_login(request, user)
+                return redirect('indice')
 
-    else:
-        pass
+        mensaje = 'Hubo problemas con el login'
 
     return render(request, 'login.html')
 
