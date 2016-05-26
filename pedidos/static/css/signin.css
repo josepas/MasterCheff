@@ -2,13 +2,13 @@
 
 .registro {
   padding-top: 200px;
-  padding-bottom: 40px;
+  padding-bottom: 0px;
   background-color: #eee;
 }
 
 .login {
   padding-top: 300px;
-  padding-bottom: 40px;
+  padding-bottom: 0px;
   background-color: #eee;
 }
 
