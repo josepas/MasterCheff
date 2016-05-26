@@ -2,7 +2,7 @@ from .forms import FormaRegistro, FormaRestaurante
 from .models import Usuario
 
 
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, logout
 from django.contrib.auth import login as mch_login
 from django.contrib.auth.decorators import login_required
 
@@ -15,16 +15,16 @@ from django.core.urlresolvers import reverse
 def editarPerfil(request):
     return render(request, 'editarPerfil.html')
 
-def login(request):
-    return render(request, 'login.html')
-
 def perfil(request):
     return render(request, 'perfil.html')
 
 def indice(request):
-    
     return render(request, 'base.html')
 
+
+def logout_view(request):
+    logout(request)
+    return redirect('indice')
 
 def login(request):
 

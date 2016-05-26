@@ -54,11 +54,9 @@
                         <a href="#">Contact</a>
                     </li>
 
-                    {% if not user.is_authenticated %}
                     <li>
                         <a href="login/">Login</a>
                     </li>
-                    {% endif %}
 
                     <li>
                         <a href="registro/">Register</a>
@@ -72,7 +70,7 @@
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span> {{ user.username }} </a>
                         <ul class="dropdown-menu">
                             <li><a href="perfil">Perfil</a></li>
-                            <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+                            <li><a href={% url 'logout' %}><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
                         </ul>
                     </li>
                 </ul>                 
@@ -142,6 +140,14 @@
             </div>
         </div>
     </div>
+<<<<<<< HEAD
+    <!-- /.container -->
+
+
+
+
+=======
+>>>>>>> f2598a4f479e02e9650f7a542a38db8e88e879be
 
     <!-- jQuery -->
     <script src="{% static 'jquery/jquery.min.js' %} "></script>
