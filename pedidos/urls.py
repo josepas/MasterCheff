@@ -3,6 +3,7 @@ from . import views
 
 urlpatterns = [
 
+	url(r'^prueba', views.prueba, name='prueba'),
 	url(r'^editarPerfil', views.editarPerfil, name='editarPerfil'),
 	url(r'^perfil', views.perfil, name='perfil'),
     url(r'^$', views.indice, name='indice'),
