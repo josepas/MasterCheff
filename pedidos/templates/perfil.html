@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block body %}
+<body>
+{% endblock %}
+
+
+{% block navbar %}
+    <li>
+        <a href="/">Home</a>
+    </li>
+
+{% endblock %}
+
+
+{% block content %}
+  <div class="container">
+      <div class="jumbotron">
+        <div class="page-header">
+          <h1>Perfil</h1>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-12">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Nombre</th>
+                  <th>Apellido</th>
+                  <th>Correo</th>
+                </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                    <td>#</td>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                  </tr>
+              </tbody>
+            </table>
+            <a href="editarPerfil/"> <button type="button" class="btn btn-lg btn-default">Editar</button></a>
+          </div>
+        </div>
+      </div>
+  </div>
+
+
+{% endblock %}
