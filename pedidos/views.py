@@ -12,6 +12,12 @@ from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 
 
+def editarPerfil(request):
+    return render(request, 'editarPerfil.html')
+
+def perfil(request):
+    return render(request, 'perfil.html')
+
 def indice(request):
     return render(request, 'base.html')
 
