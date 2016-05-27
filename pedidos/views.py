@@ -16,7 +16,10 @@ def editarPerfil(request):
     return render(request, 'editarPerfil.html')
 
 def perfil(request):
-    return render(request, 'perfil.html')
+
+    u = User.objects.get(username=request.user)
+    # por la relacion 1 a 1 con el user model de django
+    return render(request, 'perfil.html' , {'usuario': u.usuario})
 
 def indice(request):
     return render(request, 'base.html')
