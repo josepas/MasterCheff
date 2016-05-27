@@ -92,46 +92,15 @@ def registroRestaurante(request):
     return render(request, 'registroRestaurante.html', {'form': form})
 
 def menu_crear(request):
-    form = CrearMenuForm()
-    if request.method == 'POST':
-        form = CrearMenuForm(request.POST)
-        if form.is_valid():
-            menu = Menu(
-                nombre = form.cleaned_data['nombre'], 
-                restaurante = Restaurante.objects.get(nombre = form.cleaned_data['restaurante']))
-            
-            menu.save()
-            menu.productos = form.cleaned_data['productos']
-            menu.save()
-            
-            return render(request, 'menu.html', {'mensaje' : "Se ha creado el menu"})
-    
-    return render(
-        request,
-        'menu.html',
-        {
-         'form' : form,
-         'putanga' : "putas baratas de pueblo"
-        }
-    )
 
-def restaurante_crear(request):
-    form = FormaRestaurante()
     if request.method == 'POST':
         form = CrearMenuForm(request.POST)
         if form.is_valid():
-            menu = Menu(
-                nombre = form.cleaned_data['nombre'])
-            menu.save()
-            return render(request, 'menu.html', {'mensaje' : "Se ha creado el menu"})
-    
-    return render(
-        request,
-        'menu.html',
-        {
-         'form' : form,
-         'putanga' : "putas baratas de pueblo"
-        }
+            pass
+    else:
+        form = CrearMenuForm()
+
+    return render(request,'menu.html',{'form' : form,}
     )
 
 
