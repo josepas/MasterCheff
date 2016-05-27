@@ -5,21 +5,23 @@
 
 {% block content %}
     <div class="container">
-        {% if mensaje %}
-            <h1>{{mensaje}}</h1>
-        {% endif %}
-
-    </div> 
-    <div class="container">
-        <form action="/registro/" class="form-signin" method="post">
+        <form href="{% url 'registro' %}" class="form-signin" method="post">
             {% csrf_token %}
+
             <div class="row">
+
                 <div class="col-sm-12">
                     <img class="imagen" src="{% static 'img/icon1.png' %}">
-                </div>
+                </div>  
+                <div class="col-sm-12">
+                    {% if mensaje %}
+                        <h1>{{mensaje}}</h1>
+                    {% endif %}
+                </div>  
                 <div class="col-sm-12">
                     {% for field in form %}
                         <div class="form-group">
+                            {{ field.errors }}
                             {% render_field field class="form-control" placeholder=field.label %}
                         </div>
                     {% endfor %}

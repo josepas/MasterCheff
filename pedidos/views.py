@@ -31,6 +31,7 @@ def logout_view(request):
 
 def login(request):
 
+    mensaje = None
     if request.method == 'POST':
         print(request.POST)
         username = request.POST.get('username')
@@ -41,17 +42,21 @@ def login(request):
                 mch_login(request, user)
                 return redirect('indice')
 
-        mensaje = 'Hubo problemas con el login'
+        mensaje = 'Usuario o clave errada!'
 
-    return render(request, 'login.html')
+    return render(request, 'login.html', {'mensaje':mensaje})
 
 
 def registro(request):
-    mensaje = None
+    # falta chequear si ya esta el usuario creado!
+    # NO logre que agarre fechas distintas a YYYY-MM-DD!
 
+    mensaje = None
     if request.method == 'POST':
+
         form = FormaRegistro(request.POST)
         if form.is_valid():
+
             u = User.objects.create_user(request.POST["username"],
                 'lennon@thebeatles.com', 
                 request.POST["passwd"]
@@ -64,7 +69,9 @@ def registro(request):
                             fecha_nac=request.POST["fecha_nac"]
             )
             nuevoU.save()
-            mensaje = ""
+
+            mensaje = "Creado con exito!"
+            form = FormaRegistro()
 
 
     else:

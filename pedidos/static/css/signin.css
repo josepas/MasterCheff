@@ -4,6 +4,10 @@
   margin-bottom: 20px;
 }
 
+.position{
+
+  position: center;
+}
 
 .form-signin {
   max-width: 330px;
