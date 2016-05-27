@@ -1,9 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 
-{% block body %}
-<body>
-{% endblock %}
 
 
 {% block navbar %}
@@ -14,38 +11,79 @@
 {% endblock %}
 
 
+
+
 {% block content %}
-  <div class="container">
-      <div class="jumbotron">
-        <div class="page-header">
-          <h1>Perfil</h1>
+
+  
+  <div class="container-fluid page-header">
+      <h2> {{ user.first_name }} {{ user.last_name }}</h2>
+  </div>
+
+  <div class="container-fluid">
+    
+    <div class="row">
+      <div class="col-sm-4">
+        
+        <div class="row">  
+          
+          <div class="col-sm-12">
+            <div class="well">
+              <img src={% static "img/blank-profile.png" %} class="img-responsive" alt="Avatar">
+            </div>
+          </div>
+
+          <div class="col-sm-12 panel text-center">
+            <p>{{ user.username }}</p>
+            <p> Desde: {{ user.date_joined | date:"M d, Y"}} </p>
+          </div>
+
         </div>
 
-        <div class="row">
-          <div class="col-lg-12">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Nombre</th>
-                  <th>Apellido</th>
-                  <th>Correo</th>
-                </tr>
-              </thead>
-              <tbody>
-                  <tr>
-                    <td>#</td>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                  </tr>
-              </tbody>
-            </table>
-            <a href="editarPerfil/"> <button type="button" class="btn btn-lg btn-default">Editar</button></a>
-          </div>
-        </div>
       </div>
+      
+      <div class="col-sm-4 well">
+        <h3>Información Personal</h3>
+          <p>Cumpleaños: {{usuario.fecha_nac | date:"d, M"}}</p>
+
+        <h3>Información</h3>
+          <p>Cedula: {{usuario.cedula}}</p>
+          <p>Campo: Lorem</p> 
+          <p>Campo: Ipsum</p> 
+          <p>Campo: Anaco</p> 
+
+      </div>
+      
+      <div class="col-sm-4">
+          
+          <div class="panel panel-default text-left">
+            <div class="panel-body">
+              <h3>Restaurantes Visitados</h3>
+
+            <ul class="list-group col-sm-6">
+              <li class="list-group-item">Anaconda</li>
+              <li class="list-group-item">Ocana Bar</li>
+              <li class="list-group-item">Makro Anaco</li>
+            </ul>   
+            </div>
+          </div>
+
+
+
+
+
+
+
+
+
+            
+
+       </div>
+      </div>
+
+
   </div>
+
 
 
 {% endblock %}

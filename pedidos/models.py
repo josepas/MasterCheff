@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 class Usuario(models.Model):
     perfil = models.OneToOneField(User) # aqui esta nombre, apellido correo y contrase;a 
     cedula = models.PositiveIntegerField() # aqui no diferenciamos entre extranjeros y venezolanos
+    #telf = models.CharField(max_length=20)
     fecha_nac = models.DateField(auto_now=False, auto_now_add=False)
     servicios = models.CharField(max_length=150) # No se como vamos a modelar esto todavia
 
