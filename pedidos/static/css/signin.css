@@ -1,16 +1,10 @@
-{% load staticfiles %}
-
-.registro {
-  padding-top: 200px;
-  padding-bottom: 0px;
-  background-color: #eee;
+.imagen {
+  position:center;
+  height: 200px;
+  width: 200px;
+  margin-bottom: 20px;
 }
 
-.login {
-  padding-top: 300px;
-  padding-bottom: 0px;
-  background-color: #eee;
-}
 
 .form-signin {
   max-width: 330px;

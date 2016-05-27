@@ -11,8 +11,6 @@ from django.shortcuts import render, redirect
 
 from django.core.urlresolvers import reverse
 
-def prueba(request):
-    return render(request, 'prueba.html')
 
 def editarPerfil(request):
     return render(request, 'editarPerfil.html')
