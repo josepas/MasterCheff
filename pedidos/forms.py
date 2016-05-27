@@ -1,3 +1,4 @@
+from django.conf import settings    
 from django import forms
 from .models import Usuario
 
@@ -8,7 +9,9 @@ class FormaRegistro(forms.Form):
     apellidos = forms.CharField(label='Apellidos', max_length=100)
     passwd = forms.CharField(label='Clave', widget=forms.PasswordInput())
     cedula = forms.IntegerField(min_value=1, max_value=120000000) # aqui no diferenciamos entre extranjeros y venezolanos
-    fecha_nac = forms.DateField(input_formats=('%d-%m-%Y','%Y-%m-%d'))
+    fecha_nac = forms.DateField(label='Fecha de Nacimiento', input_formats=['%Y-%m-%d'], widget=forms.DateInput() )
+
+
 
 
 class FormaRestaurante(forms.Form):
