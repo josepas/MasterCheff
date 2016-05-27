@@ -50,3 +50,8 @@
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+
+.fix {
+  padding-left: 40px;
+  padding-right: 40px;
+}
