@@ -1,7 +1,10 @@
 from django.conf import settings    
 from django import forms
-from .models import Usuario
-
+from .models import Usuario, Restaurante, Producto
+from django.forms import ModelChoiceField, ModelMultipleChoiceField
+from django.core.validators import RegexValidator
+from django.forms.widgets import SplitDateTimeWidget
+from decimal import *
 
 class FormaRegistro(forms.Form):
     username = forms.CharField(label='Usuario', max_length=100)
@@ -22,3 +25,42 @@ class FormaRestaurante(forms.Form):
     hora_apertura = forms.TimeField()
     hora_cierre = forms.TimeField()
     capacidad_max = forms.IntegerField(min_value=1, max_value=10000) 
+
+
+class RestaurantModelChoiceField(ModelChoiceField):
+    def label_from_instance(self, obj):
+        return obj.nombre;
+    
+class ProductoModelMultipleChoiceField(ModelMultipleChoiceField):
+    def label_from_instance(self, obj):
+        return obj.nombre;
+
+class CrearMenuForm(forms.Form):
+    nombre = forms.CharField(
+        required = True,
+        label = 'Nombre del Menu',
+        widget = forms.TextInput(attrs =
+            { 'class'       : 'form-control'
+            , 'placeholder' : 'ID'
+            }
+        )
+        
+    )
+    
+    restaurante = RestaurantModelChoiceField(
+        queryset      = Restaurante.objects.all(),
+        empty_label   = "Restaurante",
+        required      = True,
+        label         = 'Restaurante',
+        widget        = forms.Select(
+            attrs =
+            { 'class' : 'form-control' }
+        )
+    )
+    
+    productos = ProductoModelMultipleChoiceField(
+        queryset      = Producto.objects.all(),
+        required      = False,
+        label         = 'Platos'
+    )
+

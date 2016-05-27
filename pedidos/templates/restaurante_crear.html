@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+
+{% block content %}
+<br>
+<br>
+<br>
+<br>
+<div class="btn-group" role="group" aria-label="...">
+  <button type="button" class="btn btn-default">Left</button>
+  <button type="button" class="btn btn-default">las putas</button>
+  <button type="button" class="btn btn-default">Right</button>
+</div>
+<br>
+<div>
+	{% if form %}
+	<form
+          method="post"
+          class="form form-vertical"
+     >
+     	 {% csrf_token %}
+     	  <div class="control-group">
+            <div class="controls">
+              <p>
+                {{ form.nombre }}
+                <span
+                  class='error'
+                  id='{{form.nombre.name}}_error'
+                  aria-live="polite"
+                ></span>
+
+            </div>
+          </div>
+
+      	<input
+            type="submit"
+            value="Crear Billetera"
+            class="btn btn-primary"
+          >
+        </form>
+        
+      {% endif %}
+      <p>
+      {{ putanga }} lallskd
+      </p>
+      
+      
+</div>
+
+{% endblock %}
