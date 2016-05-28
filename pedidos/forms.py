@@ -27,13 +27,14 @@ class FormaRegistro(forms.Form):
     apellidos = forms.CharField(label='Apellidos', max_length=100)
 
     email = forms.EmailField(label='Correo')
-
+    
     direccion = forms.CharField(label='Direccion', 
         required=False,
         max_length=100
     )
     
     telefono = forms.RegexField(label='Teléfono', 
+
         regex=r'^(0?[0-9]{3})([ -]?)[0-9]{3}\2?[0-9]{4}$',
         required=False,
         max_length=100,
