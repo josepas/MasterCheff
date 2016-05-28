@@ -58,7 +58,7 @@ class Pedido(models.Model):
     total = models.DecimalField(max_digits=11, decimal_places=2) 
 
     def __str__(self):              
-        return "{0} total: {1}".format(self.usuario.perfil.name, self.total) # aqui creo que esta mal
+        return "{0} total: {1}".format(self.usuario.perfil.first_name, self.total) # aqui creo que esta mal
 
 
 class Menu(models.Model):

@@ -1,10 +1,19 @@
-from django.conf import settings    
-from django import forms
 from .models import Usuario, Restaurante, Producto
+
+from django import forms
 from django.forms import ModelChoiceField, ModelMultipleChoiceField
-from django.core.validators import RegexValidator
 from django.forms.widgets import SplitDateTimeWidget
+
+from django.core.validators import RegexValidator
+from django.core.exceptions import ValidationError
+
 from decimal import *
+from datetime import date
+
+def fecha_futura(fecha):
+    if fecha > date.today():
+        raise ValidationError('Fecha invalida, valor futuro')
+
 
 class FormaRegistro(forms.Form):
     username = forms.CharField(label='Usuario', max_length=100)
@@ -12,8 +21,12 @@ class FormaRegistro(forms.Form):
     apellidos = forms.CharField(label='Apellidos', max_length=100)
     passwd = forms.CharField(label='Clave', widget=forms.PasswordInput())
     cedula = forms.IntegerField(min_value=1, max_value=120000000) # aqui no diferenciamos entre extranjeros y venezolanos
-    fecha_nac = forms.DateField(label='Fecha de Nacimiento', input_formats=['%Y-%m-%d'], widget=forms.DateInput() )
-
+    fecha_nac = forms.DateField(label='Fecha de Nacimiento', 
+        input_formats=['%Y-%m-%d'], 
+        widget=forms.DateInput(), 
+        validators=[fecha_futura],
+        error_messages={'invalid': 'Formato inválido AAAA-MM-DD'}
+    )
 
 
 
