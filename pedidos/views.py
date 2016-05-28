@@ -58,7 +58,7 @@ def registro(request):
 
             try:
                 u = User.objects.create_user(request.POST["username"],
-                    'lennon@thebeatles.com', 
+                    request.POST["email"], 
                     request.POST["passwd"]
                 )
             except:
@@ -69,9 +69,13 @@ def registro(request):
             u.first_name=request.POST["nombres"]
             u.last_name=request.POST["apellidos"]
             u.save()
-            nuevoU = Usuario(perfil=u, 
-                            cedula=request.POST["cedula"],
-                            fecha_nac=request.POST["fecha_nac"]
+            print(request.POST)
+            nuevoU = Usuario(
+                perfil=u, 
+                direccion=request.POST["direccion"],
+                telf=request.POST["telefono"],
+                cedula=request.POST["cedula"],
+                fecha_nac=request.POST["fecha_nac"]
             )
             nuevoU.save()
 
