@@ -57,7 +57,6 @@ class CrearMenuForm(forms.Form):
             , 'placeholder' : 'ID'
             }
         )
-        
     )
     
     restaurante = RestaurantModelChoiceField(
