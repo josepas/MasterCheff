@@ -48,7 +48,6 @@ def login(request):
 
 
 def registro(request):
-    # falta chequear si ya esta el usuario creado!
     # NO logre que agarre fechas distintas a YYYY-MM-DD!
 
     mensaje = None
@@ -57,22 +56,31 @@ def registro(request):
         form = FormaRegistro(request.POST)
         if form.is_valid():
 
-            u = User.objects.create_user(request.POST["username"],
-                'lennon@thebeatles.com', 
-                request.POST["passwd"]
-            )
+            try:
+                u = User.objects.create_user(request.POST["username"],
+                    request.POST["email"], 
+                    request.POST["passwd"]
+                )
+            except:
+                mensaje = 'Nombre de usuario en uso'
+                form = FormaRegistro()
+                return render(request, 'registro.html', {'form': form, 'mensaje':mensaje})
+
             u.first_name=request.POST["nombres"]
             u.last_name=request.POST["apellidos"]
             u.save()
-            nuevoU = Usuario(perfil=u, 
-                            cedula=request.POST["cedula"],
-                            fecha_nac=request.POST["fecha_nac"]
+            print(request.POST)
+            nuevoU = Usuario(
+                perfil=u, 
+                direccion=request.POST["direccion"],
+                telf=request.POST["telefono"],
+                cedula=request.POST["cedula"],
+                fecha_nac=request.POST["fecha_nac"]
             )
             nuevoU.save()
 
             mensaje = "Creado con exito!"
             form = FormaRegistro()
-
 
     else:
         form = FormaRegistro()
