@@ -1,21 +1,58 @@
-from django.conf import settings    
-from django import forms
 from .models import Usuario, Restaurante, Producto
+
+from django import forms
 from django.forms import ModelChoiceField, ModelMultipleChoiceField
-from django.core.validators import RegexValidator
 from django.forms.widgets import SplitDateTimeWidget
+
+from django.core.validators import RegexValidator
+from django.core.exceptions import ValidationError
+
 from decimal import *
+from datetime import date
+
+def fecha_futura(fecha):
+    if fecha > date.today():
+        raise ValidationError('Fecha invalida, valor futuro')
+
+def validate_telefono(value):
+    regex = r'^((0?[0-9]{3})([ -]?)[0-9]{3}\2?[0-9]{4})$'
+    if not re.match(regex, value):
+        raise ValidationError('telefono_invalido')
 
 class FormaRegistro(forms.Form):
     username = forms.CharField(label='Usuario', max_length=100)
+  
     nombres = forms.CharField(label='Nombres', max_length=100)
+
     apellidos = forms.CharField(label='Apellidos', max_length=100)
+
+    email = forms.EmailField(label='Correo')
+    
+    direccion = forms.CharField(label='Direccion', 
+        required=False,
+        max_length=100
+    )
+    
+    telefono = forms.RegexField(label='Teléfono', 
+
+        regex=r'^(0?[0-9]{3})([ -]?)[0-9]{3}\2?[0-9]{4}$',
+        required=False,
+        max_length=100,
+        error_messages={'invalid': 'Formato de teléfono inválido'}
+    )
+
+  
     passwd = forms.CharField(label='Clave', widget=forms.PasswordInput())
+
     cedula = forms.IntegerField(min_value=1, max_value=120000000) # aqui no diferenciamos entre extranjeros y venezolanos
-    fecha_nac = forms.DateField(label='Fecha de Nacimiento', input_formats=['%Y-%m-%d'], widget=forms.DateInput() )
-
-
-
+  
+    fecha_nac = forms.DateField(label='Fecha de Nacimiento', 
+        required=False,
+        input_formats=['%Y-%m-%d'], 
+        widget=forms.DateInput(), 
+        validators=[fecha_futura],
+        error_messages={'invalid': 'Formato inválido AAAA-MM-DD'}
+    )
 
 class FormaRestaurante(forms.Form):
     rif = forms.CharField(label='Rif', max_length=15)
@@ -44,7 +81,6 @@ class CrearMenuForm(forms.Form):
             , 'placeholder' : 'ID'
             }
         )
-        
     )
     
     restaurante = RestaurantModelChoiceField(

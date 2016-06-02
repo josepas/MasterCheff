@@ -5,11 +5,14 @@ from django.forms import ModelForm
 from django.contrib.auth.models import User
 
 
+
 class Usuario(models.Model):
     perfil = models.OneToOneField(User) # aqui esta nombre, apellido correo y contrase;a 
     cedula = models.PositiveIntegerField() # aqui no diferenciamos entre extranjeros y venezolanos
-    #telf = models.CharField(max_length=20)
+    email = models.EmailField()
     fecha_nac = models.DateField(auto_now=False, auto_now_add=False)
+    direccion = models.CharField(max_length=200, null=True, blank=True) 
+    telf = models.CharField(max_length=20, null=True, blank=True )
     servicios = models.CharField(max_length=150) # No se como vamos a modelar esto todavia
 
     def __str__(self):
@@ -58,7 +61,7 @@ class Pedido(models.Model):
     total = models.DecimalField(max_digits=11, decimal_places=2) 
 
     def __str__(self):              
-        return "{0} total: {1}".format(self.usuario.perfil.name, self.total) # aqui creo que esta mal
+        return "{0} total: {1}".format(self.usuario.perfil.first_name, self.total) # aqui creo que esta mal
 
 
 class Menu(models.Model):

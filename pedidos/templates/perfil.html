@@ -4,8 +4,22 @@
 
 {% block content %}
 
-  <div class="container-fluid page-header">
-      <h2> {{ user.first_name }} {{ user.last_name }}</h2>
+
+
+  <div class="container-fluid">
+    <div class="row">    
+
+      <div class="col-sm-4 page-header">
+          <h2> {{ user.first_name }} {{ user.last_name }}</h2>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <a href="#" role="button" class="btn btn-primary pull-right">Editar perfil</a>
+      </div>
+    </div>
+  
   </div>
 
   <div class="container-fluid">
@@ -36,27 +50,37 @@
 
         <h3>Información</h3>
           <p>Cedula: {{usuario.cedula}}</p>
-          <p>Campo: Lorem</p> 
-          <p>Campo: Ipsum</p> 
-          <p>Campo: Anaco</p> 
+          <p>Correo: {{usuario.perfil.email }}</p> 
+          <p>Dirección: {{usuario.direccion }}</p> 
+          <p>Teléfono: {{usuario.telf }}</p> 
 
       </div>
       
       <div class="col-sm-4">
           
-          <div class="panel panel-default text-left">
-            <div class="panel-body">
-              <h3>Restaurantes Visitados</h3>
+        <div class="row">
 
-            <ul class="list-group col-sm-6">
-              <li class="list-group-item">Anaconda</li>
-              <li class="list-group-item">Ocana Bar</li>
-              <li class="list-group-item">Makro Anaco</li>
-            </ul>   
-            </div>
+            <div class="col-sm-12">
+        
+              <div class="panel panel-default text-left">
+                <div class="panel-body">
+                  <h3>Restaurantes Visitados</h3>
+
+                <ul class="list-group col-sm-6">
+                  <li class="list-group-item">Anaconda</li>
+                  <li class="list-group-item">Ocana Bar</li>
+                  <li class="list-group-item">Makro Anaco</li>
+                </ul>   
+                </div>
+              </div>
+
           </div>
+
+
+        </div>
+
        </div>
-      </div>
+    </div>
 
 
   </div>
