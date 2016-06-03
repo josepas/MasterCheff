@@ -28,7 +28,8 @@ class FormaRegistro(forms.Form):
 
     email = forms.EmailField(label='Correo')
     
-    direccion = forms.CharField(label='Direccion', 
+    direccion = forms.CharField(
+        label='Direccion', 
         required=False,
         max_length=100
     )
