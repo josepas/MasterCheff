@@ -22,6 +22,8 @@
                     {% for field in form %}
                         <div class="form-group">
                             {{ field.errors }}
+                            {% if form.initial %}
+                            {% endif %}
                             {% render_field field class="form-control" placeholder=field.label %}
                         </div>
                     {% endfor %}
