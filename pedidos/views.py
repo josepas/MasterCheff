@@ -12,8 +12,35 @@ from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 
 
-def editarPerfil(request):
-    return render(request, 'editarPerfil.html')
+def editar_perfil(request, userID):
+
+    mensaje = None
+    u = User.objects.get(id=userID) 
+    initial = {
+        'username' : u.username,
+        'nombres' : u.first_name,
+        'apellidos': u.last_name,
+        'cedula' : u.usuario.cedula,
+        'email' : u.email
+    }
+    
+
+    if request.method == 'POST':
+        form = FormaRegistro()
+        u.usuario.direccion=request.POST["direccion"]
+        u.usuario.telf=request.POST["telefono"]
+        u.usuario.save()
+        mensaje = "Cambio exitoso"
+
+    else:
+        form = FormaRegistro(initial=initial) 
+        mensaje = "Ingrese nuevos Datos"      
+    #     data = { 
+
+    #     }
+    # f = ContactForm(request.POST, initial=data) 
+    # f.has_changed()
+    return render(request, 'editar_perfil.html', {"form":form, "mensaje":mensaje})
 
 def perfil(request):
 
@@ -69,7 +96,6 @@ def registro(request):
             u.first_name=request.POST["nombres"]
             u.last_name=request.POST["apellidos"]
             u.save()
-            print(request.POST)
             nuevoU = Usuario(
                 perfil=u, 
                 direccion=request.POST["direccion"],
