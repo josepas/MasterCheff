@@ -53,6 +53,15 @@ class Producto(models.Model):
     def __str__(self):              
         return self.nombre
 
+class Servicio(models.Model):
+    nombre = models.CharField(max_length=30)
+    provedor = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    descripcion = models.CharField(max_length=100)
+    imagen = models.ImageField(upload_to=None, height_field=None, width_field=None, max_length=100)
+    precio = models.DecimalField(max_digits=11, decimal_places=2) 
+
+    def __str__(self):
+        return self.nombre
 
 class Pedido(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
