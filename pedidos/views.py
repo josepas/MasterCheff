@@ -21,19 +21,28 @@ def editar_perfil(request, userID):
         'nombres' : u.first_name,
         'apellidos': u.last_name,
         'cedula' : u.usuario.cedula,
-        'email' : u.email
+        'email' : u.email,
+        'rif' : u.usuario.rif
     }
     
 
     if request.method == 'POST':
-        form = FormaRegistro()
-        u.usuario.direccion=request.POST["direccion"]
-        u.usuario.telf=request.POST["telefono"]
-        u.usuario.save()
+        if u.usuario.tipo_usuario == "P":
+            form = FormaRegistroProveedor()
+            u.usuario.direccion=request.POST["direccion"]
+            u.usuario.telf=request.POST["telefono"]
+            u.usuario.save()
+        elif u.usuario.tipo_usuario == "C": 
+            form = FormaRegistroCliente()
+            u.usuario.direccion=request.POST["direccion"]
+            u.usuario.telf=request.POST["telefono"]
+            u.usuario.save()
         mensaje = "Cambio exitoso"
-
     else:
-        form = FormaRegistro(initial=initial) 
+        if u.usuario.tipo_usuario == "P":
+            form = FormaRegistroProveedor(initial=initial) 
+        elif u.usuario.tipo_usuario == "C":
+            form = FormaRegistroCliente(initial=initial) 
         mensaje = "Ingrese nuevos Datos"      
     #     data = { 
 
@@ -54,10 +63,9 @@ def indice(request):
 
 def logout_view(request):
     logout(request)
-    return redirect('indice')
+    return render(request, 'base.html')
 
 def login(request):
-
     mensaje = None
     if request.method == 'POST':
         print(request.POST)
@@ -65,10 +73,10 @@ def login(request):
         password = request.POST.get('password')
         user = authenticate(username=username, password=password)
         if user is not None:
+            request.session['tipo'] = user.usuario.tipo_usuario
             if user.is_active:
                 mch_login(request, user)
-                return redirect('indice')
-
+                return render(request, 'base.html')
         mensaje = 'Usuario o clave errada!'
 
     return render(request, 'login.html', {'mensaje':mensaje})
@@ -174,7 +182,7 @@ def registroRestaurante(request):
 
     return render(request, 'registroRestaurante.html', {'form': form})
 
-def menu_crear(request):
+def verMenu(request):
 
     if request.method == 'POST':
         form = CrearMenuForm(request.POST)
@@ -183,7 +191,20 @@ def menu_crear(request):
     else:
         form = CrearMenuForm()
 
-    return render(request,'menu.html',{'form' : form,}
+    return render(request,'verMenu.html',{'form' : form}
     )
 
+def crearMenu(request):
 
+    if request.method == 'POST':
+        form = CrearMenuForm(request.POST)
+        if form.is_valid():
+            pass
+    else:
+        form = CrearMenuForm()
+
+    return render(request,'crearMenu.html',{'form' : form}
+    )
+
+def usuariosRegistrados(request):
+    return render(request,'usuariosRegistrados.html')

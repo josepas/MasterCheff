@@ -11,7 +11,9 @@ urlpatterns = [
     url(r'^registro/$', views.registro, name='registro'),
     url(r'^registroCliente/$', views.registroCliente, name='registroCliente'),
     url(r'^registroProveedor/$', views.registroProveedor, name='registroProveedor'),
-    url(r'^menu/$', views.menu_crear, name='menu'),
+    url(r'^crearMenu/$', views.crearMenu, name='crearMenu'),
+    url(r'^verMenu/$', views.verMenu, name='verMenu'),
+    url(r'^usuariosRegistrados/$', views.usuariosRegistrados, name='usuariosRegistrados'),
     url(r'^restaurante/$', views.registroRestaurante, name='restaurante'),
     url(r'^proveedor/$', views.agregar_servicios, name='agregar_servicios')
 ]
