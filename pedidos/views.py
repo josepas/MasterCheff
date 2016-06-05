@@ -1,7 +1,7 @@
 from .forms import FormaRegistroCliente, FormaRestaurante, CrearMenuForm, FormaRegistroProveedor
-from .models import Usuario
+from .models import Usuario, Servicio
 
-
+from django.shortcuts import get_object_or_404
 from django.contrib.auth import authenticate, logout
 from django.contrib.auth import login as mch_login
 from django.contrib.auth.decorators import login_required
@@ -15,6 +15,10 @@ from django.core.urlresolvers import reverse
 def editar_perfil(request, userID):
 
     mensaje = None
+    print("-------------")
+    print(request.user.id)
+    print("-------------")
+
     u = User.objects.get(id=userID) 
     initial = {
         'username' : u.username,
@@ -124,7 +128,6 @@ def registroCliente(request):
 
     return render(request, 'registroCliente.html', {'form': form, 'mensaje':mensaje})
 
-
 def registroProveedor(request):
     # NO logre que agarre fechas distintas a YYYY-MM-DD!
 
@@ -165,11 +168,29 @@ def registroProveedor(request):
 
     return render(request, 'registroProveedor.html', {'form': form, 'mensaje':mensaje})
 
-
 def agregar_servicios(request):
-    
-    return render(resquest, 'agregar_servicios.html')
+    proveedor = User.objects.get(username=request.user)    
+    servicios = None
+    if request.method == 'POST':
+        print("-------------")
+        print(request.POST)
+        nServicio = Servicio(
+            nombre = request.POST["nombre"],
+            provedor = proveedor.usuario,
+            descripcion = request.POST["descripcion"],
+            precio = request.POST["precio"]
+        )
+        nServicio.save()
 
+    servicios = proveedor.usuario.servicio_set.all()
+
+    return render(request, 'agregar_servicios.html', {"servicios":servicios})
+
+def eliminar_servicio(request, id):
+    servicio = get_object_or_404(Servicio, pk=id).delete()
+    servicios = User.objects.get(username=request.user).usuario.servicio_set.all() 
+
+    return redirect('agregar_servicios')
 
 def registroRestaurante(request):
     if request.method == 'POST':
