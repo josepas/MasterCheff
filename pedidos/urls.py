@@ -10,5 +10,6 @@ urlpatterns = [
     url(r'^logout/$', views.logout_view, name='logout'),
     url(r'^registro/$', views.registro, name='registro'),
     url(r'^menu/$', views.menu_crear, name='menu'),
-    url(r'^restaurante/$', views.registroRestaurante, name='restaurante')
+    url(r'^restaurante/$', views.registroRestaurante, name='restaurante'),
+    url(r'^proveedor/$', views.agregar_servicios, name='agregar_servicios')
 ]

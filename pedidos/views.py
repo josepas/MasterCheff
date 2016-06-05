@@ -114,6 +114,14 @@ def registro(request):
     return render(request, 'registro.html', {'form': form, 'mensaje':mensaje})
 
 
+def agregar_servicios(request):
+    
+    return render(resquest, 'agregar_servicios.html')
+
+
+
+
+
 def registroRestaurante(request):
     if request.method == 'POST':
         form = FormaRestaurante(request.POST)
