@@ -1,4 +1,4 @@
-from .forms import FormaRegistro, FormaRestaurante, CrearMenuForm
+from .forms import FormaRegistroCliente, FormaRestaurante, CrearMenuForm, FormaRegistroProveedor
 from .models import Usuario
 
 
@@ -73,14 +73,16 @@ def login(request):
 
     return render(request, 'login.html', {'mensaje':mensaje})
 
-
 def registro(request):
+    return render(request, 'registro.html')
+    
+def registroCliente(request):
     # NO logre que agarre fechas distintas a YYYY-MM-DD!
 
     mensaje = None
     if request.method == 'POST':
 
-        form = FormaRegistro(request.POST)
+        form = FormaRegistroCliente(request.POST)
         if form.is_valid():
 
             try:
@@ -90,8 +92,8 @@ def registro(request):
                 )
             except:
                 mensaje = 'Nombre de usuario en uso'
-                form = FormaRegistro()
-                return render(request, 'registro.html', {'form': form, 'mensaje':mensaje})
+                form = FormaRegistroCliente()
+                return render(request, 'registroCliente.html', {'form': form, 'mensaje':mensaje})
 
             u.first_name=request.POST["nombres"]
             u.last_name=request.POST["apellidos"]
@@ -101,25 +103,64 @@ def registro(request):
                 direccion=request.POST["direccion"],
                 telf=request.POST["telefono"],
                 cedula=request.POST["cedula"],
-                fecha_nac=request.POST["fecha_nac"]
-            )
+                fecha_nac=request.POST["fecha_nac"],
+                tipo_usuario="C"
+                            )
             nuevoU.save()
 
             mensaje = "Creado con exito!"
-            form = FormaRegistro()
+            form = FormaRegistroCliente()
 
     else:
-        form = FormaRegistro()
+        form = FormaRegistroCliente()
 
-    return render(request, 'registro.html', {'form': form, 'mensaje':mensaje})
+    return render(request, 'registroCliente.html', {'form': form, 'mensaje':mensaje})
+
+
+def registroProveedor(request):
+    # NO logre que agarre fechas distintas a YYYY-MM-DD!
+
+    mensaje = None
+    if request.method == 'POST':
+
+        form = FormaRegistroProveedor(request.POST)
+        if form.is_valid():
+
+            try:
+                u = User.objects.create_user(request.POST["username"],
+                    request.POST["email"], 
+                    request.POST["passwd"]
+                )
+            except:
+                mensaje = 'Nombre de usuario en uso'
+                form = FormaRegistroProveedor()
+                return render(request, 'registroProveedor.html', {'form': form, 'mensaje':mensaje})
+
+            u.first_name=request.POST["nombres"]
+            u.last_name=request.POST["apellidos"]
+            u.save()
+            nuevoU = Usuario(
+                perfil=u, 
+                direccion=request.POST["direccion"],
+                telf=request.POST["telefono"],
+                rif=request.POST["rif"],
+                fecha_nac=request.POST["fecha_nac"],
+                tipo_usuario="P"
+                            )
+            nuevoU.save()
+
+            mensaje = "Creado con exito!"
+            form = FormaRegistroProveedor()
+
+    else:
+        form = FormaRegistroProveedor()
+
+    return render(request, 'registroProveedor.html', {'form': form, 'mensaje':mensaje})
 
 
 def agregar_servicios(request):
     
     return render(resquest, 'agregar_servicios.html')
-
-
-
 
 
 def registroRestaurante(request):

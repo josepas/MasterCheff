@@ -7,19 +7,24 @@ from django.contrib.auth.models import User
 
 
 class Usuario(models.Model):
+    TIPO = (
+        ('A', 'Administrador'),
+        ('C', 'Cliente'),
+        ('P', 'Proveedor'),
+    )
     perfil = models.OneToOneField(User) # aqui esta nombre, apellido correo y contrase;a 
-    cedula = models.PositiveIntegerField() # aqui no diferenciamos entre extranjeros y venezolanos
-    email = models.EmailField()
+    cedula = models.PositiveIntegerField(null=True, blank=True,unique=True) # aqui no diferenciamos entre extranjeros y venezolanos
+    rif = models.CharField(null=True, blank=True, unique=True, max_length=15)
+    tipo_usuario = models.CharField(max_length=1, choices=TIPO)
     fecha_nac = models.DateField(auto_now=False, auto_now_add=False)
     direccion = models.CharField(max_length=200, null=True, blank=True) 
     telf = models.CharField(max_length=20, null=True, blank=True )
-    servicios = models.CharField(max_length=150) # No se como vamos a modelar esto todavia
 
     def __str__(self):
         return self.perfil.username
 
 class Restaurante(models.Model):
-    rif = models.CharField(max_length=15)
+    rif = models.CharField(max_length=15, unique=True)
     admin = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     nombre = models.CharField(max_length=30)
     direccion = models.CharField(max_length=30)
@@ -27,8 +32,8 @@ class Restaurante(models.Model):
     hora_cierre = models.TimeField(auto_now=False, auto_now_add=False)
     capacidad_max =  models.PositiveIntegerField()
 
-    def __str__(self):              
-        return self.nombre
+    #def __str__(self):              
+    #   return self.nombre
 
 
 class Mesa(models.Model):
