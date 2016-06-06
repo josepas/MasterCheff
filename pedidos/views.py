@@ -228,4 +228,11 @@ def crearMenu(request):
     )
 
 def usuariosRegistrados(request):
-    return render(request,'usuariosRegistrados.html')
+    usuario = None
+    usuarios = Usuario.objects.all()  
+    return render(request,'usuariosRegistrados.html', {'usuarios':usuarios, 'usuario':usuario})
+
+def verUsuarioSeleccionado(request,id):
+    usuario = Usuario.objects.get(pk=id) 
+    usuarios = Usuario.objects.all() 
+    return render(request,'usuariosRegistrados.html', {'usuarios':usuarios, 'usuario':usuario})

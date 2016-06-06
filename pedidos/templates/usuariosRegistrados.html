@@ -3,4 +3,70 @@
 {% load staticfiles %}
 
 {% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-offset-1 col-sm-5 well">
+            <h2>Descripcion Usuario</h2>
+            <div class="row">
+                <div class="col-12-sm">
+                    <table class="table">
+                        <thead>
+                          <tr>
+                            <th>Fecha Nacimiento</th>
+                            <th>Apellido</th>
+                            <th>Correo</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        {%if usuario != None %}
+                          <tr>
+                            <td>{{ usuario.fecha_nac }}</td>
+                            <td>{{ usuario.perfil.last_name }}</td>
+                            <td>{{ usuario.perfil.email }}</td>  
+                        
+                          </tr>
+                           {%endif%}
+                        </tbody>
+                      </table>
+                </div>
+            </div>
+        </div>       
+
+        <div class="col-sm-5 well">
+            <h2>Usuario Registrados</h2>
+            <div class="row">
+                <div class="col-12-sm">
+                    <table class="table">
+                        <thead>
+                          <tr>
+                            <th>Username</th>
+                            <th>Tipo</th>
+                            <th>Nombre</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for usuario in usuarios %}
+                          <tr>
+                          	{% if usuario.tipo_usuario != 'A' %}
+	                            <td>{{ usuario.perfil.username }}</td>
+	                            {% if usuario.tipo_usuario == 'C' %}
+	                            <td>Cliente</td>
+	                            {% elif usuario.tipo_usuario == 'P' %}
+	                            <td>Proveedor</td>
+	                            {% endif %}
+	                            <td>{{ usuario.perfil.first_name }}</td>  
+	                            <td>
+	                                <a href="ver/{{ usuario.id }}"><span class="glyphicon .glyphicon-bookmark"></span>Ver</a>
+	                            </td>
+                            {% endif %}
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock%}

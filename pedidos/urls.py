@@ -16,5 +16,6 @@ urlpatterns = [
     url(r'^usuariosRegistrados/$', views.usuariosRegistrados, name='usuariosRegistrados'),
     url(r'^restaurante/$', views.registroRestaurante, name='restaurante'),
     url(r'^proveedor/borrar/(?P<id>[0-9]+)/$', views.eliminar_servicio, name='eliminar_servicio'),
+    url(r'^usuariosRegistrados/ver/(?P<id>[0-9]+)/$', views.verUsuarioSeleccionado, name='verUsuarioSeleccionado'),
     url(r'^proveedor/$', views.agregar_servicios, name='agregar_servicios')
 ]
