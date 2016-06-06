@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% load staticfiles %}
+
+{% block content %}
+
+    <div class="container">
+        <form href="{% url 'registro' %}" class="form-signin" method="post">
+            {% csrf_token %}
+
+            <div class="row">
+
+                <div class="col-sm-12">
+                    <img class="imagen" src="{% static 'img/icon1.png' %}">
+                </div>  
+                <div class="col-sm-12">
+                    {% if mensaje %}
+                        <h1>{{mensaje}}</h1>
+                    {% endif %}
+                </div>  
+                <div class="col-sm-12">
+
+                    <div class="form-group">
+                        {{ form.direccion.errors }}
+                        {{ form.direccion.label_tag }}
+                        {{ form.direccion|add_class:"form-control"}}
+                    </div>
+                    <div class="form-group">
+                        {{ form.passwd.errors }}
+                        {{ form.passwd.label_tag }}
+                        {{ form.passwd|add_class:"form-control"}}
+                    </div>`
+                    <div class="form-group">
+                        {{ form.telefono.errors }}
+                        {{ form.telefono.label_tag }}
+                        {{ form.telefono|add_class:"form-control"}}
+                    </div>`
+                    
+
+                </div>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Cambiar</button>
+            </div>`
+        </form>
+    </div>
+
+
+
+{% endblock %}
