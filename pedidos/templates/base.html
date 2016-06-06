@@ -68,11 +68,36 @@
             </li>
           </ul>
           {% endif %}
+          {% if request.session.tipo == 'C' %}
+          <ul class="nav navbar-nav ">
+            <li class="dropdown">
+                  <a class="dropdown-toggle" data-toggle="dropdown" href="#">Menu</a>
+                  <ul class="dropdown-menu">
+                      <li><a href={% url 'verMenu' %}>Ver</a></li>
+                  </ul>
+            </li>
+          </ul>
+          {% endif %}          
+          {% if request.session.tipo == 'P' %}
+          <ul class="nav navbar-nav ">
+            <li>
+              <a href={% url 'agregar_servicios' %}>Inventario</a>
+            </li>
+            <li class="dropdown">
+                  <a class="dropdown-toggle" data-toggle="dropdown" href="#">Menu</a>
+                  <ul class="dropdown-menu">
+                      <li><a href={% url 'verMenu' %}>Ver</a></li>
+                  </ul>
+            </li>
+          </ul>
+          {% endif %}
           <ul class="nav navbar-nav navbar-right">
               <li class="dropdown">
                   <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span> {{ user.username }} </a>
                   <ul class="dropdown-menu">
+                    {% if request.session.tipo != 'A' %}
                       <li><a href={% url 'perfil' %}>Perfil</a></li>
+                    {% endif %}
                       <li><a href={% url 'logout' %}><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
                   </ul>
               </li>
