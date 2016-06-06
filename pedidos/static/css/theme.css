@@ -16,3 +16,9 @@ body {
 .theme-showcase .navbar .container {
   width: auto;
 }
+
+.fit {
+	width: 400px;
+	height: 400px;
+
+}

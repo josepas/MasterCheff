@@ -1,7 +1,7 @@
-from .forms import FormaRegistro, FormaRestaurante, CrearMenuForm
-from .models import Usuario
+from .forms import FormaRegistroCliente, FormaRestaurante, CrearMenuForm, FormaRegistroProveedor
+from .models import Usuario, Servicio
 
-
+from django.shortcuts import get_object_or_404
 from django.contrib.auth import authenticate, logout
 from django.contrib.auth import login as mch_login
 from django.contrib.auth.decorators import login_required
@@ -12,8 +12,48 @@ from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 
 
-def editarPerfil(request):
-    return render(request, 'editarPerfil.html')
+def editar_perfil(request, userID):
+
+    mensaje = None
+    print("-------------")
+    print(request.user.id)
+    print("-------------")
+
+    u = User.objects.get(id=userID) 
+    initial = {
+        'username' : u.username,
+        'nombres' : u.first_name,
+        'apellidos': u.last_name,
+        'cedula' : u.usuario.cedula,
+        'email' : u.email,
+        'rif' : u.usuario.rif
+    }
+    
+
+    if request.method == 'POST':
+        if u.usuario.tipo_usuario == "P":
+            form = FormaRegistroProveedor()
+            u.usuario.direccion=request.POST["direccion"]
+            u.usuario.telf=request.POST["telefono"]
+            u.usuario.save()
+        elif u.usuario.tipo_usuario == "C": 
+            form = FormaRegistroCliente()
+            u.usuario.direccion=request.POST["direccion"]
+            u.usuario.telf=request.POST["telefono"]
+            u.usuario.save()
+        mensaje = "Cambio exitoso"
+    else:
+        if u.usuario.tipo_usuario == "P":
+            form = FormaRegistroProveedor(initial=initial) 
+        elif u.usuario.tipo_usuario == "C":
+            form = FormaRegistroCliente(initial=initial) 
+        mensaje = "Ingrese nuevos Datos"      
+    #     data = { 
+
+    #     }
+    # f = ContactForm(request.POST, initial=data) 
+    # f.has_changed()
+    return render(request, 'editar_perfil.html', {"form":form, "mensaje":mensaje})
 
 def perfil(request):
 
@@ -27,10 +67,9 @@ def indice(request):
 
 def logout_view(request):
     logout(request)
-    return redirect('indice')
+    return render(request, 'base.html')
 
 def login(request):
-
     mensaje = None
     if request.method == 'POST':
         print(request.POST)
@@ -38,22 +77,24 @@ def login(request):
         password = request.POST.get('password')
         user = authenticate(username=username, password=password)
         if user is not None:
+            request.session['tipo'] = user.usuario.tipo_usuario
             if user.is_active:
                 mch_login(request, user)
-                return redirect('indice')
-
+                return render(request, 'base.html')
         mensaje = 'Usuario o clave errada!'
 
     return render(request, 'login.html', {'mensaje':mensaje})
 
-
 def registro(request):
+    return render(request, 'registro.html')
+    
+def registroCliente(request):
     # NO logre que agarre fechas distintas a YYYY-MM-DD!
 
     mensaje = None
     if request.method == 'POST':
 
-        form = FormaRegistro(request.POST)
+        form = FormaRegistroCliente(request.POST)
         if form.is_valid():
 
             try:
@@ -63,30 +104,93 @@ def registro(request):
                 )
             except:
                 mensaje = 'Nombre de usuario en uso'
-                form = FormaRegistro()
-                return render(request, 'registro.html', {'form': form, 'mensaje':mensaje})
+                form = FormaRegistroCliente()
+                return render(request, 'registroCliente.html', {'form': form, 'mensaje':mensaje})
 
             u.first_name=request.POST["nombres"]
             u.last_name=request.POST["apellidos"]
             u.save()
-            print(request.POST)
             nuevoU = Usuario(
                 perfil=u, 
                 direccion=request.POST["direccion"],
                 telf=request.POST["telefono"],
                 cedula=request.POST["cedula"],
-                fecha_nac=request.POST["fecha_nac"]
-            )
+                fecha_nac=request.POST["fecha_nac"],
+                tipo_usuario="C"
+                            )
             nuevoU.save()
 
             mensaje = "Creado con exito!"
-            form = FormaRegistro()
+            form = FormaRegistroCliente()
 
     else:
-        form = FormaRegistro()
+        form = FormaRegistroCliente()
 
-    return render(request, 'registro.html', {'form': form, 'mensaje':mensaje})
+    return render(request, 'registroCliente.html', {'form': form, 'mensaje':mensaje})
 
+def registroProveedor(request):
+    # NO logre que agarre fechas distintas a YYYY-MM-DD!
+
+    mensaje = None
+    if request.method == 'POST':
+
+        form = FormaRegistroProveedor(request.POST)
+        if form.is_valid():
+
+            try:
+                u = User.objects.create_user(request.POST["username"],
+                    request.POST["email"], 
+                    request.POST["passwd"]
+                )
+            except:
+                mensaje = 'Nombre de usuario en uso'
+                form = FormaRegistroProveedor()
+                return render(request, 'registroProveedor.html', {'form': form, 'mensaje':mensaje})
+
+            u.first_name=request.POST["nombres"]
+            u.last_name=request.POST["apellidos"]
+            u.save()
+            nuevoU = Usuario(
+                perfil=u, 
+                direccion=request.POST["direccion"],
+                telf=request.POST["telefono"],
+                rif=request.POST["rif"],
+                fecha_nac=request.POST["fecha_nac"],
+                tipo_usuario="P"
+                            )
+            nuevoU.save()
+
+            mensaje = "Creado con exito!"
+            form = FormaRegistroProveedor()
+
+    else:
+        form = FormaRegistroProveedor()
+
+    return render(request, 'registroProveedor.html', {'form': form, 'mensaje':mensaje})
+
+def agregar_servicios(request):
+    proveedor = User.objects.get(username=request.user)    
+    servicios = None
+    if request.method == 'POST':
+        print("-------------")
+        print(request.POST)
+        nServicio = Servicio(
+            nombre = request.POST["nombre"],
+            provedor = proveedor.usuario,
+            descripcion = request.POST["descripcion"],
+            precio = request.POST["precio"]
+        )
+        nServicio.save()
+
+    servicios = proveedor.usuario.servicio_set.all()
+
+    return render(request, 'agregar_servicios.html', {"servicios":servicios})
+
+def eliminar_servicio(request, id):
+    servicio = get_object_or_404(Servicio, pk=id).delete()
+    servicios = User.objects.get(username=request.user).usuario.servicio_set.all() 
+
+    return redirect('agregar_servicios')
 
 def registroRestaurante(request):
     if request.method == 'POST':
@@ -99,7 +203,7 @@ def registroRestaurante(request):
 
     return render(request, 'registroRestaurante.html', {'form': form})
 
-def menu_crear(request):
+def verMenu(request):
 
     if request.method == 'POST':
         form = CrearMenuForm(request.POST)
@@ -108,7 +212,20 @@ def menu_crear(request):
     else:
         form = CrearMenuForm()
 
-    return render(request,'menu.html',{'form' : form,}
+    return render(request,'verMenu.html',{'form' : form}
     )
 
+def crearMenu(request):
 
+    if request.method == 'POST':
+        form = CrearMenuForm(request.POST)
+        if form.is_valid():
+            pass
+    else:
+        form = CrearMenuForm()
+
+    return render(request,'crearMenu.html',{'form' : form}
+    )
+
+def usuariosRegistrados(request):
+    return render(request,'usuariosRegistrados.html')
