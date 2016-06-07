@@ -53,7 +53,8 @@ class Producto(models.Model):
     nombre = models.CharField(max_length=30)
     descripcion = models.CharField(max_length=100)
     imagen = models.ImageField(upload_to=None, height_field=None, width_field=None, max_length=100)
-    precio = models.DecimalField(max_digits=11, decimal_places=2) 
+    precio = models.DecimalField(max_digits=11, decimal_places=2)
+    restaurante = models.ForeignKey(Restaurante, on_delete=models.CASCADE)  
 
     def __str__(self):              
         return self.nombre

@@ -12,12 +12,14 @@ urlpatterns = [
     url(r'^registroCliente/$', views.registroCliente, name='registroCliente'),
     url(r'^registroProveedor/$', views.registroProveedor, name='registroProveedor'),
     url(r'^verMenu/$', views.verMenu, name='verMenu'),
-    url(r'^restaurantes/$', views.restaurantes, name='restaurantes'),
-    url(r'^restauranteSeleccionado/(?P<id>[0-9]+)/$', views.restauranteSeleccionado, name='restauranteSeleccionado'),
+    url(r'^restaurantesMenu/$', views.restaurantesMenu, name='restaurantesMenu'),
+    url(r'^restaurantesPlatos/$', views.restaurantesPlatos, name='restaurantesPlatos'),
+    url(r'^menu/(?P<id>[0-9]+)/$', views.agregar_menu, name='agregar_menu'),
+    url(r'^platos/(?P<id>[0-9]+)/$', views.agregar_platos, name='agregar_platos'),
     url(r'^usuariosRegistrados/$', views.usuariosRegistrados, name='usuariosRegistrados'),
     url(r'^restaurante/$', views.registroRestaurante, name='restaurante'),
     url(r'^proveedor/borrar/(?P<id>[0-9]+)/$', views.eliminar_servicio, name='eliminar_servicio'),
     url(r'^usuariosRegistrados/ver/(?P<id>[0-9]+)/$', views.usuarioSeleccionado, name='usuarioSeleccionado'),
     url(r'^proveedor/$', views.agregar_servicios, name='agregar_servicios'),
-    url(r'^registroRestaurante/$', views.registroRestaurante, name='registroRestaurante'),
+    url(r'^registroRestaurante/$', views.registroRestaurante, name='registroRestaurante')
 ]

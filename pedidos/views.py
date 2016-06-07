@@ -1,5 +1,5 @@
 from .forms import FormaRegistroCliente, CrearMenuForm, FormaRegistroProveedor, FormaRegistroRestaurante
-from .models import Usuario, Servicio, Restaurante
+from .models import Usuario, Servicio, Restaurante, Producto
 
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import authenticate, logout
@@ -204,18 +204,42 @@ def usuarioSeleccionado(request,id):
     usuarios = Usuario.objects.all() 
     return render(request,'usuariosRegistrados.html', {'usuarios':usuarios, 'usuario':usuario})
 
-def restaurantes(request):
+def restaurantesMenu(request):
     usuario = User.objects.get(username=request.user)
     if usuario.usuario.tipo_usuario == "A":
         restaurantes = usuario.usuario.restaurante_set.all()
     elif usuario.usuario.tipo_usuario == "C":
         restaurantes = Restaurante.objects.all()
-    return render(request,'restaurantes.html',{'restaurantes' : restaurantes})
+    return render(request,'restaurantesMenu.html',{'restaurantes' : restaurantes})
 
-def restauranteSeleccionado(request,id):
+def restaurantesPlatos(request):
+    usuario = User.objects.get(username=request.user)
+    if usuario.usuario.tipo_usuario == "A":
+        restaurantes = usuario.usuario.restaurante_set.all()
+    elif usuario.usuario.tipo_usuario == "C":
+        restaurantes = Restaurante.objects.all()
+    return render(request,'restaurantesPlatos.html',{'restaurantes' : restaurantes})
+
+def agregar_menu(request,id):
     restaurante = Restaurante.objects.get(pk=id)
     menus = restaurante.menu_set.all()
-    return render(request,'restauranteSeleccionado.html', {'menus': menus})
+    return render(request,'agregar_menu.html', {'menus': menus, 'id':id})
+
+def agregar_platos(request,id):
+    restaurante = Restaurante.objects.get(pk=id)
+    if request.method == 'POST':
+        print("-------------")
+        print(request.POST)
+        nPlatos = Producto(
+            nombre = request.POST["nombre"],
+            restaurante = restaurante,
+            descripcion = request.POST["descripcion"],
+            precio = request.POST["precio"]
+        )
+        nPlatos.save()
+
+    platos = restaurante.producto_set.all()
+    return render(request,'agregar_platos.html', {'platos': platos, 'id': id})
 
 def registroRestaurante(request):
     # NO logre que agarre fechas distintas a YYYY-MM-DD!
