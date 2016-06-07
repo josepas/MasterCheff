@@ -1,5 +1,5 @@
-from .forms import FormaRegistroCliente, FormaRestaurante, CrearMenuForm, FormaRegistroProveedor
-from .models import Usuario, Servicio
+from .forms import FormaRegistroCliente, CrearMenuForm, FormaRegistroProveedor, FormaRegistroRestaurante
+from .models import Usuario, Servicio, Restaurante
 
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import authenticate, logout
@@ -192,28 +192,16 @@ def eliminar_servicio(request, id):
 
     return redirect('agregar_servicios')
 
-def registroRestaurante(request):
-    if request.method == 'POST':
-        form = FormaRestaurante(request.POST)
-        if form.is_valid():
-            pass
-
-    else:
-        form = FormaRestaurante() 
-
-    return render(request, 'registroRestaurante.html', {'form': form})
+def verRestaurantes(request):
+    usuario = User.objects.get(username=request.user)
+    if usuario.usuario.tipo_usuario == "A":
+        restaurantes = usuario.usuario.restaurante_set.all()
+    elif usuario.usuario.tipo_usuario == "C":
+        restaurantes = Restaurante.objects.all()
+    return render(request,'verRestaurantes.html',{'restaurantes' : restaurantes})
 
 def verMenu(request):
-
-    if request.method == 'POST':
-        form = CrearMenuForm(request.POST)
-        if form.is_valid():
-            pass
-    else:
-        form = CrearMenuForm()
-
-    return render(request,'verMenu.html',{'form' : form}
-    )
+    return render(request,'verMenu.html')
 
 def crearMenu(request):
 
@@ -236,3 +224,27 @@ def verUsuarioSeleccionado(request,id):
     usuario = Usuario.objects.get(pk=id) 
     usuarios = Usuario.objects.all() 
     return render(request,'usuariosRegistrados.html', {'usuarios':usuarios, 'usuario':usuario})
+
+def registroRestaurante(request):
+    # NO logre que agarre fechas distintas a YYYY-MM-DD!
+
+    mensaje = None
+    if request.method == 'POST':
+        form = FormaRegistroRestaurante(request.POST)
+        if form.is_valid():
+            nuevoR = Restaurante(
+                rif = request.POST["rif"],
+                nombre = request.POST["nombre"],
+                admin = request.user.usuario,
+                direccion = request.POST["direccion"],
+                hora_apertura = request.POST["hora_apertura"],
+                hora_cierre = request.POST["hora_cierre"],
+                capacidad_max = request.POST["capacidad_max"])
+            nuevoR.save()
+            mensaje = "Creado con exito!"
+            form = FormaRegistroRestaurante()
+
+    else:
+        form = FormaRegistroRestaurante()
+
+    return render(request, 'registroRestaurante.html', {'form': form, 'mensaje': mensaje})

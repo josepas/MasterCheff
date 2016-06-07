@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% load staticfiles %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-offset-3 col-sm-5 well">
+            <h2>Restaurantes</h2>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Menu</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for restaurante in restaurantes %}
+                <tr>
+                    <td>{{ restaurante.nombre }}</td> 
+                    <td>
+                        <a href="{% url "verMenu" %}"><span class="glyphicon .glyphicon-bookmark"></span>Ver</a>
+                    </td>
+                    {% if request.session.tipo == 'A' %}
+                    <td>
+                        <a href="{% url "verMenu" %}"><span class="glyphicon .glyphicon-bookmark"></span>Crear</a>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+        </div>       
+    </div>
+</div>
+
+{% endblock %}

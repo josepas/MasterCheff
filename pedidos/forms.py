@@ -75,10 +75,9 @@ class FormaRegistroProveedor(forms.Form):
         error_messages={'invalid': 'Formato inválido AAAA-MM-DD'}
     )
 
-class FormaRestaurante(forms.Form):
+class FormaRegistroRestaurante(forms.Form):
     rif = forms.CharField(label='Rif', max_length=15)
     nombre = forms.CharField(label='Nombre', max_length=30)
-    admin = forms.ModelChoiceField(queryset=Usuario.objects.all())
     direccion = forms.CharField(max_length=30)
     hora_apertura = forms.TimeField()
     hora_cierre = forms.TimeField()
