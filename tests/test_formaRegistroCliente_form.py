@@ -14,7 +14,7 @@ class FormaRegistroTestCase(unittest.TestCase):
         form = FormaRegistroCliente(data=form_data)
         self.assertFalse(form.is_valid())
 
-    def test_FormaRegistro_(self):
+    def test_FormaRegistro_CedulaNegativa(self):
         form_data = {
             'username': 'chris',
             'nombres': 'christopher',
@@ -27,4 +27,4 @@ class FormaRegistroTestCase(unittest.TestCase):
             'fecha_nac': '1991-11-15'
         }
         form = FormaRegistroCliente(data=form_data)
-        self.assertTrue(form.is_valid())
+        self.assertFalse(form.is_valid())
