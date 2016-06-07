@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% load staticfiles %}
+
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-offset-3 col-sm-6 well">
+          <h2>Menus Ofrecidos</h2>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Nombre Menu</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for menu in menus %}
+                <tr>
+                  <td>{{ menu.nombre }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

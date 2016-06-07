@@ -64,7 +64,6 @@ def perfil(request):
 def indice(request):
     return render(request, 'base.html')
 
-
 def logout_view(request):
     logout(request)
     return render(request, 'base.html')
@@ -192,38 +191,31 @@ def eliminar_servicio(request, id):
 
     return redirect('agregar_servicios')
 
-def verRestaurantes(request):
-    usuario = User.objects.get(username=request.user)
-    if usuario.usuario.tipo_usuario == "A":
-        restaurantes = usuario.usuario.restaurante_set.all()
-    elif usuario.usuario.tipo_usuario == "C":
-        restaurantes = Restaurante.objects.all()
-    return render(request,'verRestaurantes.html',{'restaurantes' : restaurantes})
-
 def verMenu(request):
     return render(request,'verMenu.html')
-
-def crearMenu(request):
-
-    if request.method == 'POST':
-        form = CrearMenuForm(request.POST)
-        if form.is_valid():
-            pass
-    else:
-        form = CrearMenuForm()
-
-    return render(request,'crearMenu.html',{'form' : form}
-    )
 
 def usuariosRegistrados(request):
     usuario = None
     usuarios = Usuario.objects.all()  
     return render(request,'usuariosRegistrados.html', {'usuarios':usuarios, 'usuario':usuario})
 
-def verUsuarioSeleccionado(request,id):
+def usuarioSeleccionado(request,id):
     usuario = Usuario.objects.get(pk=id) 
     usuarios = Usuario.objects.all() 
     return render(request,'usuariosRegistrados.html', {'usuarios':usuarios, 'usuario':usuario})
+
+def restaurantes(request):
+    usuario = User.objects.get(username=request.user)
+    if usuario.usuario.tipo_usuario == "A":
+        restaurantes = usuario.usuario.restaurante_set.all()
+    elif usuario.usuario.tipo_usuario == "C":
+        restaurantes = Restaurante.objects.all()
+    return render(request,'restaurantes.html',{'restaurantes' : restaurantes})
+
+def restauranteSeleccionado(request,id):
+    restaurante = Restaurante.objects.get(pk=id)
+    menus = restaurante.menu_set.all()
+    return render(request,'restauranteSeleccionado.html', {'menus': menus})
 
 def registroRestaurante(request):
     # NO logre que agarre fechas distintas a YYYY-MM-DD!

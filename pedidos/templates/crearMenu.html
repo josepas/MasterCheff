@@ -59,14 +59,11 @@
                           </tr>
                         </thead>
                         <tbody>
-                          {% for servicio in servicios %}
+                          {% for menu in Menu %}
                           <tr>
-                            <td>{{ servicio.nombre }}</td>
-                            <td>{{ servicio.descripcion }}</td>
-                            <td>{{ servicio.precio }}</td>  
-                            <td>
-                                <a href="borrar/{{ servicio.id }}"><span class="glyphicon glyphicon-remove-sign"></span> Eliminar</a>
-                            </td>
+                            <td>{{ menu.nombre }}</td>
+                            <td>{{ menu.descripcion }}</td>
+                            <td>{{ menu.precio }}</td>  
                           </tr>
                           {% endfor %}
 
