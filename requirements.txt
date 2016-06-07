@@ -1,3 +1,4 @@
-requirements.txt 
 
-pip install django-widget-tweaks
+django-widget-tweaks
+django-extensions
+Pillow
