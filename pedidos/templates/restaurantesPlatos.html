@@ -20,13 +20,8 @@
                 <tr>
                     <td>{{ restaurante.nombre }}</td> 
                     <td>
-                        <a href="{% url "verMenu" %}"><span class="glyphicon .glyphicon-bookmark"></span>Ver</a>
-                    </td>
-                    {% if request.session.tipo == 'A' %}
-                    <td>
                         <a href="{% url "agregar_platos" restaurante.id %}"><span class="glyphicon .glyphicon-bookmark"></span>Platos</a>
                     </td>
-                    {% endif %}
                 </tr>
                 {% endfor %}
               </tbody>

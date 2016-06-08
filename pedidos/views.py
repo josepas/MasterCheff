@@ -1,5 +1,5 @@
-from .forms import FormaRegistroCliente, CrearMenuForm, FormaRegistroProveedor, FormaRegistroRestaurante, FormaPlato
-from .models import Usuario, Servicio, Restaurante, Producto
+from .forms import FormaRegistroCliente, FormaRegistroProveedor, FormaRegistroRestaurante, FormaPlato
+from .models import Usuario, Servicio, Restaurante, Producto, Menu
 
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import authenticate, logout
@@ -191,8 +191,11 @@ def eliminar_servicio(request, id):
 
     return redirect('agregar_servicios')
 
-def verMenu(request):
-    return render(request,'verMenu.html')
+def verMenu(request, id):
+    restaurante = Restaurante.objects.get(pk=id)
+    request.session['id_restaurante'] = id
+    menus = restaurante.menu_set.all()
+    return render(request,'verMenu.html', {'menus':menus})
 
 def usuariosRegistrados(request):
     usuario = None
@@ -220,11 +223,6 @@ def restaurantesPlatos(request):
         restaurantes = Restaurante.objects.all()
     return render(request,'restaurantesPlatos.html',{'restaurantes' : restaurantes})
 
-def agregar_menu(request,id):
-    restaurante = Restaurante.objects.get(pk=id)
-    menus = restaurante.menu_set.all()
-    return render(request,'agregar_menu.html', {'menus': menus, 'id':id})
-
 def agregar_platos(request,id):
     restaurante = Restaurante.objects.get(pk=id)
     request.session['id_restaurante'] = id
@@ -247,7 +245,6 @@ def eliminar_plato(request, id):
     restaurante = Restaurante.objects.get(pk=request.session['id_restaurante'])
     platos = restaurante.producto_set.all()
     return render(request,'agregar_platos.html', {'platos': platos, 'id': request.session['id_restaurante']})
-
 
 def registroRestaurante(request):
     # NO logre que agarre fechas distintas a YYYY-MM-DD!
@@ -294,4 +291,35 @@ def editar_plato(request, id):
         form = FormaPlato(initial=initial) 
         mensaje = "Ingrese nuevos Datos"   
         return render(request, 'editar_plato.html', {"form":form})
+
+def agregar_menu(request,id):
+    restaurante = Restaurante.objects.get(pk=id)
+    request.session['id_restaurante'] = id
+    if request.method == 'POST':
+        print("-------------")
+        print(request.POST)
+        ListaDeProductos=request.POST.getlist('checks[]')
+        print(ListaDeProductos)
+        nMenu = Menu(
+            nombre = request.POST["nombre"],
+            restaurante = restaurante,
+        )
+        nMenu.save()
+        for productoID in ListaDeProductos:
+            producto = Producto.objects.get(id=productoID)
+            nMenu.productos.add(producto)
+        '''
+        usuario = User.objects.get(username=request.user)
+        if usuario.usuario.tipo_usuario == "A":
+            restaurantes = usuario.usuario.restaurante_set.all()
+        elif usuario.usuario.tipo_usuario == "C":
+            restaurantes = Restaurante.objects.all()
+        return render(request,'restaurantesMenu.html',{'restaurantes' : restaurantes})
+        '''
+        restaurante = Restaurante.objects.get(pk=request.session['id_restaurante'])
+        menus = restaurante.menu_set.all()
+        return render(request,'verMenu.html', {'menus':menus})
+
+    platos = restaurante.producto_set.all()
+    return render(request,'agregar_menu.html', {'platos':platos,'id':id, 'restaurante' : restaurante})
 

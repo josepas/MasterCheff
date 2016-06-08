@@ -20,11 +20,11 @@
                 <tr>
                     <td>{{ restaurante.nombre }}</td> 
                     <td>
-                        <a href="{% url "verMenu" %}"><span class="glyphicon .glyphicon-bookmark"></span>Ver</a>
+                        <a href="{% url "verMenu" restaurante.id %}"><span class="glyphicon .glyphicon-bookmark"></span>Ver Menus</a>
                     </td>
                     {% if request.session.tipo == 'A' %}
                     <td>
-                        <a href="{% url "agregar_menu" restaurante.id %}"><span class="glyphicon .glyphicon-bookmark"></span>Menus</a>
+                        <a href="{% url "agregar_menu" restaurante.id %}"><span class="glyphicon .glyphicon-bookmark"></span>Crear Menu</a>
                     </td>
                     {% endif %}
                 </tr>
