@@ -97,7 +97,7 @@ class FormaRegistroTestCase(TestCase):
         self.assertFalse(form.is_valid())
 
 #Malicia
-    '''def test_FormaRegistro_NombreInvalido(self):
+    def test_FormaRegistro_NombreInvalido(self):
         form_data = {
             'username': '123',
             'nombres': 'christopher123',
@@ -110,7 +110,7 @@ class FormaRegistroTestCase(TestCase):
             'fecha_nac': '1991-11-15'
         }
         form = FormaRegistroCliente(data=form_data)
-        self.assertFalse(form.is_valid())'''
+        self.assertFalse(form.is_valid())
 
 #Malicia
     def test_FormaRegistro_NombreAcento(self):
@@ -129,7 +129,7 @@ class FormaRegistroTestCase(TestCase):
         self.assertTrue(form.is_valid())
 
 #Malicia
-    '''def test_FormaRegistro_NombreSimobolo(self):
+    def test_FormaRegistro_NombreSimobolo(self):
         form_data = {
             'username': 'chris',
             'nombres': 'María!',
@@ -142,10 +142,10 @@ class FormaRegistroTestCase(TestCase):
             'fecha_nac': '1991-11-15'
         }
         form = FormaRegistroCliente(data=form_data)
-        self.assertFalse(form.is_valid())'''
+        self.assertFalse(form.is_valid())
 
 #Malicia
-    '''def test_FormaRegistro_ApellidoInvalido(self):
+    def test_FormaRegistro_ApellidoInvalido(self):
         form_data = {
             'username': '123',
             'nombres': 'christopher',
@@ -158,7 +158,7 @@ class FormaRegistroTestCase(TestCase):
             'fecha_nac': '1991-11-15'
         }
         form = FormaRegistroCliente(data=form_data)
-        self.assertFalse(form.is_valid())'''
+        self.assertFalse(form.is_valid())
 
 #Malicia
     def test_FormaRegistro_ApellidoAcento(self):
@@ -177,7 +177,7 @@ class FormaRegistroTestCase(TestCase):
         self.assertTrue(form.is_valid())
 
 #Malicia
-    '''def test_FormaRegistro_ApellidoSimobolo(self):
+    def test_FormaRegistro_ApellidoSimobolo(self):
         form_data = {
             'username': 'chris',
             'nombres': 'María!',
@@ -190,10 +190,10 @@ class FormaRegistroTestCase(TestCase):
             'fecha_nac': '1991-11-15'
         }
         form = FormaRegistroCliente(data=form_data)
-        self.assertFalse(form.is_valid())'''
+        self.assertFalse(form.is_valid())
 
 #Malicia
-    '''def test_FormaRegistro_NombreEspacio(self):
+    def test_FormaRegistro_NombreEspacio(self):
         form_data = {
             'username': 'chris',
             'nombres': 'María ',
@@ -206,10 +206,10 @@ class FormaRegistroTestCase(TestCase):
             'fecha_nac': '1991-11-15'
         }
         form = FormaRegistroCliente(data=form_data)
-        self.assertFalse(form.is_valid())'''
+        self.assertFalse(form.is_valid())
 
 # Malicia
-    '''def test_FormaRegistro_ApellidoEspacio(self):
+    def test_FormaRegistro_ApellidoEspacio(self):
         form_data = {
             'username': 'chris',
             'nombres': 'María',
@@ -222,7 +222,7 @@ class FormaRegistroTestCase(TestCase):
             'fecha_nac': '1991-11-15'
         }
         form = FormaRegistroCliente(data=form_data)
-        self.assertFalse(form.is_valid())'''
+        self.assertFalse(form.is_valid())
 
 #Borde
     def test_FormaRegistro_UnCampoNecesario(self):
