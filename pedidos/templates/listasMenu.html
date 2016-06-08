@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% load staticfiles %}
+
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-offset-3 col-sm-6 well">
+          <h2>Menus Ofrecidos</h2>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Nombre Menu</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for menu in menus %}
+                <tr>
+                  <td>{{ menu.nombre }}</td>
+                  <td>
+                      <a href= "{% url "mostrar_menu" menu.id %}"> Ver</a>
+                  </td> 
+
+                  <td>
+                      <a href="{% url "seleccionar_menu_actual" menu.id %}"> Marcar </a>
+                  </td>
+                  <td>
+                      <a href="{% url "agregar_menu_platos" menu.id %}"> Agregar </a>
+                  </td>
+
+                  <td>
+                      <a href= "{% url "eliminar_menu" menu.id %}"><span class="glyphicon glyphicon-remove-sign"></span> Eliminar</a>
+                  </td> 
+
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
+

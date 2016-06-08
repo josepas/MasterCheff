@@ -5,7 +5,7 @@
 
 {% block content %}
     <div class="container">
-        <form href="{% url 'registroRestaurante' %}" class="form-signin" method="post">
+        <form href="{% url 'registroProveedor' %}" class="form-signin" method="post">
             {% csrf_token %}
 
             <div class="row">
@@ -28,7 +28,7 @@
                         </div>
                     {% endfor %}
                 </div>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Registrar</button>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Registrarse</button>
             </div>
         </form>
 </div>

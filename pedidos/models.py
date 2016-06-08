@@ -4,22 +4,31 @@ from django.forms import ModelForm
 
 from django.contrib.auth.models import User
 
-
-
 class Usuario(models.Model):
+    TIPO = (
+        ('A', 'Administrador'),
+        ('C', 'Cliente'),
+        ('P', 'Proveedor'),
+    )
     perfil = models.OneToOneField(User) # aqui esta nombre, apellido correo y contrase;a 
-    cedula = models.PositiveIntegerField() # aqui no diferenciamos entre extranjeros y venezolanos
-    email = models.EmailField()
+    cedula = models.PositiveIntegerField(null=True, blank=True,unique=True) # aqui no diferenciamos entre extranjeros y venezolanos
+    rif = models.CharField(null=True, blank=True, unique=True, max_length=15)
+    tipo_usuario = models.CharField(max_length=1, choices=TIPO)
     fecha_nac = models.DateField(auto_now=False, auto_now_add=False)
     direccion = models.CharField(max_length=200, null=True, blank=True) 
-    telf = models.CharField(max_length=20, null=True, blank=True )
-    servicios = models.CharField(max_length=150) # No se como vamos a modelar esto todavia
+    telf = models.CharField(max_length=20, null=True, blank=True)
 
     def __str__(self):
         return self.perfil.username
 
+class Billetera(models.Model):
+    dueno = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    pin = models.CharField(max_length=4)
+    saldo = models.DecimalField(max_digits=11, decimal_places=2)  
+
+
 class Restaurante(models.Model):
-    rif = models.CharField(max_length=15)
+    rif = models.CharField(max_length=15, unique=True)
     admin = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     nombre = models.CharField(max_length=30)
     direccion = models.CharField(max_length=30)
@@ -27,8 +36,8 @@ class Restaurante(models.Model):
     hora_cierre = models.TimeField(auto_now=False, auto_now_add=False)
     capacidad_max =  models.PositiveIntegerField()
 
-    def __str__(self):              
-        return self.nombre
+    #def __str__(self):              
+    #   return self.nombre
 
 
 class Mesa(models.Model):
@@ -48,11 +57,21 @@ class Producto(models.Model):
     nombre = models.CharField(max_length=30)
     descripcion = models.CharField(max_length=100)
     imagen = models.ImageField(upload_to=None, height_field=None, width_field=None, max_length=100)
-    precio = models.DecimalField(max_digits=11, decimal_places=2) 
+    precio = models.DecimalField(max_digits=11, decimal_places=2)
+    restaurante = models.ForeignKey(Restaurante, on_delete=models.CASCADE)  
 
     def __str__(self):              
         return self.nombre
 
+class Servicio(models.Model):
+    nombre = models.CharField(max_length=30)
+    provedor = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    descripcion = models.CharField(max_length=100)
+    imagen = models.ImageField(upload_to=None, height_field=None, width_field=None, max_length=100)
+    precio = models.DecimalField(max_digits=11, decimal_places=2) 
+
+    def __str__(self):
+        return self.nombre
 
 class Pedido(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
@@ -68,6 +87,7 @@ class Menu(models.Model):
     nombre = models.CharField(max_length=30)
     restaurante = models.ForeignKey(Restaurante, on_delete=models.CASCADE)
     productos = models.ManyToManyField(Producto)
+    actual = models.BooleanField(default=False)
 
     def __str__(self):              
         return self.nombre

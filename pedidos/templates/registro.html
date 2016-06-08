@@ -1,41 +1,27 @@
 {% extends "base.html" %}
-{% load widget_tweaks %}
 {% load staticfiles %}
 
 
 {% block content %}
-    <div class="container">
-        <form href="{% url 'registro' %}" class="form-signin" method="post">
-            {% csrf_token %}
 
-            <div class="row">
+<div class="container-fluid">
+  
+  <div class="row">
+    <div class="col-sm-offset-2 col-sm-8 ">
+      <div class="well">
+        <a href="{% url 'registroCliente'%}">  <img src={% static "img/cliente.png" %} class="img-responsive fit center-block"> </a>
+      </div>
+    </div>
+  </div>
 
-                <div class="col-sm-12">
-                    <img class="imagen" src="{% static 'img/icon1.png' %}">
-                </div>  
-                <div class="col-sm-12">
-                    {% if mensaje %}
-                        <h1>{{mensaje}}</h1>
-                    {% endif %}
-                </div>  
-                <div class="col-sm-12">
-                    {% for field in form %}
-                        <div class="form-group">
-                            {{ field.errors }}
-                            {% if form.initial %}
-                            {% endif %}
-                            {% render_field field class="form-control" placeholder=field.label %}
-                        </div>
-                    {% endfor %}
-                </div>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Registrarse</button>
-            </div>
-        </form>
+  <div class="row">
+    <div class="col-sm-offset-2 col-sm-8 ">
+      <div class="well">
+        <a href="{% url 'registroProveedor'%}"> <img src={% static "img/proveedor.png" %} class="img-responsive fit center-block"> </a>
+      </div>
+    </div>
+  </div>
+
 </div>
 
-
 {% endblock %}
-
-
-
-

@@ -42,30 +42,58 @@
 
 
         <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav ">
-            <li>
-              <a href={% url 'menu' %}>Menu</a>
-            </li>
-          </ul>
-
           {% if not user.is_authenticated %}
           <ul class="nav navbar-nav navbar-right">
               <li>
                   <a href={% url 'login' %}>Login</a>
               </li>
-
               <li>
                   <a href={% url 'registro' %}>Registro</a>
               </li>
-
           </ul>
           {% endif %}
           {% if user.is_authenticated %}
+
+          {% if request.session.tipo == 'A' %}
+          <ul class="nav navbar-nav ">
+            <li>
+              <a href={% url 'usuariosRegistrados' %}>UsuarioRegistrados</a>
+            </li>
+            <li>
+              <a href={% url 'registroRestaurante' %}>RegistrarRestaurante</a>
+            </li>
+            <li> 
+              <a href={% url 'restaurantesMenu' %}>Menu</a>
+            </li>
+            <li>
+              <a href={% url 'restaurantesPlatos' %}>Platos</a>
+            </li>
+          </ul>
+          {% endif %}
+
+          {% if request.session.tipo == 'C'  %}
+          <ul class="nav navbar-nav ">
+            <li>
+              <a href={% url 'restaurantesMenu' %}>Menu</a>
+            </li>
+          </ul>
+          {% endif %}
+
+          {% if request.session.tipo == 'P' %}
+          <ul class="nav navbar-nav ">
+            <li>
+              <a href={% url 'agregar_servicios' %}>Inventario</a>
+            </li>
+          </ul>
+          {% endif %}
+
           <ul class="nav navbar-nav navbar-right">
               <li class="dropdown">
                   <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span> {{ user.username }} </a>
                   <ul class="dropdown-menu">
+                    {% if request.session.tipo != 'A' %}
                       <li><a href={% url 'perfil' %}>Perfil</a></li>
+                    {% endif %}
                       <li><a href={% url 'logout' %}><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
                   </ul>
               </li>

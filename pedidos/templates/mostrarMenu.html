@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% load staticfiles %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-offset-3 col-sm-5 well">
+            <h2>Platos Ofrecido</h2>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Ingredientes</th>
+                  <th>Precio</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for plato in menu_actual %}
+                <tr>
+                    <td>{{ plato.nombre }}</td> 
+                    <td>{{ plato.descripcion }}</td> 
+                    <td>{{ plato.precio }}</td> 
+                </tr>
+                {% if request.session.tipo == 'A' %}
+                <td>
+                  <a href= "{% url "eliminar_plato_menu" plato.id%}"><span class="glyphicon glyphicon-remove-sign"></span> Eliminar</a>
+                </td> 
+                {% endif %}
+                {% endfor %}
+              </tbody>
+            </table>
+        </div>       
+    </div>
+</div>
+
+{% endblock %}
