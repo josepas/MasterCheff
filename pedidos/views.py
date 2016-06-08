@@ -1,4 +1,4 @@
-from .forms import FormaRegistroCliente, CrearMenuForm, FormaRegistroProveedor, FormaRegistroRestaurante
+from .forms import FormaRegistroCliente, CrearMenuForm, FormaRegistroProveedor, FormaRegistroRestaurante, FormaPlato
 from .models import Usuario, Servicio, Restaurante, Producto
 
 from django.shortcuts import get_object_or_404
@@ -227,6 +227,7 @@ def agregar_menu(request,id):
 
 def agregar_platos(request,id):
     restaurante = Restaurante.objects.get(pk=id)
+    request.session['id_restaurante'] = id
     if request.method == 'POST':
         print("-------------")
         print(request.POST)
@@ -240,6 +241,13 @@ def agregar_platos(request,id):
 
     platos = restaurante.producto_set.all()
     return render(request,'agregar_platos.html', {'platos': platos, 'id': id})
+
+def eliminar_plato(request, id):
+    plato = get_object_or_404(Producto, pk=id).delete()
+    restaurante = Restaurante.objects.get(pk=request.session['id_restaurante'])
+    platos = restaurante.producto_set.all()
+    return render(request,'agregar_platos.html', {'platos': platos, 'id': request.session['id_restaurante']})
+
 
 def registroRestaurante(request):
     # NO logre que agarre fechas distintas a YYYY-MM-DD!
@@ -264,3 +272,26 @@ def registroRestaurante(request):
         form = FormaRegistroRestaurante()
 
     return render(request, 'registroRestaurante.html', {'form': form, 'mensaje': mensaje})
+
+def editar_plato(request, id):
+    p = Producto.objects.get(id=id) 
+    initial = {
+        'nombre' : p.nombre,
+        'descripcion' : p.descripcion,
+        'restaurante': p.restaurante,
+        'precio' : p.precio,
+    }
+    if request.method == 'POST':
+        form = FormaPlato()
+        p.nombre=request.POST["nombre"]
+        p.descripcion=request.POST["descripcion"]
+        p.precio=request.POST["precio"]
+        p.save()
+        restaurante = Restaurante.objects.get(pk=request.session['id_restaurante'])
+        platos = restaurante.producto_set.all()
+        return render(request,'agregar_platos.html', {'platos': platos, 'id': request.session['id_restaurante']})
+    else:
+        form = FormaPlato(initial=initial) 
+        mensaje = "Ingrese nuevos Datos"   
+        return render(request, 'editar_plato.html', {"form":form})
+

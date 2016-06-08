@@ -120,3 +120,7 @@ class CrearMenuForm(forms.Form):
         label         = 'Platos'
     )
 
+class FormaPlato(forms.Form):
+    nombre = forms.CharField(label= 'Nombre', max_length=30)
+    descripcion = forms.CharField(label='Ingredientes', max_length=100)
+    precio = forms.DecimalField(label = 'Precio', max_digits=11, decimal_places=2)

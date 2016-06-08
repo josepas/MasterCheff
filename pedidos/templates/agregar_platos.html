@@ -23,7 +23,7 @@
                           </div>
 
                           <div class="form-group">
-                            <label for="descripcion">Descripcion:</label>
+                            <label for="descripcion">Ingredientes:</label>
                             <input type="text   " class="form-control" id="descripcion" name="descripcion">
                           </div>
                           
@@ -52,7 +52,7 @@
                         <thead>
                           <tr>
                             <th>Plato</th>
-                            <th>Descripcion</th>
+                            <th>Ingredientes</th>
                             <th>Precio</th>
                           </tr>
                         </thead>
@@ -61,7 +61,13 @@
                           <tr>
                             <td>{{ plato.nombre }}</td>
                             <td>{{ plato.descripcion }}</td>
-                            <td>{{ plato.precio }}</td>  
+                            <td>{{ plato.precio }}</td> 
+                            <td>
+                                <a href= "{% url "eliminar_plato" plato.id %}"><span class="glyphicon glyphicon-remove-sign"></span> Eliminar</a>
+                            </td> 
+                            <td>
+                                <a href= "{% url "editar_plato" plato.id %}"><span class="glyphicon glyphicon-plus-sign"></span> Editar</a>
+                            </td> 
                           </tr>
                           {% endfor %}
 
