@@ -4,11 +4,34 @@
 
 
 {% block content %}
-<div class="container">
-	<form action="/restaurante" method="post">
-	    {% csrf_token %}
-	    {{ form.as_p }}
-	    <input type="submit" value="Submit" />
-	</form>
+    <div class="container">
+        <form href="{% url 'registroRestaurante' %}" class="form-signin" method="post">
+            {% csrf_token %}
+
+            <div class="row">
+
+                <div class="col-sm-12">
+                    <img class="imagen" src="{% static 'img/icon1.png' %}">
+                </div>  
+                <div class="col-sm-12">
+                    {% if mensaje %}
+                        <h1>{{mensaje}}</h1>
+                    {% endif %}
+                </div>  
+                <div class="col-sm-12">
+                    {% for field in form %}
+                        <div class="form-group">
+                            {{ field.errors }}
+                            {% if form.initial %}
+                            {% endif %}
+                            {% render_field field class="form-control" placeholder=field.label %}
+                        </div>
+                    {% endfor %}
+                </div>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Registrar</button>
+            </div>
+        </form>
 </div>
+
+
 {% endblock %}
