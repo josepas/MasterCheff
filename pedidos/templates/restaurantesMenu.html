@@ -19,12 +19,21 @@
                 {% for restaurante in restaurantes %}
                 <tr>
                     <td>{{ restaurante.nombre }}</td> 
+                    {% if request.session.tipo == 'C' %}
                     <td>
-                        <a href="{% url "verMenu" %}"><span class="glyphicon .glyphicon-bookmark"></span>Ver</a>
+                        <a href="{% url "mostrar_menu_actual" restaurante.id %}"><span class="glyphicon .glyphicon-bookmark"></span>Menu Del Dia</a>
                     </td>
+                    {% endif %}
+
                     {% if request.session.tipo == 'A' %}
                     <td>
-                        <a href="{% url "verMenu" %}"><span class="glyphicon .glyphicon-bookmark"></span>Crear</a>
+                        <a href="{% url "mostrar_menu_actual" restaurante.id %}"><span class="glyphicon .glyphicon-bookmark"></span>Menu Actual</a>
+                    </td>
+                    <td>
+                        <a href="{% url "listasMenu" restaurante.id %}"><span class="glyphicon .glyphicon-bookmark"></span>Ver Menus</a>
+                    </td>
+                    <td>
+                        <a href="{% url "agregar_menu" restaurante.id %}"><span class="glyphicon .glyphicon-bookmark"></span>Crear Menu</a>
                     </td>
                     {% endif %}
                 </tr>

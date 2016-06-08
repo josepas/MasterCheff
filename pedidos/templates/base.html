@@ -62,18 +62,19 @@
             <li>
               <a href={% url 'registroRestaurante' %}>RegistrarRestaurante</a>
             </li>
-            <li class="dropdown">
-            <li>
-              <a href={% url 'verRestaurantes' %}>Menu</a>
+            <li> 
+              <a href={% url 'restaurantesMenu' %}>Menu</a>
             </li>
-
+            <li>
+              <a href={% url 'restaurantesPlatos' %}>Platos</a>
+            </li>
           </ul>
           {% endif %}
 
           {% if request.session.tipo == 'C'  %}
           <ul class="nav navbar-nav ">
             <li>
-              <a href={% url 'verRestaurantes' %}>Menu</a>
+              <a href={% url 'restaurantesMenu' %}>Menu</a>
             </li>
           </ul>
           {% endif %}
