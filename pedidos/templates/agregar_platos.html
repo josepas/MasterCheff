@@ -63,14 +63,13 @@
                             <td>{{ plato.descripcion }}</td>
                             <td>{{ plato.precio }}</td> 
                             <td>
-                                <a href= "{% url "eliminar_plato" plato.id %}"><span class="glyphicon glyphicon-remove-sign"></span> Eliminar</a>
+                                <a href= "{% url "editar_plato" plato.id %}"><span class="glyphicon glyphicon-plus-sign"></span> Editar</a>
                             </td> 
                             <td>
-                                <a href= "{% url "editar_plato" plato.id %}"><span class="glyphicon glyphicon-plus-sign"></span> Editar</a>
+                                <a href= "{% url "eliminar_plato" plato.id %}"><span class="glyphicon glyphicon-remove-sign"></span> Eliminar</a>
                             </td> 
                           </tr>
                           {% endfor %}
-
                         </tbody>
                       </table>
                 </div>

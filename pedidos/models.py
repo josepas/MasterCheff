@@ -83,6 +83,7 @@ class Menu(models.Model):
     nombre = models.CharField(max_length=30)
     restaurante = models.ForeignKey(Restaurante, on_delete=models.CASCADE)
     productos = models.ManyToManyField(Producto)
+    actual = models.BooleanField(default=False)
 
     def __str__(self):              
         return self.nombre

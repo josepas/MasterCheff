@@ -19,6 +19,16 @@
                 {% for menu in menus %}
                 <tr>
                   <td>{{ menu.nombre }}</td>
+                  <td>
+                      <a href= "{% url "mostrar_menu" menu.id %}"> Ver</a>
+                  </td> 
+                  <td>
+                      <a href="{% url "seleccionar_menu_actual" menu.id %}"> Marcar </a>
+                  </td>
+                  <td>
+                      <a href= "{% url "eliminar_menu" menu.id %}"><span class="glyphicon glyphicon-remove-sign"></span> Eliminar</a>
+                  </td> 
+
                 </tr>
                 {% endfor %}
               </tbody>

@@ -191,11 +191,11 @@ def eliminar_servicio(request, id):
 
     return redirect('agregar_servicios')
 
-def verMenu(request, id):
+def listasMenu(request, id):
     restaurante = Restaurante.objects.get(pk=id)
     request.session['id_restaurante'] = id
     menus = restaurante.menu_set.all()
-    return render(request,'verMenu.html', {'menus':menus})
+    return render(request,'listasMenu.html', {'menus':menus})
 
 def usuariosRegistrados(request):
     usuario = None
@@ -318,8 +318,37 @@ def agregar_menu(request,id):
         '''
         restaurante = Restaurante.objects.get(pk=request.session['id_restaurante'])
         menus = restaurante.menu_set.all()
-        return render(request,'verMenu.html', {'menus':menus})
+        return render(request,'listasMenu.html', {'menus':menus})
 
     platos = restaurante.producto_set.all()
     return render(request,'agregar_menu.html', {'platos':platos,'id':id, 'restaurante' : restaurante})
 
+def eliminar_menu(request, id):
+    menu = get_object_or_404(Menu, pk=id).delete()
+    restaurante = Restaurante.objects.get(pk=request.session['id_restaurante'])
+    menus = restaurante.menu_set.all()
+    return render(request,'listasMenu.html', {'menus':menus})
+
+def mostrar_menu_actual(request,id):
+    restaurante = Restaurante.objects.get(pk=id)
+    menu = restaurante.objects.get(actual=True)    
+    menu_actual = menu.productos.all()
+    return render(request, 'mostrarMenu.html', {"menu_actual":menu_actual})
+
+def mostrar_menu(request,id):
+    menu = Menu.objects.get(pk=id)    
+    menu_actual = menu.productos.all()
+    print(menu_actual)
+    return render(request, 'mostrarMenu.html', {"menu_actual":menu_actual})
+
+def seleccionar_menu_actual(request,id):
+    restaurante = Restaurante.objects.get(pk=request.session['id_restaurante'])
+    menu_actual = restaurante.objects.get(actual=True)
+    if menu_actual != None:
+        menu_actual.actual = False
+        menu_actual.save() 
+    nuevo_menu_actual = Menu.objects.get(pk=id)
+    nuevo_menu_actual.actual = True
+    nuevo_menu_actual.save()
+    menus = restaurante.menu_set.all()
+    return render(request,'listasMenu.html', {'menus':menus})
