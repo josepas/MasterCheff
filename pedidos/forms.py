@@ -172,3 +172,25 @@ class FormaPlato(forms.Form):
         max_digits=11, 
         decimal_places=2
     )
+
+
+
+class FormaBilletera(forms.Form):
+    pin = forms.RegexField(
+        regex= r'^\d{4}$',
+        label='Pin',
+        max_length= 4,
+        error_messages={'invalid': 'Pin invalido, use 4 dígitos'}
+    )
+    saldo = forms.DecimalField(
+        label = 'saldo: ', 
+        max_digits=11, 
+        decimal_places=2,
+        min_value=0,
+        error_messages={
+            'min_value' : 'Ingrese una cantidad positiva',
+            'invalid'   : 'Cantidad invalida'
+        }
+    )
+
+

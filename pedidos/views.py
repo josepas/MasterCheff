@@ -1,4 +1,4 @@
-from .forms import FormaRegistroCliente, FormaRegistroProveedor, FormaRegistroRestaurante, FormaPlato
+from .forms import *
 from .models import Usuario, Servicio, Restaurante, Producto, Menu
 
 from django.shortcuts import get_object_or_404
@@ -60,7 +60,9 @@ def perfil(request):
 
     u = User.objects.get(username=request.user)
     # por la relacion 1 a 1 con el user model de django
-    return render(request, 'perfil.html' , {'usuario': u.usuario})
+    
+    form = FormaBilletera()
+    return render(request, 'perfil.html' , {'usuario': u.usuario, 'form':form})
 
 def indice(request):
     return render(request, 'base.html')

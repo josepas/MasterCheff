@@ -24,7 +24,7 @@ class Usuario(models.Model):
 class Billetera(models.Model):
     dueno = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     pin = models.CharField(max_length=4)
-    saldo = precio = models.DecimalField(max_digits=11, decimal_places=2)  
+    saldo = models.DecimalField(max_digits=11, decimal_places=2)  
 
 
 class Restaurante(models.Model):

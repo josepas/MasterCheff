@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load widget_tweaks %}
 {% load staticfiles %}
 
 
@@ -7,16 +8,52 @@
 
 
   <div class="container-fluid">
-    <div class="row">    
 
+
+  <!-- Modal -->
+  <div class="modal fade" id="billetera" role="dialog">
+    <div class="modal-dialog">
+    
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Billetera</h4>
+        </div>
+        
+        <div class="modal-body">
+
+          <form class="form-horizontal">
+            {% for field in form %}
+            <div class="form-group sm-col-4">
+                {{ field.errors }}
+                {% render_field field class="form-control" placeholder=field.label %}
+            </div>
+            {% endfor %}
+          </form>
+
+          <button class="btn btn-lg btn-primary btn-block" type="submit">Recargar</button>
+
+        </div>
+        
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+
+    <div class="row">    
       <div class="col-sm-4 page-header">
           <h2> {{ user.first_name }} {{ user.last_name }}</h2>
       </div>
     </div>
 
     <div class="row">
-      <div class="col-md-12">
-        <a href="{% url 'editar_perfil' user.id %}" role="button" class="btn btn-primary pull-right">Editar perfil</a>
+      <div class="col-md-4 pull-right">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#billetera">Open Small Modal</button>
+        <a href="{% url 'editar_perfil' user.id %}" role="button" class="btn btn-primary">Editar perfil</a>
       </div>
     </div>
   
