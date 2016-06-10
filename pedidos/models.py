@@ -4,6 +4,10 @@ from django.forms import ModelForm
 
 from django.contrib.auth.models import User
 
+class Billetera(models.Model):
+    pin = models.CharField(max_length=4)
+    saldo = models.DecimalField(max_digits=11, decimal_places=2)  
+
 class Usuario(models.Model):
     TIPO = (
         ('A', 'Administrador'),
@@ -17,15 +21,10 @@ class Usuario(models.Model):
     fecha_nac = models.DateField(auto_now=False, auto_now_add=False)
     direccion = models.CharField(max_length=200, null=True, blank=True) 
     telf = models.CharField(max_length=20, null=True, blank=True)
+    billetera = models.OneToOneField(Billetera, null=True, blank=True)
 
     def __str__(self):
         return self.perfil.username
-
-class Billetera(models.Model):
-    dueno = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-    pin = models.CharField(max_length=4)
-    saldo = models.DecimalField(max_digits=11, decimal_places=2)  
-
 
 class Restaurante(models.Model):
     rif = models.CharField(max_length=15, unique=True)

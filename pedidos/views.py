@@ -1,5 +1,5 @@
 from .forms import *
-from .models import Usuario, Servicio, Restaurante, Producto, Menu
+from .models import Usuario, Servicio, Restaurante, Producto, Menu, Billetera
 
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import authenticate, logout
@@ -57,12 +57,10 @@ def editar_perfil(request, userID):
     return render(request, 'editar_perfil.html', {"form":form, "mensaje":mensaje})
 
 def perfil(request):
-
     u = User.objects.get(username=request.user)
     # por la relacion 1 a 1 con el user model de django
     
-    form = FormaBilletera()
-    return render(request, 'perfil.html' , {'usuario': u.usuario, 'form':form})
+    return render(request, 'perfil.html' , {'usuario': u.usuario})
 
 def indice(request):
     return render(request, 'base.html')
@@ -410,3 +408,39 @@ def agregar_menu_platos(request,id):
 
     platos = restaurante.producto_set.all()
     return render(request,'agregar_menu_platos.html', {'platos':platos,'id':id, 'menu' : menu})
+
+
+def gestionar_billetera(request, userID):
+    u = User.objects.get(username=request.user)
+    mensaje = None
+    if request.method == 'POST':
+        form = FormaBilletera(request.POST)
+       
+        if form.is_valid():
+            
+            # Si el usuario posee billetera creada
+            if u.usuario.billetera:
+                
+                # Clave correcta
+                if u.usuario.billetera.pin == request.POST["pin"]:
+                    u.usuario.billetera.saldo += form.cleaned_data["saldo"]
+                    mensaje = "Saldo cargado exitosamente"
+                    u.usuario.billetera.save()
+                else:
+                    mensaje = "Pin incorrecto"
+                
+                form = FormaBilletera()
+            else:
+                b1 = Billetera(
+                    pin= request.POST["pin"],
+                    saldo= form.cleaned_data["saldo"]
+                )    
+                b1.save()
+
+                u.usuario.billetera = b1
+                u.usuario.save()
+
+    else:
+        form = FormaBilletera()
+        
+    return render(request, 'gestionar_billetera.html', {'form':form, 'mensaje':mensaje})

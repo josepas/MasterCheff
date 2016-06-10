@@ -1,7 +1,7 @@
 from .models import Usuario, Restaurante, Producto
 
 from django import forms
-from django.forms import ModelChoiceField, ModelMultipleChoiceField
+from django.forms import ModelChoiceField, ModelMultipleChoiceField, PasswordInput
 from django.forms.widgets import SplitDateTimeWidget
 
 from django.core.validators import RegexValidator
@@ -25,7 +25,7 @@ class FormaRegistroCliente(forms.Form):
         max_length=100     
     )
     nombres = forms.RegexField(
-        regex= r'^[a-zA-ZÁáÀàÉéÈèÍíÌìÓóÒòÚúÙùÑñüÜ]+$',
+        regex= r'^[a-zA-ZÁáÀàÉéÈèÍíÌìÓóÒòÚúÙùÑñüÜ ]+$',
         label='Nombres', 
         max_length=100,
         error_messages={'invalid': 'Introducir Nombres Sin Numeros'}
@@ -180,10 +180,11 @@ class FormaBilletera(forms.Form):
         regex= r'^\d{4}$',
         label='Pin',
         max_length= 4,
+        widget=PasswordInput(),
         error_messages={'invalid': 'Pin invalido, use 4 dígitos'}
     )
     saldo = forms.DecimalField(
-        label = 'saldo: ', 
+        label = 'Saldo', 
         max_digits=11, 
         decimal_places=2,
         min_value=0,
