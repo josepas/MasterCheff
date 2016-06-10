@@ -7,7 +7,7 @@
 
 <div class="container-fluid">
   <div class="row">
-    <form class="form" role="form" method="POST" action="{% url 'agregar_menu_platos' menu.id %}"> 
+    <form class="form" role="form" method="POST" action="{% url 'agregar_menu_platos' id menu.id %}"> 
       <div class="col-sm-offset-2 col-sm-6 well">
         <h2>Platos Seleccionar</h2>
         {% csrf_token %} 

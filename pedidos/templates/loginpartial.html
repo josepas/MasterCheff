@@ -1,0 +1,20 @@
+{% if user.is_authenticated %}
+<ul class="nav navbar-nav navbar-right">
+    <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span> {{ user.username }} </a>
+        <ul class="dropdown-menu">
+            {% if request.session.tipo != 'A' %}
+                <li><a href={% url 'perfil' %}>Perfil</a></li>
+            {% endif %}
+            <li><a href={% url 'logout' %}><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+        </ul>
+    </li>
+</ul>
+
+{% else %}
+
+<ul class="nav navbar-nav navbar-right">
+    <li><a href="{% url 'login' %}">Ingresar</a></li>
+</ul>
+
+{% endif %}
