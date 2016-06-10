@@ -57,7 +57,7 @@ class FormaRegistroCliente(forms.Form):
     )
     cedula = forms.IntegerField(
         min_value=1, 
-        max_value=120000000
+        max_value=999999999
     ) # aqui no diferenciamos entre extranjeros y venezolanos
     fecha_nac = forms.DateField(
         label='Fecha de Nacimiento: AAAA-MM-DD', 
@@ -107,7 +107,7 @@ class FormaRegistroProveedor(forms.Form):
     rif = forms.RegexField(
         label='Rif: J-0000000',
         regex=r'^J\-[0-9]+$', 
-        max_length=15,
+        max_length=10,
         error_messages={'invalid': 'Introducir formato: J-0000000'}
     )
     fecha_nac = forms.DateField(
@@ -123,7 +123,7 @@ class FormaRegistroRestaurante(forms.Form):
     rif = forms.RegexField(
         label='Rif: J-0000000',
         regex=r'^J\-[0-9]+$', 
-        max_length=15,
+        max_length=10,
         error_messages={'invalid': 'Introducir formato: J-0000000'}
     )
     nombre = forms.RegexField(
