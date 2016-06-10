@@ -389,7 +389,13 @@ def seleccionar_menu_actual(request,id):
     dic[request.session['id_restaurante']] = id
     restaurante = Restaurante.objects.get(pk=request.session['id_restaurante'])
     menus = restaurante.menu_set.all()
-    return render(request,'listasMenu.html', {'menus':menus})
+    if int(id) != 0:
+        menuvisible = Menu.objects.get(pk=id)
+        platos = menuvisible.productos.all()
+    else:
+        menuvisible = None
+        platos = None
+    return render(request,'listasMenu.html', {'menus':menus, 'restaurante':restaurante, 'idmenu' : int(id), 'menuvisible' : menuvisible, 'platos' : platos})
 
 def agregar_menu_platos(request, id, idmenu):
     restaurante = Restaurante.objects.get(pk=request.session['id_restaurante'])
