@@ -4,7 +4,43 @@
 
 {% block content %}
 
-<div class="container-fluid">
+<div class="container">
+
+
+<br />
+<ol class="breadcrumb">
+  <li class="active">Restaurantes</li>
+</ol>
+
+{% for restaurante in restaurantes %}
+     
+      <div class="col-sm-6 col-md-4 master-grid">
+        <div class="thumbnail">
+          <img src="http://thescienceexplorer.com/sites/thescienceexplorer.com/files/blog/restaurant-939435_960_720.jpg" alt="...">
+          <div class="caption">
+            <h3>{{ restaurante.nombre }}</h3>
+            <p>{{ restaurante.direccion }}</p>
+            <p>
+              <a href="{% url "listasMenu" restaurante.id 0 %}" class="btn btn-primary" role="button">Menus</a>
+              <a href="{% url "agregar_platos" restaurante.id %}" class="btn btn-primary" role="button">Platos</a>
+            </p>
+          </div>
+        </div>
+      </div>
+
+{% endfor %}
+  
+      
+
+
+
+
+
+
+
+
+
+    <!--
     <div class="row">
         <div class="col-sm-offset-3 col-sm-5 well">
             <h2>Restaurantes</h2>
@@ -30,7 +66,7 @@
                         <a href="{% url "mostrar_menu_actual" restaurante.id %}"><span class="glyphicon .glyphicon-bookmark"></span>Menu Actual</a>
                     </td>
                     <td>
-                        <a href="{% url "listasMenu" restaurante.id %}"><span class="glyphicon .glyphicon-bookmark"></span>Ver Menus</a>
+                        <a href="{% url "listasMenu" restaurante.id 1 %}"><span class="glyphicon .glyphicon-bookmark"></span>Ver Menus</a>
                     </td>
                     <td>
                         <a href="{% url "agregar_menu" restaurante.id %}"><span class="glyphicon .glyphicon-bookmark"></span>Crear Menu</a>
@@ -43,5 +79,6 @@
         </div>       
     </div>
 </div>
-
+-->
+</div>
 {% endblock %}

@@ -5,7 +5,73 @@
 
 {% block content %}
 
-<div class="container-fluid">
+<div class="container">
+
+    <br />
+    <ol class="breadcrumb">
+      <li><a href="{% url 'restaurantesMenu' %}">Restaurantes</a></li>
+      <li>{{ restaurante.nombre }}</li>
+      <li class="active">{{ menuvisible.nombre }}</li>
+    </ol>
+
+    <!-- Sidebar -->
+    <div class="col-sm-4">
+
+        <a href="{% url "agregar_menu" restaurante.id %}" class="btn btn-primary" role="button">Nuevo Menu</a>
+
+        <div class="list-group">
+        {% for menu in menus %}
+
+
+            {% if menu.id == idmenu %}
+
+            <a href="{% url "listasMenu" restaurante.id menu.id %}" class="list-group-item active">{{ menu.nombre }}</a>
+
+            {% else %}
+            
+            <a href="{% url "listasMenu" restaurante.id menu.id %}" class="list-group-item">{{ menu.nombre }}</a>
+
+            {% endif %}
+
+        {% endfor %}
+        </div>
+    </div>
+    
+    {% if menuvisible %}
+
+    <div class="col-sm-8">
+
+        <div class="row">
+
+            <div class="col-xs-12">
+                <a href="{% url "agregar_menu_platos" restaurante.id idmenu %}" class="btn btn-primary" role="button">Agregar Plato</a>
+                <a href="{% url "eliminar_menu" idmenu %}" class="btn btn-primary" role="button">Eliminar Menu</a>
+            </div>
+
+        </div>
+        <div class="row"></div>
+
+        {% for plato in platos %}
+     
+          <div class="col-sm-6 master-grid">
+            <div class="thumbnail">
+              <img src="http://thescienceexplorer.com/sites/thescienceexplorer.com/files/blog/restaurant-939435_960_720.jpg" alt="...">
+              <div class="caption">
+                <h3>{{ plato.nombre }}</h3>
+                <p>{{ plato.descripcion }} <br /> {{ plato.precio }} </p>
+                <p>
+                  <a href="{% url "eliminar_plato_menu" restaurante.id idmenu plato.id %}" class="btn btn-primary" role="button">Eliminar</a>
+                </p>
+              </div>
+            </div>
+          </div>
+
+        {% endfor %}
+    </div>
+
+    {% endif %}
+    
+    <!--
     <div class="row">
         <div class="col-sm-offset-3 col-sm-6 well">
           <h2>Menus Ofrecidos</h2>
@@ -27,7 +93,7 @@
                       <a href="{% url "seleccionar_menu_actual" menu.id %}"> Marcar </a>
                   </td>
                   <td>
-                      <a href="{% url "agregar_menu_platos" menu.id %}"> Agregar </a>
+                      <a href="{% url "agregar_menu_platos" restaurante.id menu.id %}"> Agregar </a>
                   </td>
 
                   <td>
@@ -40,6 +106,7 @@
             </table>
         </div>
     </div>
+    -->
 </div>
 
 

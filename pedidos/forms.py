@@ -192,5 +192,3 @@ class FormaBilletera(forms.Form):
             'invalid'   : 'Cantidad invalida'
         }
     )
-
-
