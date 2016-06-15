@@ -177,7 +177,6 @@ class FormaPlato(forms.Form):
     )
 
 
-
 class FormaBilletera(forms.Form):
     pin = forms.RegexField(
         regex= r'^\d{4}$',
@@ -185,6 +184,14 @@ class FormaBilletera(forms.Form):
         max_length= 4,
         widget=PasswordInput(),
         error_messages={'invalid': 'Pin invalido, use 4 dígitos'}
+    )
+    numero_tarjeta  = forms.RegexField(
+        label = 'Numero Tajerta: 0000-0000-0000-0000', 
+        regex= r'^[0-9]{4}[0-9]{4}[0-9]{4}[0-9]{4}$',
+        max_length= 16, 
+        error_messages={
+            'invalid'   : 'Numero errado'
+        }
     )
     saldo = forms.DecimalField(
         label = 'Saldo', 
@@ -195,6 +202,8 @@ class FormaBilletera(forms.Form):
             'min_value' : 'Ingrese una cantidad positiva',
             'invalid'   : 'Cantidad invalida'
         }
-    )
+
+    )    
+
 
 

@@ -409,18 +409,19 @@ def agregar_menu_platos(request,id):
     platos = restaurante.producto_set.all()
     return render(request,'agregar_menu_platos.html', {'platos':platos,'id':id, 'menu' : menu})
 
-
 def gestionar_billetera(request, userID):
     u = User.objects.get(username=request.user)
     mensaje = None
     if request.method == 'POST':
         form = FormaBilletera(request.POST)
-       
+        print("Entra")
         if form.is_valid():
             
             # Si el usuario posee billetera creada
             if u.usuario.billetera:
-                
+                print("Entra")
+                print(u.usuario.billetera.pin)
+                print(request.POST["pin"])
                 # Clave correcta
                 if u.usuario.billetera.pin == request.POST["pin"]:
                     u.usuario.billetera.saldo += form.cleaned_data["saldo"]
