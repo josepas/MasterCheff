@@ -83,8 +83,6 @@ def login(request):
 
     return render(request, 'login.html', {'mensaje':mensaje})
     
-
-
 def registro(request):
     return render(request, 'registro.html')
     
@@ -488,7 +486,41 @@ def agregar_plato_pedido(request,idPlato):
             return render(request, 'mostrarMenu.html', {"menu_actual":menu_actual})
 
 def mostrar_pedidos(request,idRestaurante):
+    mensaje = None
     restaurante = Restaurante.objects.get(pk=idRestaurante)
+    request.session['id_restaurante'] = idRestaurante
+    try:
+        pedido = Pedido.objects.get(usuario=request.user.usuario, restaurante=restaurante)
+    except Pedido.DoesNotExist:
+        pedido = Pedido(
+            usuario = request.user.usuario,
+            restaurante = restaurante,
+            total = 0
+        )
+        pedido.save()
+    pedido_usuario = pedido.productos.all()
+    return render(request, 'mostrarPedido.html', {"pedido_usuario":pedido_usuario, "total":pedido.total, "mensaje":mensaje})
+
+def pagar_pedido(request):
+    restaurante = Restaurante.objects.get(pk=request.session['id_restaurante'])
     pedido = Pedido.objects.get(usuario=request.user.usuario, restaurante=restaurante)
     pedido_usuario = pedido.productos.all()
-    return render(request, 'mostrarPedido.html', {"pedido_usuario":pedido_usuario, "total":pedido.total})
+
+    billetera = request.user.usuario.billetera
+
+    if billetera.saldo < pedido.total:
+        mensaje = "Saldo insuficiente para pagar la orden"
+        return render(request, 'mostrarPedido.html', {"pedido_usuario":pedido_usuario, "total":pedido.total, "mensaje":mensaje})
+    else:
+        billetera.saldo -= pedido.total
+        billetera.save()
+        administrador = Usuario.objects.get(tipo_usuario='A')
+        administrador.billetera.saldo += pedido.total
+        administrador.billetera.save()
+        pedido.delete()
+    return render(request, 'base.html')
+
+def cancelar_pedido(request):
+    restaurante = Restaurante.objects.get(pk=request.session['id_restaurante'])
+    pedido = Pedido.objects.get(usuario=request.user.usuario, restaurante=restaurante).delete()
+    return render(request, 'base.html')

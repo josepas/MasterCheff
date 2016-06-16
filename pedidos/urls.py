@@ -36,5 +36,7 @@ urlpatterns = [
     url(r'^seleccionarMenuActual/(?P<id>[0-9]+)/$', views.seleccionar_menu_actual, name='seleccionar_menu_actual'),
 
     url(r'^agregarPlatoPedido/(?P<idPlato>[0-9]+)/$', views.agregar_plato_pedido, name='agregar_plato_pedido'),
-    url(r'^pedidos/(?P<idRestaurante>[0-9]+)/$', views.mostrar_pedidos, name='mostrar_pedidos')
+    url(r'^pedidos/(?P<idRestaurante>[0-9]+)/$', views.mostrar_pedidos, name='mostrar_pedidos'),
+    url(r'^pagarPedidos/$', views.pagar_pedido, name='pagar_pedido'),
+    url(r'^cancelarPedidos/$', views.cancelar_pedido, name='cancelar_pedido')
 ]
