@@ -7,7 +7,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-offset-3 col-sm-5 well">
-            <h2>Platos Ofrecido</h2>
+            <h2>Pedido del usuario total: {{total}}</h2>
             <table class="table">
               <thead>
                 <tr>
@@ -17,12 +17,11 @@
                 </tr>
               </thead>
               <tbody>
-                {% for plato in menu_actual %}
+                {% for plato in pedido_usuario %}
                 <tr>
                     <td>{{ plato.nombre }}</td> 
                     <td>{{ plato.descripcion }}</td> 
                     <td>{{ plato.precio }}</td> 
-                    <td><a href={% url "agregar_plato_pedido" plato.id %} class="btn btn-primary" role="button">Pedir</a><td>
                 </tr>
                 {% endfor %}
               </tbody>

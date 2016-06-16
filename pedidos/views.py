@@ -1,5 +1,5 @@
 from .forms import *
-from .models import Usuario, Servicio, Restaurante, Producto, Menu, Billetera
+from .models import Usuario, Servicio, Restaurante, Producto, Menu, Billetera, Pedido
 
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import authenticate, logout
@@ -221,6 +221,7 @@ def restaurantesMenu(request):
     if usuario.usuario.tipo_usuario == "A":
         restaurantes = usuario.usuario.restaurante_set.all()
     elif usuario.usuario.tipo_usuario == "C":
+
         restaurantes = Restaurante.objects.all()
     return render(request,'restaurantesMenu.html',{'restaurantes' : restaurantes})
 
@@ -371,6 +372,7 @@ def eliminar_menu(request, id):
 
 def mostrar_menu_actual(request,id):
     restaurante = Restaurante.objects.get(pk=id)
+    request.session['id_restaurante'] = id
     menus = restaurante.menu_set.all()
     for menu in menus:
         if menu.actual == True:
@@ -459,3 +461,34 @@ def gestionar_billetera(request, userID):
         form = FormaBilletera()
         
     return render(request, 'gestionar_billetera.html', {'form':form, 'mensaje':mensaje})
+
+def agregar_plato_pedido(request,idPlato):
+
+    restaurante = Restaurante.objects.get(pk=request.session['id_restaurante'])
+    menus = restaurante.menu_set.all()
+    plato = Producto.objects.get(pk=idPlato)
+
+    try:
+        pedido = Pedido.objects.get(usuario=request.user.usuario, restaurante=restaurante)
+    except Pedido.DoesNotExist:
+        pedido = Pedido(
+            usuario = request.user.usuario,
+            restaurante = restaurante,
+            total = 0
+        )
+        pedido.save()
+
+    pedido.total += plato.precio
+    pedido.save()
+    pedido.productos.add(plato)
+
+    for menu in menus:
+        if menu.actual == True:
+            menu_actual = menu.productos.all()
+            return render(request, 'mostrarMenu.html', {"menu_actual":menu_actual})
+
+def mostrar_pedidos(request,idRestaurante):
+    restaurante = Restaurante.objects.get(pk=idRestaurante)
+    pedido = Pedido.objects.get(usuario=request.user.usuario, restaurante=restaurante)
+    pedido_usuario = pedido.productos.all()
+    return render(request, 'mostrarPedido.html', {"pedido_usuario":pedido_usuario, "total":pedido.total})
