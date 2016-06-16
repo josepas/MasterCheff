@@ -23,11 +23,6 @@
                     <td>{{ plato.descripcion }}</td> 
                     <td>{{ plato.precio }}</td> 
                 </tr>
-                {% if request.session.tipo == 'A' %}
-                <td>
-                  <a href= "{% url "eliminar_plato_menu" plato.id%}"><span class="glyphicon glyphicon-remove-sign"></span> Eliminar</a>
-                </td> 
-                {% endif %}
                 {% endfor %}
               </tbody>
             </table>

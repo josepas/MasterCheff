@@ -370,7 +370,7 @@ def eliminar_menu(request, id):
     return redirect('listasMenu', id=restaurante.id, idmenu=0)
 
 def mostrar_menu_actual(request,id):
-    restaurante = Restaurante.objects.get(id)
+    restaurante = Restaurante.objects.get(pk=id)
     menus = restaurante.menu_set.all()
     for menu in menus:
         if menu.actual == True:
@@ -384,14 +384,19 @@ def mostrar_menu(request,id):
     return render(request, 'mostrarMenu.html', {"menu_actual":menu_actual})
 
 def seleccionar_menu_actual(request,id):
-    restaurante = Restaurante.objects.get(pk=id)
+    restaurante = Restaurante.objects.get(pk=request.session['id_restaurante'])
     menus = restaurante.menu_set.all()
     for menu in menus:
         menu.actual = False
-        if menu.id == id:
-            menu.actual == True
+        if (int(menu.id)) == (int(id)):
+            menu.actual = True
         menu.save()
-    return render(request,'listasMenu.html', {'menus':menus})
+    usuario = User.objects.get(username=request.user)
+    if usuario.usuario.tipo_usuario == "A":
+        restaurantes = usuario.usuario.restaurante_set.all()
+    elif usuario.usuario.tipo_usuario == "C":
+        restaurantes = Restaurante.objects.all()
+    return render(request,'restaurantesMenu.html',{'restaurantes' : restaurantes})
 
 def agregar_menu_platos(request, id, idmenu):
     restaurante = Restaurante.objects.get(pk=request.session['id_restaurante'])

@@ -21,10 +21,11 @@
             <h3>{{ restaurante.nombre }}</h3>
             <p>{{ restaurante.direccion }}</p>
                 {% if request.session.tipo == 'C' %}
-                <a href="{% url "mostrar_menu_actual" restaurante.id %}"><span class="glyphicon .glyphicon-bookmark"></span>Menu Del Dia</a>
+                <a href="{% url "mostrar_menu_actual" restaurante.id %}" class="btn btn-primary" role="button">Menu Del Dia</a>
                 {% endif %}
             <p>
                 {% if request.session.tipo == 'A' %}
+                <a href="{% url "mostrar_menu_actual" restaurante.id %}" class="btn btn-primary" role="button">Menu Del Dia</a>
               <a href="{% url "listasMenu" restaurante.id 0 %}" class="btn btn-primary" role="button">Menus</a>
               <a href="{% url "agregar_platos" restaurante.id %}" class="btn btn-primary" role="button">Platos</a>
                 {% endif %}
