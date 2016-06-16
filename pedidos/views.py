@@ -11,8 +11,6 @@ from django.shortcuts import render, redirect
 
 from django.core.urlresolvers import reverse
 
-dic = {}
-
 def editar_perfil(request, userID):
 
     mensaje = None
@@ -363,10 +361,12 @@ def eliminar_menu(request, id):
     return render(request,'listasMenu.html', {'menus':menus})
 
 def mostrar_menu_actual(request,id):
-    idMenu = dic[id]
-    menu = Menu.objects.get(pk=idMenu)   
-    menu_actual = menu.productos.all()
-    return render(request, 'mostrarMenu.html', {"menu_actual":menu_actual})
+    restaurante = Restaurante.objects.get(id)
+    menus = restaurante.menu_set.all()
+    for menu in menus:
+        if menu.actual == True:
+            menu_actual = menu.productos.all()
+            return render(request, 'mostrarMenu.html', {"menu_actual":menu_actual})
 
 def mostrar_menu(request,id):
     menu = Menu.objects.get(pk=id)
@@ -375,9 +375,13 @@ def mostrar_menu(request,id):
     return render(request, 'mostrarMenu.html', {"menu_actual":menu_actual})
 
 def seleccionar_menu_actual(request,id):
-    dic[request.session['id_restaurante']] = id
-    restaurante = Restaurante.objects.get(pk=request.session['id_restaurante'])
+    restaurante = Restaurante.objects.get(pk=id)
     menus = restaurante.menu_set.all()
+    for menu in menus:
+        menu.actual = False
+        if menu.id == id:
+            menu.actual == True
+        menu.save()
     return render(request,'listasMenu.html', {'menus':menus})
 
 def agregar_menu_platos(request,id):
@@ -414,14 +418,10 @@ def gestionar_billetera(request, userID):
     mensaje = None
     if request.method == 'POST':
         form = FormaBilletera(request.POST)
-        print("Entra")
         if form.is_valid():
             
             # Si el usuario posee billetera creada
             if u.usuario.billetera:
-                print("Entra")
-                print(u.usuario.billetera.pin)
-                print(request.POST["pin"])
                 # Clave correcta
                 if u.usuario.billetera.pin == request.POST["pin"]:
                     u.usuario.billetera.saldo += form.cleaned_data["saldo"]
