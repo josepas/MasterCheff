@@ -202,7 +202,6 @@ class FormaBilletera(forms.Form):
             'min_value' : 'Ingrese una cantidad positiva',
             'invalid'   : 'Cantidad invalida'
         }
-
     )    
 
 

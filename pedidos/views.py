@@ -82,6 +82,8 @@ def login(request):
         mensaje = 'Usuario o clave errada!'
 
     return render(request, 'login.html', {'mensaje':mensaje})
+    
+
 
 def registro(request):
     return render(request, 'registro.html')
@@ -190,11 +192,19 @@ def eliminar_servicio(request, id):
 
     return redirect('agregar_servicios')
 
-def listasMenu(request, id):
+def listasMenu(request, id, idmenu):
     restaurante = Restaurante.objects.get(pk=id)
     request.session['id_restaurante'] = id
     menus = restaurante.menu_set.all()
-    return render(request,'listasMenu.html', {'menus':menus})
+
+    if int(idmenu) != 0:
+        menuvisible = Menu.objects.get(pk=idmenu)
+        platos = menuvisible.productos.all()
+    else:
+        menuvisible = None
+        platos = None
+
+    return render(request,'listasMenu.html', {'menus':menus, 'restaurante':restaurante, 'idmenu' : int(idmenu), 'menuvisible' : menuvisible, 'platos' : platos})
 
 def usuariosRegistrados(request):
     usuario = None
@@ -245,12 +255,11 @@ def eliminar_plato(request, id):
     platos = restaurante.producto_set.all()
     return render(request,'agregar_platos.html', {'platos': platos, 'id': request.session['id_restaurante']})
 
-def eliminar_plato_menu(request, id):
-    producto = Producto.objects.get(pk=id)
-    menu = Menu.objects.get(pk=request.session['id_menu'])   
+def eliminar_plato_menu(request, id, idmenu, idplato):
+    producto = Producto.objects.get(pk=idplato)
+    menu = Menu.objects.get(pk=idmenu)   
     menu.productos.remove(producto)
-    menu_actual = menu.productos.all()
-    return render(request, 'mostrarMenu.html', {"menu_actual":menu_actual})
+    return redirect('listasMenu', id=id, idmenu=idmenu)
 
 def registroRestaurante(request):
     # NO logre que agarre fechas distintas a YYYY-MM-DD!
@@ -327,12 +336,12 @@ def agregar_menu(request,id):
         '''
         restaurante = Restaurante.objects.get(pk=request.session['id_restaurante'])
         menus = restaurante.menu_set.all()
-        return render(request,'listasMenu.html', {'menus':menus})
+        return redirect('listasMenu', id=id, idmenu=nMenu.id)
 
     platos = restaurante.producto_set.all()
     return render(request,'agregar_menu.html', {'platos':platos,'id':id, 'restaurante' : restaurante})
 
-def editar_menu(request,id):
+def editar_menu(request, id, idmenu):
     m = Menu.objects.get(id=id) 
     initial = {
         'nombre' : m.nombre,
@@ -358,7 +367,7 @@ def eliminar_menu(request, id):
     menu = get_object_or_404(Menu, pk=id).delete()
     restaurante = Restaurante.objects.get(pk=request.session['id_restaurante'])
     menus = restaurante.menu_set.all()
-    return render(request,'listasMenu.html', {'menus':menus})
+    return redirect('listasMenu', id=restaurante.id, idmenu=0)
 
 def mostrar_menu_actual(request,id):
     restaurante = Restaurante.objects.get(id)
@@ -384,9 +393,9 @@ def seleccionar_menu_actual(request,id):
         menu.save()
     return render(request,'listasMenu.html', {'menus':menus})
 
-def agregar_menu_platos(request,id):
+def agregar_menu_platos(request, id, idmenu):
     restaurante = Restaurante.objects.get(pk=request.session['id_restaurante'])
-    menu = Menu.objects.get(pk=id)
+    menu = Menu.objects.get(pk=idmenu)
 
     if request.method == 'POST':
         print("-------------")
@@ -408,7 +417,7 @@ def agregar_menu_platos(request,id):
         return render(request,'restaurantesMenu.html',{'restaurantes' : restaurantes})
         '''
         menus = restaurante.menu_set.all()
-        return render(request,'listasMenu.html', {'menus':menus})
+        return redirect('listasMenu', id=id, idmenu=idmenu)
 
     platos = restaurante.producto_set.all()
     return render(request,'agregar_menu_platos.html', {'platos':platos,'id':id, 'menu' : menu})
