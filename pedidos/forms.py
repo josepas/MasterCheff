@@ -1,7 +1,7 @@
 from .models import Usuario, Restaurante, Producto
 
 from django import forms
-from django.forms import ModelChoiceField, ModelMultipleChoiceField
+from django.forms import ModelChoiceField, ModelMultipleChoiceField, PasswordInput
 from django.forms.widgets import SplitDateTimeWidget
 
 from django.core.validators import RegexValidator
@@ -25,7 +25,7 @@ class FormaRegistroCliente(forms.Form):
         max_length=100     
     )
     nombres = forms.RegexField(
-        regex= r'^[a-zA-ZÁáÀàÉéÈèÍíÌìÓóÒòÚúÙùÑñüÜ]+$',
+        regex= r'^[a-zA-ZÁáÀàÉéÈèÍíÌìÓóÒòÚúÙùÑñüÜ ]+$',
         label='Nombres', 
         max_length=100,
         error_messages={'invalid': 'Introducir Nombres Sin Numeros'}
@@ -57,7 +57,8 @@ class FormaRegistroCliente(forms.Form):
     )
     cedula = forms.IntegerField(
         min_value=1, 
-        max_value=120000000
+        max_value=99999999,
+        error_messages={'invalid': 'Cedula Invalida'}
     ) # aqui no diferenciamos entre extranjeros y venezolanos
     fecha_nac = forms.DateField(
         label='Fecha de Nacimiento: AAAA-MM-DD', 
@@ -107,7 +108,8 @@ class FormaRegistroProveedor(forms.Form):
     rif = forms.RegexField(
         label='Rif: J-0000000',
         regex=r'^J\-[0-9]+$', 
-        max_length=15,
+        min_length=8,
+        max_length=10,
         error_messages={'invalid': 'Introducir formato: J-0000000'}
     )
     fecha_nac = forms.DateField(
@@ -123,7 +125,8 @@ class FormaRegistroRestaurante(forms.Form):
     rif = forms.RegexField(
         label='Rif: J-0000000',
         regex=r'^J\-[0-9]+$', 
-        max_length=15,
+        min_length=8,
+        max_length=10,
         error_messages={'invalid': 'Introducir formato: J-0000000'}
     )
     nombre = forms.RegexField(
@@ -174,16 +177,24 @@ class FormaPlato(forms.Form):
     )
 
 
-
 class FormaBilletera(forms.Form):
     pin = forms.RegexField(
         regex= r'^\d{4}$',
         label='Pin',
         max_length= 4,
+        widget=PasswordInput(),
         error_messages={'invalid': 'Pin invalido, use 4 dígitos'}
     )
+    numero_tarjeta  = forms.RegexField(
+        label = 'Numero Tajerta: 0000-0000-0000-0000', 
+        regex= r'^[0-9]{4}[0-9]{4}[0-9]{4}[0-9]{4}$',
+        max_length= 16, 
+        error_messages={
+            'invalid'   : 'Numero errado'
+        }
+    )
     saldo = forms.DecimalField(
-        label = 'saldo: ', 
+        label = 'Saldo', 
         max_digits=11, 
         decimal_places=2,
         min_value=0,
@@ -191,6 +202,7 @@ class FormaBilletera(forms.Form):
             'min_value' : 'Ingrese una cantidad positiva',
             'invalid'   : 'Cantidad invalida'
         }
-    )
+    )    
+
 
 

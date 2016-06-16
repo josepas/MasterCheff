@@ -1,107 +1,95 @@
-{% load staticfiles %}
-
-<!DOCTYPE html>
-<html lang="en">
-
+﻿<!DOCTYPE html>
+<html>
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title> MasterChef</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/bootstrap-theme.min.css' %}">
-    <!-- CSS Personalizado -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MasterCheff</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'content/bootstrap.min.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'content/site.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'content/MasterCheff.css' %}" />
     <link rel="stylesheet" href="{% static 'css/half-slider.css' %}">
     <link rel="stylesheet" href="{% static 'css/signin.css' %}">
-    <link rel="stylesheet" href="{% static 'css/theme.css' %}" >
-    <style>    
-      footer {
-        background-color: #555;
-        color: white;
-      }
-  </style>
+    <script src="{% static 'scripts/modernizr-2.6.2.js' %}"></script>
 </head>
 
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="/" class="navbar-brand">MasterCheff</a>
+            </div>
+            <div class="navbar-collapse collapse">
 
-<body role="document" >
-    <nav class="navbar navbar-inverse navbar-fixed-top" >
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" >
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="/">MasterChef</a>
-        </div>
-
-
-        <div id="navbar" class="navbar-collapse collapse">
-          {% if not user.is_authenticated %}
-          <ul class="nav navbar-nav navbar-right">
-              <li>
-                  <a href={% url 'login' %}>Login</a>
-              </li>
-              <li>
-                  <a href={% url 'registro' %}>Registro</a>
-              </li>
-          </ul>
-          {% endif %}
-          {% if user.is_authenticated %}
-
-          {% if request.session.tipo == 'A' %}
-          <ul class="nav navbar-nav ">
-            <li>
-              <a href={% url 'usuariosRegistrados' %}>UsuarioRegistrados</a>
-            </li>
-            <li>
-              <a href={% url 'registroRestaurante' %}>RegistrarRestaurante</a>
-            </li>
-            <li> 
-              <a href={% url 'restaurantesMenu' %}>Menu</a>
-            </li>
-            <li>
-              <a href={% url 'restaurantesPlatos' %}>Platos</a>
-            </li>
-          </ul>
-          {% endif %}
-
-          {% if request.session.tipo == 'C'  %}
-          <ul class="nav navbar-nav ">
-            <li>
-              <a href={% url 'restaurantesMenu' %}>Menu</a>
-            </li>
-          </ul>
-          {% endif %}
-
-          {% if request.session.tipo == 'P' %}
-          <ul class="nav navbar-nav ">
-            <li>
-              <a href={% url 'agregar_servicios' %}>Inventario</a>
-            </li>
-          </ul>
-          {% endif %}
-
-          <ul class="nav navbar-nav navbar-right">
-              <li class="dropdown">
-                  <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span> {{ user.username }} </a>
-                  <ul class="dropdown-menu">
-                    {% if request.session.tipo != 'A' %}
-                      <li><a href={% url 'perfil' %}>Perfil</a></li>
-                    {% endif %}
-                      <li><a href={% url 'logout' %}><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+                {% if not user.is_authenticated %}
+                  <ul class="nav navbar-nav navbar-right">
+                      <li>
+                          <a href={% url 'login' %}>Login</a>
+                      </li>
+                      <li>
+                          <a href={% url 'registro' %}>Registro</a>
+                      </li>
                   </ul>
-              </li>
-          </ul>                 
-          {% endif %}
+                
+                {% else %}
+
+                    {% if request.session.tipo == 'A' %}
+                    <ul class="nav navbar-nav ">
+                        <li>
+                            <a href={% url 'usuariosRegistrados' %}>UsuarioRegistrados</a>
+                        </li>
+                        <li>
+                            <a href={% url 'registroRestaurante' %}>RegistrarRestaurante</a>
+                        </li>
+                        <li> 
+                            <a href={% url 'restaurantesMenu' %}>Restaurantes</a>
+                        </li>
+                    </ul>
+                    {% endif %}
+
+                    {% if request.session.tipo == 'C'  %}
+                      <ul class="nav navbar-nav ">
+                        <li>
+                          <a href={% url 'restaurantesMenu' %}>Menu</a>
+                        </li>
+                      </ul>
+                      {% endif %}
+
+                      {% if request.session.tipo == 'P' %}
+                      <ul class="nav navbar-nav ">
+                        <li>
+                          <a href={% url 'agregar_servicios' %}>Inventario</a>
+                        </li>
+                      </ul>
+                      {% endif %}
+
+                      <ul class="nav navbar-nav navbar-right">
+                          <li class="dropdown">
+                              <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span> {{ user.username }} </a>
+                              <ul class="dropdown-menu">
+                                {% if request.session.tipo != 'A' %}
+                                  <li><a href={% url 'perfil' %}>Perfil</a></li>
+                                {% endif %}
+                                  <li><a href={% url 'logout' %}><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+                              </ul>
+                          </li>
+                      </ul>        
+                {% endif %}
+
+                
+
+
+
+            </div>
         </div>
-      </div>
-    </nav>
+    </div>
+
+    <div class="container body-content">
 {% block content %}
     <div class="container-fluid" role="main">
       <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
@@ -135,26 +123,22 @@
       <div class="jumbotron">
         <h1>Somos MasterChef</h1>
         <p> Realize sus pedidos online y en cuestion de minutos le traemos su pedido. </p>
+        {% if request.session.tipo == 'A' %}
+        <p> Saldo Actual: {{user.usuario.billetera.saldo}} </p>
+        {% endif %}
       </div>
     </div> 
 {% endblock %}
-    <script src="{% static 'jquery/jquery.min.js' %} "></script>
-    <script src="{% static 'jquery/jquery.js' %}"></script>
+        <hr/>
+        <footer>
+            <p>&copy; 2016 - OneSoft</p>
+        </footer>
+    </div>
 
-    <!-- JavaScript para Bootstrap -->
-    <script src="{% static 'js/docs.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'scripts/jquery-1.10.2.js' %}"></script>
+    <script src="{% static 'scripts/bootstrap.js' %}"></script>
+    <script src="{% static 'scripts/respond.js' %}"></script>
+{% block scripts %}{% endblock %}
 
-    <!-- Script para controlar el Carousel -->
-    <script>
-    $('.carousel').carousel({
-        interval: 5000 //changes the speed
-    })
-    </script>
-
-    <footer class="footer container-fluid"  >
-        <p class="text-muted">Copyright OneSoft 2016. </p>
-    </footer> 
-
-  </body>
+</body>
 </html>
