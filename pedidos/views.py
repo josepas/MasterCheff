@@ -512,7 +512,8 @@ def pagar_pedido(request):
 
     if billetera.saldo < pedido.total:
         mensaje = "Saldo insuficiente para pagar la orden"
-        return render(request, 'mostrarPedido.html', {"pedido_usuario":pedido_usuario, "total":pedido.total, "mensaje":mensaje})
+        return render(request, 'mostrarPedido.html', {"pedido_usuario":pedido_usuario, "total":pedido.total, "mensaje":mensaje, "idRest":request.session['id_restaurante'] })
+
     else:
         billetera.saldo -= pedido.total
         billetera.save()
