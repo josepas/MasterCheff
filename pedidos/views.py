@@ -372,10 +372,11 @@ def mostrar_menu_actual(request,id):
     restaurante = Restaurante.objects.get(pk=id)
     request.session['id_restaurante'] = id
     menus = restaurante.menu_set.all()
+    idRestaurante = request.session['id_restaurante'] 
     for menu in menus:
         if menu.actual == True:
             menu_actual = menu.productos.all()
-            return render(request, 'mostrarMenu.html', {"menu_actual":menu_actual})
+            return render(request, 'mostrarMenu.html', {"menu_actual":menu_actual, "id":idRestaurante})
 
 def mostrar_menu(request,id):
     menu = Menu.objects.get(pk=id)
@@ -479,11 +480,12 @@ def agregar_plato_pedido(request,idPlato):
     pedido.total += plato.precio
     pedido.save()
     pedido.productos.add(plato)
+    idRestaurante = request.session['id_restaurante'] 
 
     for menu in menus:
         if menu.actual == True:
             menu_actual = menu.productos.all()
-            return render(request, 'mostrarMenu.html', {"menu_actual":menu_actual})
+            return render(request, 'mostrarMenu.html', {"menu_actual":menu_actual,"id":idRestaurante})
 
 def mostrar_pedidos(request,idRestaurante):
     mensaje = None
@@ -499,7 +501,7 @@ def mostrar_pedidos(request,idRestaurante):
         )
         pedido.save()
     pedido_usuario = pedido.productos.all()
-    return render(request, 'mostrarPedido.html', {"pedido_usuario":pedido_usuario, "total":pedido.total, "mensaje":mensaje})
+    return render(request, 'mostrarPedido.html', {"pedido_usuario":pedido_usuario, "total":pedido.total, "mensaje":mensaje, "idRest":request.session['id_restaurante'] })
 
 def pagar_pedido(request):
     restaurante = Restaurante.objects.get(pk=request.session['id_restaurante'])

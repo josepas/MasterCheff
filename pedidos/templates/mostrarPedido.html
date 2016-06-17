@@ -3,9 +3,54 @@
 {% load staticfiles %}
 
 {% block content %}
+<br>
+<div class="container">
+      <ol class="breadcrumb">
+        <li><a href="{% url 'restaurantesMenu' %}">Restaurantes</a></li>
+        <li><a href="{% url "mostrar_menu_actual" idRest %}">Menu del dia</a></li>
+        <li class="active">Mis pedidos</li>
+      </ol>
+    </div>
 
-<div class="container-fluid">
+<div class="container">
+  <div class="row">
+    <div class="col-sm-offset-2 col-sm-8 ">
+      <h2>Pedido del usuario total: {{total}}</h2>
+    </div>
+  </div>
+{% for plato in pedido_usuario %}
+    <div class="row">
+       <div class="col-sm-offset-2 col-sm-8 ">
+          <div class="form-group">
+              <div class="col-sm-3 col-xs-3">
+                  <img class="img-responsive" src="https://panprinandproprin.files.wordpress.com/2012/09/dsc_0655.jpg" />
+              </div>
+              <div class="col-sm-6 col-xs-6">
+                  <div class="col-xs-12"><h4>{{ plato.nombre }}</h4></div>
+                  <div class="col-xs-12"><p> {{ plato.descripcion }}</p></div>
+              </div>
+              <div class="col-sm-3 col-xs-3 text-left">
+                  <h6><span>$/BsF </span>{{ plato.precio }}</h6>
+              </div>
+          </div>
 
+       </div>
+    </div>
+{% endfor %}
+  <div class="row">
+    <div class="col-sm-offset-2 col-sm-8 ">
+      <a href={% url "pagar_pedido" %} class="btn btn-primary" role="button" onclick="myFunction()">Pagar</a>
+      <a href={% url "cancelar_pedido" %} class="btn btn-primary" role="button">Cancelar</a>
+      {% if mensaje != None %}
+          {{mensaje}}
+      {% endif %}
+    </div>
+  </div>
+            
+</div>
+
+<!--
+<div class="container">
     <div class="row">
 
         <div class="col-sm-offset-3 col-sm-5 well">
@@ -31,13 +76,20 @@
                 {% endfor %}
               </tbody>
             </table>
-            <a href={% url "pagar_pedido" %} class="btn btn-primary" role="button">Pagar</a>
+            <a href={% url "pagar_pedido" %} class="btn btn-primary" role="button" onclick="myFunction()">Pagar</a>
             <a href={% url "cancelar_pedido" %} class="btn btn-primary" role="button">Cancelar</a>
             {% if mensaje != None %}
               {{mensaje}}
             {% endif %}
         </div>     
     </div>
+</div>
+-->
+<script>
+function myFunction() {
+    alert("Pago realiado de forma satisfactoria");
+}
+</script>
 </div>
 
 {% endblock %}
