@@ -44,6 +44,15 @@ class Mesa(models.Model):
     capacidad = models.PositiveIntegerField()
     ocupada = models.BooleanField(default=False)
 
+class Sugerencias(models.Model):
+    mensaje = models.CharField(max_length=30)
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    imagen = models.ImageField(upload_to=None, height_field=None, width_field=None, max_length=100)
+
+
+class Notificaciones(models.Model):
+    mensaje = models.CharField(max_length=30)
+    imagen = models.ImageField(upload_to=None, height_field=None, width_field=None, max_length=100)
 
 class Reserva(models.Model):
     cliente = models.ForeignKey(Usuario, on_delete=models.CASCADE)	
@@ -80,6 +89,23 @@ class Pedido(models.Model):
 
     def __str__(self):              
         return "{0} total: {1}".format(self.usuario.perfil.first_name, self.total) # aqui creo que esta mal
+
+class Pedidos(models.Model):
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    restaurante = models.ForeignKey(Restaurante, on_delete=models.CASCADE)
+    productos = models.ForeignKey(Producto)
+
+
+class Carrito(models.Model):
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    restaurante = models.ForeignKey(Restaurante, on_delete=models.CASCADE)
+    productos = models.ForeignKey(Producto)
+
+
+class Factura(models.Model):
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    restaurante = models.ForeignKey(Restaurante, on_delete=models.CASCADE)
+    total = models.PositiveIntegerField()
 
 
 class Menu(models.Model):
