@@ -5,6 +5,50 @@
 
 {% block content %}
 
+<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+
+      <div class="modal-body">
+        <form class="form" role="form" method="POST" action="{% url 'agregar_servicios' %}">
+          {% csrf_token %} 
+          
+          {% for field in form %}
+          <div class="form-group col-s-4">
+            {{ field.errors }}
+            {% render_field field class="form-control" placeholder=field.label %}
+          </div>
+
+          {% endfor %}
+        
+          <button type="submit" class="btn btn-default">Agregar</button>
+        </form>
+
+        <p>Some text in the modal.</p>
+      </div>
+      
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-4">
@@ -15,23 +59,15 @@
                         <h3>Agregar Servicio</h3>
                         <form class="form" role="form" method="POST" action="{% url 'agregar_servicios' %}">
                           {% csrf_token %} 
-                          <div class="row">
-                            <div class="form-group col-sm-6">
-                              <label for="nombre">Nombre:</label>
-                              <input type="text" class="form-control" id="nombre" name="nombre">
-                            </div>
+                          
+                          {% for field in form %}
+                          <div class="form-group col-s-4">
+                            {{ field.errors }}
+                            {% render_field field class="form-control" placeholder=field.label %}
                           </div>
 
-                          <div class="form-group">
-                            <label for="descripcion">Descripcion:</label>
-                            <input type="text   " class="form-control" id="descripcion" name="descripcion">
-                          </div>
-                          
-                          <div class="form-group">
-                            <label for="precio">Precio:</label>
-                            <input type="number" step="0.01" class="form-control" id="precio" name="precio">
-                          </div>
-                          
+                          {% endfor %}
+                        
                           <button type="submit" class="btn btn-default">Agregar</button>
                         </form>
 
@@ -46,17 +82,19 @@
 
 
 
-        <div class="col-sm-offset-1 col-sm-6 well">
+        <div class="col-sm-8 well">
             <h2>Servicios Ofrecidos</h2>
             <div class="row">
                 
                 <div class="col-12-sm">
-                    <table class="table">
+                    <div class="table-responsive">
+                      <table class="table">
                         <thead>
                           <tr>
                             <th>Servicio</th>
                             <th>Descripcion</th>
                             <th>Precio</th>
+                            <th>Cantidad</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -65,14 +103,23 @@
                             <td>{{ servicio.nombre }}</td>
                             <td>{{ servicio.descripcion }}</td>
                             <td>{{ servicio.precio }}</td>  
+                            <td>{{ servicio.cantidad }}</td>
+
+
                             <td>
                                 <a href="borrar/{{ servicio.id }}"><span class="glyphicon glyphicon-remove-sign"></span> Eliminar</a>
+                                /
+                                <a href="modificar/{{ servicio.id }}"><span class="glyphicon glyphicon-remove-sign"></span> Modificar</a>
                             </td>
                           </tr>
                           {% endfor %}
 
                         </tbody>
                       </table>
+
+                    </div>
+
+
 
                 </div>
 
@@ -93,3 +140,16 @@
 
 
 {% endblock %}
+
+<script type="text/javascript">
+
+  $('#mymodal').on('hidden.bs.modal', function() {
+    this.modal('show');
+  });
+
+  $('#mymodal').on('hidden.bs.modal', function() {
+  return false;
+  });
+
+
+</script>
