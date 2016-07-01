@@ -202,7 +202,42 @@ class FormaBilletera(forms.Form):
             'min_value' : 'Ingrese una cantidad positiva',
             'invalid'   : 'Cantidad invalida'
         }
-    )    
+    )
+
+
+class AgregarServicio(forms.Form):
+    nombre = forms.CharField(
+        label='Nombre', 
+        max_length=100     
+    )
+
+    descripcion = forms.CharField(
+        label='Descripcion',
+        required=False,
+        min_length=1,
+        max_length=200
+    )
+
+    precio = forms.DecimalField(
+        label = 'Precio', 
+        max_digits=9, 
+        decimal_places=2,
+        min_value=0,
+        error_messages={
+            'min_value' : 'Ingrese una cantidad positiva',
+            'invalid'   : 'Cantidad invalida'
+        }
+    )
+
+    cantidad = forms.IntegerField(
+        label = 'Cantidad', 
+        min_value=0,
+        max_value=10000, 
+        error_messages={
+            'min_value' : 'Ingrese una cantidad positiva',
+            'invalid'   : 'Cantidad invalida'
+        }
+    )
 
 
 

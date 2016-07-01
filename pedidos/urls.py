@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^registro/$', views.registro, name='registro'),
     url(r'^registroCliente/$', views.registroCliente, name='registroCliente'),
     url(r'^registroProveedor/$', views.registroProveedor, name='registroProveedor'),
+   
     url(r'^listasMenu/(?P<id>[0-9]+)/(?P<idmenu>[0-9]+)$', views.listasMenu, name='listasMenu'),
     url(r'^restaurantesMenu/$', views.restaurantesMenu, name='restaurantesMenu'),
     url(r'^restaurantesPlatos/$', views.restaurantesPlatos, name='restaurantesPlatos'),
@@ -20,7 +21,11 @@ urlpatterns = [
     url(r'^platos/(?P<id>[0-9]+)/$', views.agregar_platos, name='agregar_platos'),
     url(r'^usuariosRegistrados/$', views.usuariosRegistrados, name='usuariosRegistrados'),
     url(r'^restaurante/$', views.registroRestaurante, name='restaurante'),
+   
+    url(r'^proveedor/$', views.agregar_servicios, name='agregar_servicios'),
     url(r'^proveedor/borrar/(?P<id>[0-9]+)/$', views.eliminar_servicio, name='eliminar_servicio'),
+    url(r'^proveedor/modificar/(?P<id>[0-9]+)/$', views.modificar_servicio, name='modificar_servicios'),
+
 
     url(r'^borrarPlato/(?P<id>[0-9]+)/$', views.eliminar_plato, name='eliminar_plato'),
     url(r'^borrarPlatoMenu/(?P<id>[0-9]+)/(?P<idmenu>[0-9]+)/(?P<idplato>[0-9]+)/$', views.eliminar_plato_menu, name='eliminar_plato_menu'),
@@ -31,7 +36,6 @@ urlpatterns = [
     url(r'^mostrarMenuActual/(?P<id>[0-9]+)/$', views.mostrar_menu_actual, name='mostrar_menu_actual'),
     url(r'^editarPlato/(?P<id>[0-9]+)/$', views.editar_plato, name='editar_plato'),
     url(r'^usuariosRegistrados/ver/(?P<id>[0-9]+)/$', views.usuarioSeleccionado, name='usuarioSeleccionado'),
-    url(r'^proveedor/$', views.agregar_servicios, name='agregar_servicios'),
     url(r'^registroRestaurante/$', views.registroRestaurante, name='registroRestaurante'),
     url(r'^seleccionarMenuActual/(?P<id>[0-9]+)/$', views.seleccionar_menu_actual, name='seleccionar_menu_actual'),
 

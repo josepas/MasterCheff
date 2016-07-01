@@ -74,6 +74,7 @@ class Producto(models.Model):
 class Servicio(models.Model):
     nombre = models.CharField(max_length=30)
     provedor = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    cantidad = models.PositiveIntegerField()
     descripcion = models.CharField(max_length=100)
     imagen = models.ImageField(upload_to=None, height_field=None, width_field=None, max_length=100)
     precio = models.DecimalField(max_digits=11, decimal_places=2) 
