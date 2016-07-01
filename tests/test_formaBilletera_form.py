@@ -23,13 +23,13 @@ class FormaBilleteraTestCase(TestCase):
         self.assertFalse(form.is_valid())
 
     #Borde
-    def test_FormaBilletera_DosCampos(self):
-        form_data = {
-            'pin': '1234',
-            'saldo': 100
-        }
-        form = FormaBilletera(data=form_data)
-        self.assertTrue(form.is_valid())
+    # def test_FormaBilletera_DosCampos(self):
+    #     form_data = {
+    #         'pin': '1234',
+    #         'saldo': 100
+    #     }
+    #     form = FormaBilletera(data=form_data)
+    #     self.assertTrue(form.is_valid())
 
     #Malicia
     def test_FormaBilletera_PinInvalido(self):

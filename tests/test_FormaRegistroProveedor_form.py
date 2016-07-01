@@ -17,8 +17,8 @@ class FormaRegistroProveedorTestCase(unittest.TestCase):
     #                                             #
     #              Prueba Unitarias               #
     #                                             #
-    # # # # # # # # # # # # # # # # # # # # # # # #    
-    
+    # # # # # # # # # # # # # # # # # # # # # # # #
+
     #Probamos los campos obligatorios, campos vacios
     def test_FormaRegistroProveedor_usernamEmpty(self):
         form_data = {
@@ -65,7 +65,7 @@ class FormaRegistroProveedorTestCase(unittest.TestCase):
         form= FormaRegistroProveedor(data=form_data)
         self.assertFalse(form.is_valid())
 
-    def test_FormaRegistroProveedor_telefonoEmpty(self):       
+    def test_FormaRegistroProveedor_telefonoEmpty(self):
         form_data={
             'username' : 'Kerivero',
             'nombres': 'Kervyn Johan',
@@ -159,7 +159,7 @@ class FormaRegistroProveedorTestCase(unittest.TestCase):
         form= FormaRegistroProveedor(data=form_data)
         self.assertFalse(form.is_valid())
 
-    def test_FormaRegistroProveedor_telefonoWrong(self):       
+    def test_FormaRegistroProveedor_telefonoWrong(self):
         form_data={
             'username' : 'Kerivero',
             'nombres': 'Kervyn Johan',
@@ -252,7 +252,7 @@ class FormaRegistroProveedorTestCase(unittest.TestCase):
         form= FormaRegistroProveedor(data=form_data)
         self.assertFalse(form.is_valid())
 
-    def test_FormaRegistroProveedor_telefonoGood(self):       
+    def test_FormaRegistroProveedor_telefonoGood(self):
         form_data={
             'username' : 'Kerivero',
             'nombres': 'Kervyn Johan',
@@ -287,9 +287,9 @@ class FormaRegistroProveedorTestCase(unittest.TestCase):
     #                                             #
     #              Prueba de Bordes               #
     #                                             #
-    # # # # # # # # # # # # # # # # # # # # # # # #  
+    # # # # # # # # # # # # # # # # # # # # # # # #
 
-    
+
     def test_FormaRegistroProveedor_fecha_nacNoNacido(self):
         form_data={
             'username' : 'Kerivero',
@@ -348,14 +348,14 @@ class FormaRegistroProveedorTestCase(unittest.TestCase):
             'fecha_nac':'19-4-2004'
         }
         form= FormaRegistroProveedor(data=form_data)
-        self.assertFalse(form.is_valid()) 
+        self.assertFalse(form.is_valid())
 
-           
+
     # # # # # # # # # # # # # # # # # # # # # # # #
     #                                             #
     #              Prueba Des Esquina             #
     #                                             #
-    # # # # # # # # # # # # # # # # # # # # # # # #  
+    # # # # # # # # # # # # # # # # # # # # # # # #
 
 
 
@@ -417,16 +417,16 @@ class FormaRegistroProveedorTestCase(unittest.TestCase):
             'fecha_nac':'19-4-2004'
         }
         form= FormaRegistroProveedor(data=form_data)
-        self.assertFalse(form.is_valid()) 
+        self.assertFalse(form.is_valid())
 
 
     # # # # # # # # # # # # # # # # # # # # # # # #
     #                                             #
     #              Prueba Maliciosas              #
     #                                             #
-    # # # # # # # # # # # # # # # # # # # # # # # #  
+    # # # # # # # # # # # # # # # # # # # # # # # #
 
-    deftest_formaRegistProveedor_tlfIncorrecto(self):
+    def test_formaRegistProveedor_tlfIncorrecto(self):
         form_data={
             'username' : 'Kerivero',
             'nombres': 'Kervyn Johan',
@@ -440,7 +440,7 @@ class FormaRegistroProveedorTestCase(unittest.TestCase):
         }
         form= FormaRegistroProveedor(data=form_data)
         self.assertFalse(form.is_valid())
- 
+
     def test_FormaRegistroProveedor_fechaIncorrecta(self):
         form_data={
             'username' : 'Kerivero',
