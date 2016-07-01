@@ -88,7 +88,7 @@ class Pedido(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     productos = models.ManyToManyField(Producto)
     restaurante = models.ForeignKey(Restaurante, on_delete=models.CASCADE)
-    total = models.DecimalField(max_digits=11, decimal_places=2)
+    total = models.DecimalField(max_digits=11, decimal_places=2, validators=[MinValueValidator(0)])
 
     def __str__(self):
         return "{0} total: {1}".format(self.usuario.perfil.first_name, self.total) # aqui creo que esta mal
