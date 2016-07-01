@@ -40,5 +40,6 @@ urlpatterns = [
     url(r'^pagarPedidos/$', views.pagar_pedido, name='pagar_pedido'),
     url(r'^cancelarPedidos/$', views.cancelar_pedido, name='cancelar_pedido'),
     url(r'^notificaciones/$', views.agregar_notificacion, name='agregar_notificacion'),
-    url(r'^notificaciones/(?P<id>[0-9]+)/$', views.eliminar_notificacion, name='eliminar_notificacion')
+    url(r'^notificaciones/(?P<id>[0-9]+)/$', views.eliminar_notificacion, name='eliminar_notificacion'),
+    url(r'^estatusFinanciero/$', views.egresos_ingresos, name='egresos_ingresos')
 ]

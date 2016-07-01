@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% load staticfiles %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+    
+        <div class="col-sm-5 well">
+            <h2>Facturas Registradas</h2>
+            <div class="row">
+                <div class="col-12-sm">
+                    <table class="table">
+                        <thead>
+                          <tr>
+                            <th>Tipo Factura</th>
+                            <th>Tipo Usuario</th>
+                            <th>Nombre</th>
+                            <th>Monto</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for factura in facturas %}
+                          <tr>
+                          	{% if factura.usuario.tipo_usuario == 'C' %}
+	                            <td>Ingreso</td>
+                              <td>Cliente</td>
+                            {% elif factura.usuario.tipo_usuario == 'P' %}
+                              <td>Egreso</td>
+                              <td>Proveedor</td>
+                            {% endif %}
+	                            <td>{{ factura.usuario.perfil.first_name }}</td> 
+                              <td>{{ factura.total }}</td> 
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock%}
