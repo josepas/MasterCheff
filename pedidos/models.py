@@ -91,18 +91,6 @@ class Pedido(models.Model):
     def __str__(self):              
         return "{0} total: {1}".format(self.usuario.perfil.first_name, self.total) # aqui creo que esta mal
 
-class Pedidos(models.Model):
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-    restaurante = models.ForeignKey(Restaurante, on_delete=models.CASCADE)
-    productos = models.ForeignKey(Producto)
-
-
-class Carrito(models.Model):
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-    restaurante = models.ForeignKey(Restaurante, on_delete=models.CASCADE)
-    productos = models.ForeignKey(Producto)
-
-
 class Factura(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     restaurante = models.ForeignKey(Restaurante, on_delete=models.CASCADE)
