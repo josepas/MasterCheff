@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% load staticfiles %}
+
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+        {% if request.session.tipo == 'C' %}
+        <div class="col-sm-4">
+            <div class="row">
+                <div class="col-12-sm">
+                    
+                    <div class="well">
+                        <h3>Agregar Sugerencia</h3>
+                        <form class="form" role="form" method="POST" action="{% url 'agregar_sugerencia' %}">
+                          {% csrf_token %} 
+                          <div class="row">
+                            <div class="form-group col-sm-6">
+                              <label for="mensaje">Mensaje:</label>
+                              <input type="text" class="form-control" id="mensaje" name="mensaje">
+                            </div>
+                          </div>
+                          <button type="submit" class="btn btn-default">Agregar</button>
+                        </form>
+                    </div>           
+                </div>
+            </div>
+        </div>
+        {% endif %}        
+
+
+
+        <div class="col-sm-offset-1 col-sm-6">
+
+                {% for sugerencia in sugerencias %}
+                  <div class="col-sm-6 master-grid">
+                    <div class="thumbnail">
+                      <div class="caption">
+                        <h3>{{ sugerencia.mensaje }}</h3>
+                        <br>
+                        {% if request.session.tipo == 'C' %}
+                        <p>
+                          <a href="{% url "eliminar_sugerencia" sugerencia.id %}" class="btn btn-primary" role="button">Eliminar</a>
+                        </p>
+                        {% endif %}        
+
+                      </div>
+                    </div>
+                  </div>
+
+                {% endfor %}
+
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
