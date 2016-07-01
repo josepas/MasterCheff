@@ -1,5 +1,5 @@
 from .forms import *
-from .models import Usuario, Servicio, Restaurante, Producto, Menu, Billetera, Pedido
+from .models import Usuario, Servicio, Restaurante, Producto, Menu, Billetera, Pedido, Notificaciones
 
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import authenticate, logout
@@ -527,3 +527,17 @@ def cancelar_pedido(request):
     restaurante = Restaurante.objects.get(pk=request.session['id_restaurante'])
     pedido = Pedido.objects.get(usuario=request.user.usuario, restaurante=restaurante).delete()
     return render(request, 'base.html')
+
+def agregar_notificacion(request):
+    if request.method == 'POST':
+        nNotificacion = Notificaciones(
+            mensaje = request.POST["mensaje"],
+        )
+        nNotificacion.save()
+    notificaciones = Notificaciones.objects.all()
+    return render(request,'notificaciones.html', {'notificaciones': notificaciones})
+
+def eliminar_notificacion(request, id):
+    notificacion = get_object_or_404(Notificaciones, pk=id).delete()
+    notificaciones = Notificaciones.objects.all()
+    return render(request,'notificaciones.html', {'notificaciones': notificaciones})
