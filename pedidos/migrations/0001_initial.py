@@ -27,6 +27,13 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
+            name='Factura',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('total', models.PositiveIntegerField()),
+            ],
+        ),
+        migrations.CreateModel(
             name='Menu',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
@@ -43,7 +50,22 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
+            name='Notificaciones',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('mensaje', models.CharField(max_length=100)),
+                ('imagen', models.ImageField(upload_to=None)),
+            ],
+        ),
+        migrations.CreateModel(
             name='Pedido',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('total', models.DecimalField(decimal_places=2, max_digits=11)),
+            ],
+        ),
+        migrations.CreateModel(
+            name='PedidoServicio',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('total', models.DecimalField(decimal_places=2, max_digits=11)),
@@ -84,9 +106,25 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('nombre', models.CharField(max_length=30)),
+                ('cantidad', models.PositiveIntegerField()),
                 ('descripcion', models.CharField(max_length=100)),
                 ('imagen', models.ImageField(upload_to=None)),
                 ('precio', models.DecimalField(decimal_places=2, max_digits=11)),
+            ],
+        ),
+        migrations.CreateModel(
+            name='Sugerencia',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('mensaje', models.CharField(max_length=100)),
+            ],
+        ),
+        migrations.CreateModel(
+            name='Sugerencias',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('mensaje', models.CharField(max_length=30)),
+                ('imagen', models.ImageField(upload_to=None)),
             ],
         ),
         migrations.CreateModel(
@@ -102,6 +140,16 @@ class Migration(migrations.Migration):
                 ('billetera', models.OneToOneField(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='pedidos.Billetera')),
                 ('perfil', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
+        ),
+        migrations.AddField(
+            model_name='sugerencias',
+            name='usuario',
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='pedidos.Usuario'),
+        ),
+        migrations.AddField(
+            model_name='sugerencia',
+            name='usuario',
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='pedidos.Usuario'),
         ),
         migrations.AddField(
             model_name='servicio',
@@ -127,6 +175,16 @@ class Migration(migrations.Migration):
             model_name='producto',
             name='restaurante',
             field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='pedidos.Restaurante'),
+        ),
+        migrations.AddField(
+            model_name='pedidoservicio',
+            name='servicios',
+            field=models.ManyToManyField(to='pedidos.Servicio'),
+        ),
+        migrations.AddField(
+            model_name='pedidoservicio',
+            name='usuario',
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='pedidos.Usuario'),
         ),
         migrations.AddField(
             model_name='pedido',
@@ -157,5 +215,15 @@ class Migration(migrations.Migration):
             model_name='menu',
             name='restaurante',
             field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='pedidos.Restaurante'),
+        ),
+        migrations.AddField(
+            model_name='factura',
+            name='restaurante',
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='pedidos.Restaurante'),
+        ),
+        migrations.AddField(
+            model_name='factura',
+            name='usuario',
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='pedidos.Usuario'),
         ),
     ]

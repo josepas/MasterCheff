@@ -49,6 +49,18 @@
                         <li> 
                             <a href={% url 'restaurantesMenu' %}>Restaurantes</a>
                         </li>
+                        <li> 
+                            <a href={% url 'listar_proveedores' %}>Comprar</a>
+                        </li>
+                        <li> 
+                            <a href={% url 'agregar_notificacion' %}>Notificaciones</a>
+                        </li>
+                        <li> 
+                            <a href={% url 'egresos_ingresos' %}>Finanzas</a>
+                        </li>
+                        <li> 
+                            <a href={% url 'mostrar_sugerencias' %}>Sugerencias</a>
+                        </li>
                     </ul>
                     {% endif %}
 
@@ -56,6 +68,12 @@
                       <ul class="nav navbar-nav ">
                         <li>
                           <a href={% url 'restaurantesMenu' %}>Restaurantes</a>
+                        </li>
+                        <li> 
+                            <a href={% url 'agregar_notificacion' %}>Notificaciones</a>
+                        </li>
+                        <li> 
+                            <a href={% url 'agregar_sugerencia' %}>Sugerencias</a>
                         </li>
                       </ul>
                       {% endif %}

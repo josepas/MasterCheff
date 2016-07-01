@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% load staticfiles %}
+
+
+{% block content %}
+<br>
+<div class="container-fluid">
+    <div class="well row">
+
+        {% if request.session.tipo == 'A' %}
+  
+          <div class="col-sm-offset-4 col-sm-4">         
+            <h3>Agregar Notificacion</h3>
+            <form class="form" role="form" method="POST" action="{% url 'agregar_notificacion' %}">
+              {% csrf_token %} 
+              <div class="row">
+                <div class="form-group col-sm-12">
+                  <label for="mensaje">Mensaje:</label>
+                  <input type="text" class="form-control" id="mensaje" name="mensaje">
+                </div>
+              </div>
+              <button type="submit" class="btn btn-default">Agregar</button>
+            </form>
+             
+        </div>
+            
+        
+        {% endif %}        
+
+    </div>
+
+        <div class="row">
+
+                {% for notificacion in notificaciones %}
+                  <div class="col-sm-12 master-grid">
+                    <div class="thumbnail">
+                      <div class="caption">
+                        <h3>{{ notificacion.mensaje }}</h3>
+                        <br>
+                        {% if request.session.tipo == 'A' %}
+                        <p>
+                          <a href="{% url "eliminar_notificacion" notificacion.id %}" class="btn btn-primary" role="button">Eliminar</a>
+                        </p>
+                        {% endif %}        
+
+                      </div>
+                    </div>
+                  </div>
+
+                {% endfor %}
+
+        </div>
+   
+</div>
+
+
+
+{% endblock %}

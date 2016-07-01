@@ -3,7 +3,10 @@
 {% load staticfiles %}
 
 {% block content %}
-
+<br />
+<ol class="breadcrumb">
+  <li><a href="{% url 'restaurantesMenu' %}">Restaurantes</a></li>
+</ol>
     <div class="container">
         <form href="{% url 'registro' %}" class="form-signin" method="post">
             {% csrf_token %}
