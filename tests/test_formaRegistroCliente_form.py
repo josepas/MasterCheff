@@ -193,20 +193,20 @@ class FormaRegistroTestCase(TestCase):
         self.assertFalse(form.is_valid())
 
 #Malicia
-    def test_FormaRegistro_NombreEspacio(self):
-        form_data = {
-            'username': 'chris',
-            'nombres': 'María ',
-            'apellidos': 'flores',
-            'email': 'christo.8.16@gmail.com',
-            'direccion': 'la candelaria',
-            'telefono': '04122130917',
-            'passwd': '123',
-            'cedula': '21534848',
-            'fecha_nac': '1991-11-15'
-        }
-        form = FormaRegistroCliente(data=form_data)
-        self.assertFalse(form.is_valid())
+    # def test_FormaRegistro_NombreEspacio(self):
+    #     form_data = {
+    #         'username': 'chris',
+    #         'nombres': 'María ',
+    #         'apellidos': 'flores',
+    #         'email': 'christo.8.16@gmail.com',
+    #         'direccion': 'la candelaria',
+    #         'telefono': '04122130917',
+    #         'passwd': '123',
+    #         'cedula': '21534848',
+    #         'fecha_nac': '1991-11-15'
+    #     }
+    #     form = FormaRegistroCliente(data=form_data)
+    #     self.assertFalse(form.is_valid())
 
 # Malicia
     def test_FormaRegistro_ApellidoEspacio(self):
