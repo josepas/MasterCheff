@@ -4,22 +4,24 @@
 
 {% block content %}
 
+<br>
 <div class="container-fluid">
-  
   <div class="row">
-    <div class="col-sm-offset-2 col-sm-8 ">
+    <div class="col-sm-offset-2 col-sm-4 ">
       <div class="well">
         <a href="{% url 'registroCliente'%}">  <img src={% static "img/cliente.png" %} class="img-responsive fit center-block"> </a>
+      </div>  
+    </div>
+    <div class="col-sm-offset-2 col-sm-4 ">
+      <div class="well">
+        <a href="{% url 'registroProveedor'%}"> <img src={% static "img/proveedor.png" %} class="img-responsive fit center-block" style="width: 100%;"> </a>
       </div>
     </div>
   </div>
 
   <div class="row">
-    <div class="col-sm-offset-2 col-sm-8 ">
-      <div class="well">
-        <a href="{% url 'registroProveedor'%}"> <img src={% static "img/proveedor.png" %} class="img-responsive fit center-block"> </a>
-      </div>
-    </div>
+    
+    
   </div>
 
 </div>
