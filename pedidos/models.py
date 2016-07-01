@@ -96,7 +96,7 @@ class Pedido(models.Model):
 class Factura(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     restaurante = models.ForeignKey(Restaurante, on_delete=models.CASCADE)
-    total = models.PositiveIntegerField()
+    total = models.PositiveIntegerField(validators=[MinValueValidator(0)])
 
 class Sugerencia(models.Model):
     mensaje = models.CharField(max_length=100)
