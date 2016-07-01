@@ -1,5 +1,5 @@
 from .forms import *
-from .models import Usuario, Servicio, Restaurante, Producto, Menu, Billetera, Pedido, Notificaciones, Factura
+from .models import Usuario, Servicio, Restaurante, Producto, Menu, Billetera, Pedido, Notificaciones, Factura, Sugerencias
 
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import authenticate, logout
@@ -552,3 +552,24 @@ def egresos_ingresos(request):
     facturas = Factura.objects.all().order_by('usuario')
     print(facturas)
     return render(request,'egresos_ingresos.html', {'facturas':facturas})
+
+def agregar_sugerencia(request): 
+    u = User.objects.get(username=request.user) 
+    if request.method == 'POST':
+        nSugerencia = Sugerencias(
+            mensaje = request.POST["mensaje"],
+            usuario = u.usuario
+        )
+        nSugerencia.save()
+    sugerencias = Sugerencias.objects.filter(usuario=u.usuario.id)
+    return render(request,'sugerencias.html', {'sugerencias': sugerencias})
+
+def eliminar_sugerencia(request, id):
+    u = User.objects.get(username=request.user) 
+    sugerencia = get_object_or_404(Sugerencias, pk=id).delete()
+    sugerencias = Sugerencias.objects.filter(usuario=u.usuario.id)
+    return render(request,'sugerencias.html', {'sugerencias': sugerencias})
+
+def mostrar_sugerencias(request):
+    sugerencias = Sugerencias.objects.all()
+    return render(request,'sugerencias.html', {'sugerencias': sugerencias})

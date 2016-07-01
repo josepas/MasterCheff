@@ -41,5 +41,8 @@ urlpatterns = [
     url(r'^cancelarPedidos/$', views.cancelar_pedido, name='cancelar_pedido'),
     url(r'^notificaciones/$', views.agregar_notificacion, name='agregar_notificacion'),
     url(r'^notificaciones/(?P<id>[0-9]+)/$', views.eliminar_notificacion, name='eliminar_notificacion'),
-    url(r'^estatusFinanciero/$', views.egresos_ingresos, name='egresos_ingresos')
+    url(r'^estatusFinanciero/$', views.egresos_ingresos, name='egresos_ingresos'),
+    url(r'^sugerenciasAdministrador/$', views.mostrar_sugerencias, name='mostrar_sugerencias'),
+    url(r'^sugerenciasCliente/$', views.agregar_sugerencia, name='agregar_sugerencia'),
+    url(r'^sugerenciasCliente/(?P<id>[0-9]+)/$', views.eliminar_sugerencia, name='eliminar_sugerencia')
 ]
