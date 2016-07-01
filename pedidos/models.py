@@ -76,10 +76,10 @@ class Producto(models.Model):
 class Servicio(models.Model):
     nombre = models.CharField(max_length=30)
     provedor = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-    cantidad = models.PositiveIntegerField()
+    cantidad = models.PositiveIntegerField(validators=[MinValueValidator(0)])
     descripcion = models.CharField(max_length=100)
     imagen = models.ImageField(upload_to=None, height_field=None, width_field=None, max_length=100)
-    precio = models.DecimalField(max_digits=11, decimal_places=2)
+    precio = models.DecimalField(max_digits=11, decimal_places=2, validators=[MinValueValidator(0)])
 
     def __str__(self):
         return self.nombre
