@@ -4,9 +4,11 @@ from django.forms import ModelForm
 
 from django.contrib.auth.models import User
 
+from django.core.validators import MinValueValidator, RegexValidator
+
 class Billetera(models.Model):
     pin = models.CharField(max_length=4)
-    saldo = models.DecimalField(max_digits=11, decimal_places=2)  
+    saldo = models.DecimalField(max_digits=11, decimal_places=2)
 
 class Usuario(models.Model):
     TIPO = (
@@ -14,13 +16,13 @@ class Usuario(models.Model):
         ('C', 'Cliente'),
         ('P', 'Proveedor'),
     )
-    perfil = models.OneToOneField(User) # aqui esta nombre, apellido correo y contrase;a 
-    cedula = models.PositiveIntegerField(null=True, blank=True,unique=True) # aqui no diferenciamos entre extranjeros y venezolanos
-    rif = models.CharField(null=True, blank=True, unique=True, max_length=15)
+    perfil = models.OneToOneField(User) # aqui esta nombre, apellido correo y contrase;a
+    cedula = models.PositiveIntegerField(null=True, blank=True,unique=True, validators=[MinValueValidator(1)]) # aqui no diferenciamos entre extranjeros y venezolanos
+    rif = models.CharField(null=True, blank=True, unique=True, max_length=15, validators=[RegexValidator(regex='^J\-[0-9]+$')])
     tipo_usuario = models.CharField(max_length=1, choices=TIPO)
     fecha_nac = models.DateField(auto_now=False, auto_now_add=False)
-    direccion = models.CharField(max_length=200, null=True, blank=True) 
-    telf = models.CharField(max_length=20, null=True, blank=True)
+    direccion = models.CharField(max_length=200, null=True, blank=True)
+    telf = models.CharField(max_length=20, null=True, blank=True, validators=[RegexValidator(regex='^(0?[0-9]{3})([ -]?)[0-9]{3}\2?[0-9]{4}$')])
     billetera = models.OneToOneField(Billetera, null=True, blank=True)
 
     def __str__(self):
@@ -35,7 +37,7 @@ class Restaurante(models.Model):
     hora_cierre = models.TimeField(auto_now=False, auto_now_add=False)
     capacidad_max =  models.PositiveIntegerField()
 
-    #def __str__(self):              
+    #def __str__(self):
     #   return self.nombre
 
 
@@ -55,7 +57,7 @@ class Notificaciones(models.Model):
     imagen = models.ImageField(upload_to=None, height_field=None, width_field=None, max_length=100)
 
 class Reserva(models.Model):
-    cliente = models.ForeignKey(Usuario, on_delete=models.CASCADE)	
+    cliente = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     mesa = models.ForeignKey(Mesa, on_delete=models.CASCADE)
     hora_ini = models.TimeField(auto_now=False, auto_now_add=False)
     hora_fin = models.TimeField(auto_now=False, auto_now_add=False)
@@ -66,9 +68,9 @@ class Producto(models.Model):
     descripcion = models.CharField(max_length=100)
     imagen = models.ImageField(upload_to=None, height_field=None, width_field=None, max_length=100)
     precio = models.DecimalField(max_digits=11, decimal_places=2)
-    restaurante = models.ForeignKey(Restaurante, on_delete=models.CASCADE)  
+    restaurante = models.ForeignKey(Restaurante, on_delete=models.CASCADE)
 
-    def __str__(self):              
+    def __str__(self):
         return self.nombre
 
 class Servicio(models.Model):
@@ -77,7 +79,7 @@ class Servicio(models.Model):
     cantidad = models.PositiveIntegerField()
     descripcion = models.CharField(max_length=100)
     imagen = models.ImageField(upload_to=None, height_field=None, width_field=None, max_length=100)
-    precio = models.DecimalField(max_digits=11, decimal_places=2) 
+    precio = models.DecimalField(max_digits=11, decimal_places=2)
 
     def __str__(self):
         return self.nombre
@@ -86,9 +88,9 @@ class Pedido(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     productos = models.ManyToManyField(Producto)
     restaurante = models.ForeignKey(Restaurante, on_delete=models.CASCADE)
-    total = models.DecimalField(max_digits=11, decimal_places=2) 
+    total = models.DecimalField(max_digits=11, decimal_places=2)
 
-    def __str__(self):              
+    def __str__(self):
         return "{0} total: {1}".format(self.usuario.perfil.first_name, self.total) # aqui creo que esta mal
 
 class Factura(models.Model):
@@ -106,7 +108,7 @@ class Menu(models.Model):
     productos = models.ManyToManyField(Producto)
     actual = models.BooleanField(default=False)
 
-    def __str__(self):              
+    def __str__(self):
         return self.nombre
 
 
