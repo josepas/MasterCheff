@@ -21,22 +21,7 @@
       </div>
     </div>
 
-    <div class="row">
-      <div class="col-md-4 pull-right">
-        
-        <a href="{% url 'gestionar_billetera' user.id %}" type="button" class="btn btn-primary">
-          {% if usuario.billetera %}
-            Recargar Saldo
-          {% else %}
-            Crear Billetera
-          {% endif %}
-        </a>
-
-
-        <a href="{% url 'editar_perfil' user.id %}" role="button" class="btn btn-primary">Editar perfil</a>
-      </div>
-    </div>
-  
+   
   </div>
 
   <div class="container-fluid">
@@ -96,7 +81,22 @@
                 </div>
               </div>
 
-          </div>
+            </div>
+
+            <div class="col-md-12">
+        
+        <a href="{% url 'gestionar_billetera' user.id %}" type="button" class="btn btn-primary">
+          {% if usuario.billetera %}
+            Recargar Saldo
+          {% else %}
+            Crear Billetera
+          {% endif %}
+        </a>
+
+
+        <a href="{% url 'editar_perfil' user.id %}" role="button" class="btn btn-primary">Editar perfil</a>
+      </div>
+    </div>
 
 
         </div>
