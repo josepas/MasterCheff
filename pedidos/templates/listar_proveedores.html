@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% load staticfiles %}
+
+
+{% block content %}
+
+<h1>Lista de proveedores</h1>
+
+    <div class="row">
+      {% for proveedor in proveedores %}
+        <div class="col-sm-4 master-grid">
+          <div class="thumbnail">
+            <img src="http://www.allestand.com/wp-content/uploads/2015/09/floklift-04-256.png" alt="...">
+            <div class="caption">
+              <h3>{{ proveedor.perfil.first_name }}</h3>
+              <p>{{ proveedor.rif }} <br /> {{ proveedor.telf }} </p>
+              <p> 
+                <td><a href={% url "listar_servicios" proveedor.id %} class="btn btn-primary" onclick="myFunction()" role="button"> Ver</a><td>
+              </p> 
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+
+
+
+
+{% endblock %}

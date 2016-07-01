@@ -1,7 +1,7 @@
 from .forms import *
-from .models import Usuario, Servicio, Restaurante, Producto, Menu, Billetera, Pedido, Notificaciones, Factura
+from .models import Usuario, Servicio, Restaurante, Producto, Menu, Billetera, Pedido, Notificaciones, Factura, PedidoServicio
 
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, get_list_or_404
 from django.contrib.auth import authenticate, logout
 from django.contrib.auth import login as mch_login
 from django.contrib.auth.decorators import login_required
@@ -166,6 +166,66 @@ def registroProveedor(request):
 
     return render(request, 'registroProveedor.html', {'form': form, 'mensaje':mensaje})
 
+def listar_proveedores(request):
+    proveedores = get_list_or_404(Usuario, tipo_usuario='P')  
+
+    
+
+    return render(request, 'listar_proveedores.html', {"proveedores" : proveedores})
+
+def listar_servicios(request,id):
+    servicios = get_list_or_404(Servicio, provedor_id=id)
+
+    pedido = PedidoServicio.objects.last()
+
+    if pedido is None:
+        pedido = PedidoServicio(
+            usuario = get_object_or_404(Usuario, pk=id),
+            total = 0
+        )
+        pedido.save()
+        
+    return render(request, 'listar_servicios.html', {"servicios" : servicios, "pedidos" : pedido.servicios.all(), "pedido" : pedido})
+
+def comprar_servicio(request, id):
+    servicio = get_object_or_404(Servicio, pk=id)
+    mensaje = None
+    if request.method == 'POST':
+        form = FormaCantidad(request.POST)
+        
+        if form.is_valid():
+
+            if form.cleaned_data["cantidad"] < servicio.cantidad:
+                cant = form.cleaned_data["cantidad"]
+
+                try:
+                    pedido = PedidoServicio.objects.last()
+
+                except Pedido.DoesNotExist:
+                    pedido = Pedido(
+                        usuario = request.user.usuario,
+                        restaurante = restaurante,
+                        total = 0
+                    )
+                    pedido.save()
+                pedido.total += servicio.precio * cant
+                pedido.save()
+                pedido.servicios.add(servicio)
+                print(pedido.id)
+                servicio.cantidad -= cant
+                servicio.save()
+
+                return redirect('listar_servicios', id=servicio.provedor.id)
+
+            else:
+                mensaje = "Cantidad Invalida"
+    
+    else:
+        form = FormaCantidad()
+    
+    return render(request, 'comprar_servicio.html', {"form": form, "servicio" : servicio, "mensaje":mensaje})
+
+
 def agregar_servicios(request):
     proveedor = User.objects.get(username=request.user)    
     servicios = None
@@ -208,7 +268,6 @@ def modificar_servicio(request, id):
                 servicio.cantidad = form.cleaned_data["cantidad"]
                 servicio.save()
 
-            print("-----------hola como estas-----------")
         return redirect('agregar_servicios')
 
     else:
@@ -216,6 +275,23 @@ def modificar_servicio(request, id):
         form = AgregarServicio(data)
 
     return render(request, 'modificar_servicios.html', {"form":form, "servicio":id})
+
+def pagar_servicios(request, id):
+    
+    pedido = get_object_or_404(PedidoServicio, pk=id)
+    proveedorID = pedido.usuario.id
+
+
+    f = Factura(
+        usuario = pedido.usuario,
+        restaurante = None,
+        total = pedido.total
+    )
+    f.save()
+
+    pedido.delete()
+
+    return redirect(listar_servicios, id=proveedorID)
 
 
 def eliminar_servicio(request, id):
@@ -268,8 +344,6 @@ def agregar_platos(request,id):
     restaurante = Restaurante.objects.get(pk=id)
     request.session['id_restaurante'] = id
     if request.method == 'POST':
-        print("-------------")
-        print(request.POST)
         nPlatos = Producto(
             nombre = request.POST["nombre"],
             restaurante = restaurante,
@@ -343,10 +417,7 @@ def agregar_menu(request,id):
     restaurante = Restaurante.objects.get(pk=id)
     request.session['id_restaurante'] = id
     if request.method == 'POST':
-        print("-------------")
-        print(request.POST)
         ListaDeProductos=request.POST.getlist('checks[]')
-        print(ListaDeProductos)
         nMenu = Menu(
             nombre = request.POST["nombre"],
             restaurante = restaurante,
@@ -437,10 +508,7 @@ def agregar_menu_platos(request, id, idmenu):
     menu = Menu.objects.get(pk=idmenu)
 
     if request.method == 'POST':
-        print("-------------")
-        print(request.POST)
         ListaDeProductos=request.POST.getlist('checks[]')
-        print(ListaDeProductos)
         for productoID in ListaDeProductos:
             producto = Producto.objects.get(id=productoID)
             menu.productos.add(producto)

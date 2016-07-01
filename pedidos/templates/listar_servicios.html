@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% load staticfiles %}
+
+
+{% block content %}
+
+<h1>Servicios</h1>
+<div class="row">
+    <div class="col-sm-8 well">
+        <h2>Servicios Ofrecidos</h2>
+        <div class="row">
+            
+            <div class="col-12-sm">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Servicio</th>
+                        <th>Descripcion</th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for servicio in servicios %}
+                      <tr>
+                        <td>{{ servicio.nombre }}</td>
+                        <td>{{ servicio.descripcion }}</td>
+                        <td>{{ servicio.precio }}</td>  
+                        <td>{{ servicio.cantidad }}</td>
+
+                        <td>
+                            <a href={% url 'comprar_servicio' servicio.id %}><span class="glyphicon glyphicon-plus"></span> Comprar</a>
+                           
+                        </td>
+                      </tr>
+                      {% endfor %}
+
+                    </tbody>
+                  </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h1>Servicios Pedidos</h1>
+<div class="row">
+    <div class="col-sm-8 well">
+        <h2>Servicios Ofrecidos</h2>
+        <div class="row">
+            
+            <div class="col-12-sm">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Servicio</th>
+                        <th>Descripcion</th>
+                        <th>Precio</th>
+                      
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for servicio in pedidos %}
+                      <tr>
+                        <td>{{ servicio.nombre }}</td>
+                        <td>{{ servicio.descripcion }}</td>
+                        <td>{{ servicio.precio }}</td>  
+                        
+
+                      </tr>
+                      {% endfor %}
+
+                    </tbody>
+                  </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h2>Total</h2>
+<div class="row">
+    <div class="well col-sm-8">
+        ${{ pedido.total }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-8">
+        <a class="btn btn-primary pull-right" href={% url 'pagar_servicios' pedido.id %}> Pagar</a>
+    </div>
+</div>
+
+
+{% endblock %}

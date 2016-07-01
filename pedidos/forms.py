@@ -176,6 +176,18 @@ class FormaPlato(forms.Form):
         decimal_places=2
     )
 
+class FormaCantidad(forms.Form):
+    cantidad = forms.IntegerField(
+        label = 'Cantidad', 
+        min_value=0,
+        max_value=10000, 
+        error_messages={
+            'min_value' : 'Ingrese una cantidad positiva',
+            'invalid'   : 'Cantidad invalida'
+        }
+    )
+
+
 
 class FormaBilletera(forms.Form):
     pin = forms.RegexField(

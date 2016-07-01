@@ -23,9 +23,13 @@ urlpatterns = [
     url(r'^restaurante/$', views.registroRestaurante, name='restaurante'),
    
     url(r'^proveedor/$', views.agregar_servicios, name='agregar_servicios'),
+    url(r'^proveedor/$', views.listar_proveedores, name='listar_proveedores'),
+    url(r'^proveedor/listar$', views.listar_proveedores, name='listar_proveedores'),
+    url(r'^proveedor/servicios/(?P<id>[0-9]+)/$', views.listar_servicios, name='listar_servicios'),
     url(r'^proveedor/borrar/(?P<id>[0-9]+)/$', views.eliminar_servicio, name='eliminar_servicio'),
     url(r'^proveedor/modificar/(?P<id>[0-9]+)/$', views.modificar_servicio, name='modificar_servicios'),
-
+    url(r'^proveedor/comprar/(?P<id>[0-9]+)/$', views.comprar_servicio, name='comprar_servicio'),
+    url(r'^proveedor/pagar/(?P<id>[0-9]+)/$', views.pagar_servicios, name='pagar_servicios'),
 
     url(r'^borrarPlato/(?P<id>[0-9]+)/$', views.eliminar_plato, name='eliminar_plato'),
     url(r'^borrarPlatoMenu/(?P<id>[0-9]+)/(?P<idmenu>[0-9]+)/(?P<idplato>[0-9]+)/$', views.eliminar_plato_menu, name='eliminar_plato_menu'),
