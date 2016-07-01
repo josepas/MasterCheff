@@ -8,7 +8,7 @@ from django.core.validators import MinValueValidator, RegexValidator
 
 class Billetera(models.Model):
     pin = models.CharField(max_length=4)
-    saldo = models.DecimalField(max_digits=11, decimal_places=2)
+    saldo = models.DecimalField(max_digits=11, decimal_places=2, validators=[MinValueValidator(0)])
 
 class Usuario(models.Model):
     TIPO = (
