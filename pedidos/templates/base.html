@@ -55,7 +55,7 @@
                     {% if request.session.tipo == 'C'  %}
                       <ul class="nav navbar-nav ">
                         <li>
-                          <a href={% url 'restaurantesMenu' %}>Menu</a>
+                          <a href={% url 'restaurantesMenu' %}>Restaurantes</a>
                         </li>
                       </ul>
                       {% endif %}
@@ -123,6 +123,9 @@
       <div class="jumbotron">
         <h1>Somos MasterChef</h1>
         <p> Realize sus pedidos online y en cuestion de minutos le traemos su pedido. </p>
+        {% if request.session.tipo == 'A' %}
+        <p> Saldo Actual: {{user.usuario.billetera.saldo}} </p>
+        {% endif %}
       </div>
     </div> 
 {% endblock %}

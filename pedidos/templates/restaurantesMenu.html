@@ -21,10 +21,12 @@
             <h3>{{ restaurante.nombre }}</h3>
             <p>{{ restaurante.direccion }}</p>
                 {% if request.session.tipo == 'C' %}
-                <a href="{% url "mostrar_menu_actual" restaurante.id %}"><span class="glyphicon .glyphicon-bookmark"></span>Menu Del Dia</a>
+                <a href="{% url "mostrar_menu_actual" restaurante.id %}" class="btn btn-primary" role="button">Menu Del Dia</a>
+                <a href="{% url "mostrar_pedidos" restaurante.id %}" class="btn btn-primary" role="button">Pedidos</a>
                 {% endif %}
             <p>
                 {% if request.session.tipo == 'A' %}
+                <a href="{% url "mostrar_menu_actual" restaurante.id %}" class="btn btn-primary" role="button">Menu Del Dia</a>
               <a href="{% url "listasMenu" restaurante.id 0 %}" class="btn btn-primary" role="button">Menus</a>
               <a href="{% url "agregar_platos" restaurante.id %}" class="btn btn-primary" role="button">Platos</a>
                 {% endif %}
@@ -35,55 +37,5 @@
 
 {% endfor %}
   
-      
-
-
-
-
-
-
-
-
-
-    <!--
-    <div class="row">
-        <div class="col-sm-offset-3 col-sm-5 well">
-            <h2>Restaurantes</h2>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Nombre</th>
-                  <th>Menu</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for restaurante in restaurantes %}
-                <tr>
-                    <td>{{ restaurante.nombre }}</td> 
-                    {% if request.session.tipo == 'C' %}
-                    <td>
-                        <a href="{% url "mostrar_menu_actual" restaurante.id %}"><span class="glyphicon .glyphicon-bookmark"></span>Menu Del Dia</a>
-                    </td>
-                    {% endif %}
-
-                    {% if request.session.tipo == 'A' %}
-                    <td>
-                        <a href="{% url "mostrar_menu_actual" restaurante.id %}"><span class="glyphicon .glyphicon-bookmark"></span>Menu Actual</a>
-                    </td>
-                    <td>
-                        <a href="{% url "listasMenu" restaurante.id 1 %}"><span class="glyphicon .glyphicon-bookmark"></span>Ver Menus</a>
-                    </td>
-                    <td>
-                        <a href="{% url "agregar_menu" restaurante.id %}"><span class="glyphicon .glyphicon-bookmark"></span>Crear Menu</a>
-                    </td>
-                    {% endif %}
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-        </div>       
-    </div>
-</div>
--->
 </div>
 {% endblock %}

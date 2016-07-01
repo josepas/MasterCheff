@@ -5,7 +5,22 @@
 {% block content %}
 
 <div class="container-fluid">
+    <br>
+
+    <div class="container">
+      <ol class="breadcrumb">
+        <li><a href="{% url 'restaurantesMenu' %}">Restaurantes</a></li>
+        <li class="active">Menu del dia</li>
+      </ol>
+    </div>
+    {% if request.session.tipo == 'C' %}
+      <div>
+      <a href="{% url "mostrar_pedidos" id %}" class="btn btn-primary" role="button">Pedidos</a>
+      </div>
+    {% endif %}
+    <br>
     <div class="row">
+    <!--
         <div class="col-sm-offset-3 col-sm-5 well">
             <h2>Platos Ofrecido</h2>
             <table class="table">
@@ -22,17 +37,60 @@
                     <td>{{ plato.nombre }}</td> 
                     <td>{{ plato.descripcion }}</td> 
                     <td>{{ plato.precio }}</td> 
+                    <td><a href={% url "agregar_plato_pedido" plato.id %} class="btn btn-primary" role="button">Pedir</a><td>
                 </tr>
-                {% if request.session.tipo == 'A' %}
-                <td>
-                  <a href= "{% url "eliminar_plato_menu" plato.id%}"><span class="glyphicon glyphicon-remove-sign"></span> Eliminar</a>
-                </td> 
-                {% endif %}
                 {% endfor %}
+
+
               </tbody>
             </table>
-        </div>       
+        </div>
+
     </div>
+    -->
+    <div class="row">
+      {% for plato in menu_actual %}
+        <div class="col-sm-4 master-grid">
+          <div class="thumbnail">
+            <img src="https://panprinandproprin.files.wordpress.com/2012/09/dsc_0655.jpg" alt="...">
+            <div class="caption">
+              <h3>{{ plato.nombre }}</h3>
+              <p>{{ plato.descripcion }} <br /> {{ plato.precio }} </p>
+              {% if request.session.tipo == 'C' %}
+              <p>
+                <td><a href={% url "agregar_plato_pedido" plato.id %} class="btn btn-primary" onclick="myFunction()" role="button"> Pedir</a><td>
+              </p> 
+              {% endif %}        
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="close">×</span>
+      <h2>Modal Header</h2>
+    </div>
+    <div class="modal-body">
+      <p>Some text in the Modal Body</p>
+      <p>Some other text...</p>
+    </div>
+    <div class="modal-footer">
+      <h3>Modal Footer</h3>
+    </div>
+  </div>
+
 </div>
 
+<script>
+function myFunction() {
+    alert("Pedido agregado exitosamente");
+}
+</script>
+</div>
 {% endblock %}
