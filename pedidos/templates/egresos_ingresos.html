@@ -16,6 +16,7 @@
                             <th>Tipo Factura</th>
                             <th>Tipo Usuario</th>
                             <th>Nombre</th>
+                            <th>Restaurante</th>
                             <th>Monto</th>
                           </tr>
                         </thead>
@@ -30,6 +31,7 @@
                               <td>Proveedor</td>
                             {% endif %}
 	                            <td>{{ factura.usuario.perfil.first_name }}</td> 
+                              <td>{{ factura.restaurante.nombre}}
                               <td>{{ factura.total }}</td> 
                           </tr>
                           {% endfor %}

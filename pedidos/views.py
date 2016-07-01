@@ -1,5 +1,5 @@
 from .forms import *
-from .models import Usuario, Servicio, Restaurante, Producto, Menu, Billetera, Pedido, Notificaciones, Factura
+from .models import Usuario, Servicio, Restaurante, Producto, Menu, Billetera, Pedido, Notificaciones, Factura, Sugerencias
 
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import authenticate, logout
@@ -169,24 +169,57 @@ def registroProveedor(request):
 def agregar_servicios(request):
     proveedor = User.objects.get(username=request.user)    
     servicios = None
+    form = AgregarServicio()
     if request.method == 'POST':
-        print("-------------")
-        print(request.POST)
-        nServicio = Servicio(
-            nombre = request.POST["nombre"],
-            provedor = proveedor.usuario,
-            descripcion = request.POST["descripcion"],
-            precio = request.POST["precio"]
-        )
-        nServicio.save()
+        form = AgregarServicio(request.POST)
+        if form.is_valid():
+
+            nServicio = Servicio(
+                nombre = form.cleaned_data["nombre"],
+                provedor = proveedor.usuario,
+                descripcion = form.cleaned_data["descripcion"],
+                precio = form.cleaned_data["precio"],
+                cantidad = form.cleaned_data["cantidad"]
+            )
+            nServicio.save()
 
     servicios = proveedor.usuario.servicio_set.all()
 
-    return render(request, 'agregar_servicios.html', {"servicios":servicios})
+    return render(request, 'agregar_servicios.html', {"servicios":servicios, "form":form})
+
+def modificar_servicio(request, id):
+    servicio = get_object_or_404(Servicio, pk=id)
+    data = { 
+        "nombre" : servicio.nombre,
+        "descripcion" : servicio.descripcion,
+        "precio" : servicio.precio,
+        "cantidad" : servicio.cantidad
+    }
+
+    if request.method == 'POST':
+        form = AgregarServicio(request.POST, initial=data)
+
+        if form.has_changed():
+
+            if form.is_valid():
+                servicio.nombre = form.cleaned_data["nombre"]
+                servicio.descripcion = form.cleaned_data["descripcion"]
+                servicio.precio = form.cleaned_data["precio"]
+                servicio.cantidad = form.cleaned_data["cantidad"]
+                servicio.save()
+
+            print("-----------hola como estas-----------")
+        return redirect('agregar_servicios')
+
+    else:
+        
+        form = AgregarServicio(data)
+
+    return render(request, 'modificar_servicios.html', {"form":form, "servicio":id})
+
 
 def eliminar_servicio(request, id):
     servicio = get_object_or_404(Servicio, pk=id).delete()
-    servicios = User.objects.get(username=request.user).usuario.servicio_set.all() 
 
     return redirect('agregar_servicios')
 
@@ -552,3 +585,24 @@ def egresos_ingresos(request):
     facturas = Factura.objects.all().order_by('usuario')
     print(facturas)
     return render(request,'egresos_ingresos.html', {'facturas':facturas})
+
+def agregar_sugerencia(request): 
+    u = User.objects.get(username=request.user) 
+    if request.method == 'POST':
+        nSugerencia = Sugerencias(
+            mensaje = request.POST["mensaje"],
+            usuario = u.usuario
+        )
+        nSugerencia.save()
+    sugerencias = Sugerencias.objects.filter(usuario=u.usuario.id)
+    return render(request,'sugerencias.html', {'sugerencias': sugerencias})
+
+def eliminar_sugerencia(request, id):
+    u = User.objects.get(username=request.user) 
+    sugerencia = get_object_or_404(Sugerencias, pk=id).delete()
+    sugerencias = Sugerencias.objects.filter(usuario=u.usuario.id)
+    return render(request,'sugerencias.html', {'sugerencias': sugerencias})
+
+def mostrar_sugerencias(request):
+    sugerencias = Sugerencias.objects.all()
+    return render(request,'sugerencias.html', {'sugerencias': sugerencias})

@@ -51,7 +51,7 @@ class Sugerencias(models.Model):
 
 
 class Notificaciones(models.Model):
-    mensaje = models.CharField(max_length=30)
+    mensaje = models.CharField(max_length=100)
     imagen = models.ImageField(upload_to=None, height_field=None, width_field=None, max_length=100)
 
 class Reserva(models.Model):
@@ -74,6 +74,7 @@ class Producto(models.Model):
 class Servicio(models.Model):
     nombre = models.CharField(max_length=30)
     provedor = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    cantidad = models.PositiveIntegerField()
     descripcion = models.CharField(max_length=100)
     imagen = models.ImageField(upload_to=None, height_field=None, width_field=None, max_length=100)
     precio = models.DecimalField(max_digits=11, decimal_places=2) 
@@ -95,6 +96,9 @@ class Factura(models.Model):
     restaurante = models.ForeignKey(Restaurante, on_delete=models.CASCADE)
     total = models.PositiveIntegerField()
 
+class Sugerencia(models.Model):
+    mensaje = models.CharField(max_length=100)
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
 
 class Menu(models.Model):
     nombre = models.CharField(max_length=30)
