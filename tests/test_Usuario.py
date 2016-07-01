@@ -39,6 +39,12 @@ class UsuarioTestCase(TestCase):
         u.clean_fields()
         self.assertTrue(isinstance(u,Usuario))
 
+    def test_Usuario_cedulaCero(self):
+        u = self.create_usuario()
+        u.cedula = 0
+        with self.assertRaises(ValidationError):
+            u.clean_fields()
+
     def test_Usuario_cedulaNegativa(self):
         u = self.create_usuario()
         u.cedula = -123
